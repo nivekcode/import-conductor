@@ -1,0 +1,31 @@
+{
+  "name": "import-ant",
+  "version": "1.0.0",
+  "description": "Automatically organize your Typescript import statements",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node ./src/bin/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kreuzerk/import-ant.git"
+  },
+  "keywords": [
+    "Clean",
+    "Code",
+    "Imports",
+    "Automatization"
+  ],
+  "author": "Kevin Kreuzer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kreuzerk/import-ant/issues"
+  },
+  "homepage": "https://github.com/kreuzerk/import-ant#readme",
+  "devDependencies": {
+    "@types/node": "^14.0.12",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5"
+  }
+}
