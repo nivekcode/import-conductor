@@ -117,7 +117,8 @@ function sortPots(pots: Pots): Pots {
             result +
             content.slice(importNodes[importNodes.length - 1].end);
 
-        console.log('Done', updatedContent);
+        await promises.writeFile(p, updatedContent);
+        console.log('Done');
     }
 })();
 
