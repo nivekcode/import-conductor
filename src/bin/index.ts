@@ -38,7 +38,7 @@ function splitLiteralsToPots(importLiterals: string[]): Pots {
             return;
         }
 
-        if(isCustomImport(literal)){
+        if (isCustomImport(literal)) {
             pots.userLibraryPot.push(literal);
             return;
         }
@@ -58,6 +58,14 @@ function isCustomImport(literal: string): boolean {
     return isCustomImport;
 }
 
+function sortPots(pots: Pots): Pots {
+    const sortedPots: any = {};
+    Object.keys(pots).forEach((potKey: string) => {
+        sortedPots[potKey] = pots[potKey].sort();
+    })
+    return sortedPots;
+}
+
 
 (async () => {
     for await (const p of walk(resolve(__dirname, '../../test/'))) {
@@ -74,10 +82,10 @@ function isCustomImport(literal: string): boolean {
 
                 const importStatement = importSegments.reduce(
                     (acc: string, segment: ts.Node) => {
-                        if(acc === ''){
+                        if (acc === '') {
                             return segment.getText();
                         }
-                        if(segment.getText() === ';'){
+                        if (segment.getText() === ';') {
                             return `${acc}${segment.getText()}`;
                         }
                         return `${acc} ${segment.getText()}`;
@@ -92,21 +100,24 @@ function isCustomImport(literal: string): boolean {
         }
         rootNode.forEachChild(traverse);
 
-        console.log('Map', importStatementMap);
-
         const pots = splitLiteralsToPots(Object.keys(importStatementMap));
-        console.log('Pots', pots);
+        const sortedPots = sortPots(pots)
 
-        console.log('Start', importNodes[0].pos);
-        console.log('End', importNodes[importNodes.length - 1].pos);
+        let result = '';
+        sortedPots.thirdPartyImportPot.forEach((thirdPartyImport: string) => result += `${importStatementMap[thirdPartyImport]}\n`);
+        result += '\n';
+        sortedPots.userLibraryPot.forEach((thirdPartyImport: string) => result += `${importStatementMap[thirdPartyImport]}\n`);
+        result += '\n';
+        sortedPots.differentUserModulePot.forEach((thirdPartyImport: string) => result += `${importStatementMap[thirdPartyImport]}\n`);
+        result += '\n';
+        sortedPots.sameModulePot.forEach((thirdPartyImport: string) => result += `${importStatementMap[thirdPartyImport]}\n`);
 
         const updatedContent =
             content.slice(0, importNodes[0].pos) +
-            'updated' +
+            result +
             content.slice(importNodes[importNodes.length - 1].end);
 
         console.log('Done', updatedContent);
-
     }
 })();
 
