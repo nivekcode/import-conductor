@@ -68,7 +68,9 @@ function sortPots(pots: Pots): Pots {
 
 
 (async () => {
-    for await (const p of walk(resolve(__dirname, '../../test/'))) {
+    for await (const p of walk(resolve(__dirname, '../../test'))) {
+
+        console.log('P', p);
 
         const content = await promises.readFile(p);
         const rootNode = ts.createSourceFile(p, content.toString(), ts.ScriptTarget.Latest, true);
@@ -100,25 +102,36 @@ function sortPots(pots: Pots): Pots {
         }
         rootNode.forEachChild(traverse);
 
-        const pots = splitLiteralsToPots(Object.keys(importStatementMap));
-        const sortedPots = sortPots(pots)
+        if (Object.keys(importStatementMap).length !== 0) {
 
-        let result = '';
-        sortedPots.thirdPartyImportPot.forEach((thirdPartyImport: string) => result += `${importStatementMap[thirdPartyImport]}\n`);
-        result += '\n';
-        sortedPots.userLibraryPot.forEach((thirdPartyImport: string) => result += `${importStatementMap[thirdPartyImport]}\n`);
-        result += '\n';
-        sortedPots.differentUserModulePot.forEach((thirdPartyImport: string) => result += `${importStatementMap[thirdPartyImport]}\n`);
-        result += '\n';
-        sortedPots.sameModulePot.forEach((thirdPartyImport: string) => result += `${importStatementMap[thirdPartyImport]}\n`);
+            const pots = splitLiteralsToPots(Object.keys(importStatementMap));
+            const sortedPots = sortPots(pots)
 
-        const updatedContent =
-            content.slice(0, importNodes[0].pos) +
-            result +
-            content.slice(importNodes[importNodes.length - 1].end);
+            let result = '';
+            sortedPots.thirdPartyImportPot.forEach((thirdPartyImport: string) => result += `${importStatementMap[thirdPartyImport]}\n`);
 
-        await promises.writeFile(p, updatedContent);
-        console.log('Done');
+            if(sortedPots.userLibraryPot.length > 0){
+                result += '\n';
+            }
+            sortedPots.userLibraryPot.forEach((thirdPartyImport: string) => result += `${importStatementMap[thirdPartyImport]}\n`);
+            if(sortedPots.differentUserModulePot.length > 0){
+                result += '\n';
+            }
+            sortedPots.differentUserModulePot.forEach((thirdPartyImport: string) => result += `${importStatementMap[thirdPartyImport]}\n`);
+            if(sortedPots.sameModulePot.length > 0){
+                result += '\n';
+            }
+            sortedPots.sameModulePot.forEach((thirdPartyImport: string) => result += `${importStatementMap[thirdPartyImport]}\n`);
+
+            const updatedContent =
+                content.slice(0, importNodes[0].pos) +
+                result +
+                content.slice(importNodes[importNodes.length - 1].end);
+
+            await promises.writeFile(p, updatedContent);
+            console.log('Done');
+
+        }
     }
 })();
 
