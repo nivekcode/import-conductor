@@ -108,29 +108,57 @@ function sortPots(pots: Pots): Pots {
             const sortedPots = sortPots(pots)
 
             let result = '';
-            sortedPots.thirdPartyImportPot.forEach((thirdPartyImport: string) => result += `${importStatementMap[thirdPartyImport]}\n`);
+            sortedPots.thirdPartyImportPot.forEach((thirdPartyImport: string, index: number) => {
+                if(index === sortedPots.thirdPartyImportPot.length - 1){
+                    result += `${importStatementMap[thirdPartyImport]}`;
+                    return;
+                }
+                result += `${importStatementMap[thirdPartyImport]}\n`
+            });
 
             if(sortedPots.userLibraryPot.length > 0){
-                result += '\n';
+                result += '\n\n';
             }
-            sortedPots.userLibraryPot.forEach((thirdPartyImport: string) => result += `${importStatementMap[thirdPartyImport]}\n`);
+            sortedPots.userLibraryPot.forEach((thirdPartyImport: string, index: number) => {
+                if(index === sortedPots.userLibraryPot.length - 1){
+                    result += `${importStatementMap[thirdPartyImport]}`;
+                    return;
+                }
+                result += `${importStatementMap[thirdPartyImport]}\n`
+            });
             if(sortedPots.differentUserModulePot.length > 0){
-                result += '\n';
+                result += '\n\n';
             }
-            sortedPots.differentUserModulePot.forEach((thirdPartyImport: string) => result += `${importStatementMap[thirdPartyImport]}\n`);
+            sortedPots.differentUserModulePot.forEach((thirdPartyImport: string, index) => {
+                if(index === sortedPots.differentUserModulePot.length - 1){
+                    result += `${importStatementMap[thirdPartyImport]}`;
+                    return;
+                }
+                result += `${importStatementMap[thirdPartyImport]}\n`
+            });
             if(sortedPots.sameModulePot.length > 0){
-                result += '\n';
+                result += '\n\n';
             }
-            sortedPots.sameModulePot.forEach((thirdPartyImport: string) => result += `${importStatementMap[thirdPartyImport]}\n`);
+            sortedPots.sameModulePot.forEach((thirdPartyImport: string, index) => {
+                if(index === sortedPots.sameModulePot.length - 1){
+                    result += `${importStatementMap[thirdPartyImport]}`;
+                    return;
+                }
+                result += `${importStatementMap[thirdPartyImport]}\n`
+            });
 
             const updatedContent =
                 content.slice(0, importNodes[0].pos) +
                 result +
                 content.slice(importNodes[importNodes.length - 1].end);
 
-            await promises.writeFile(p, updatedContent);
-            console.log('Done');
+            console.log('Filename', p);
+            console.log('update needed', updatedContent !== content.toString());
 
+            if(updatedContent !== content.toString()){
+                await promises.writeFile(p, updatedContent);
+            }
+            console.log('Done');
         }
     }
 })();
