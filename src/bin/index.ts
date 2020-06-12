@@ -66,20 +66,35 @@ function isCustomImport(literal: string): boolean {
         const rootNode = ts.createSourceFile(p, content.toString(), ts.ScriptTarget.Latest, true);
 
         const importNodes: ts.Node[] = [];
-        const importLiterals: string[] = [];
+        const importStatementMap = {};
 
         const traverse = (node: ts.Node) => {
             if (ts.isImportDeclaration(node)) {
                 const importSegments = node.getChildren();
-                importLiterals.push(importSegments.find(
+
+                const importStatement = importSegments.reduce(
+                    (acc: string, segment: ts.Node) => {
+                        if(acc === ''){
+                            return segment.getText();
+                        }
+                        if(segment.getText() === ';'){
+                            return `${acc}${segment.getText()}`;
+                        }
+                        return `${acc} ${segment.getText()}`;
+                    }, '');
+
+                const importLiteral = importSegments.find(
                     segment => segment.kind === ts.SyntaxKind.StringLiteral
-                )?.getText());
+                )?.getText();
+                importStatementMap[importLiteral] = importStatement;
                 importNodes.push(node);
             }
         }
         rootNode.forEachChild(traverse);
 
-        const pots = splitLiteralsToPots(importLiterals);
+        console.log('Map', importStatementMap);
+
+        const pots = splitLiteralsToPots(Object.keys(importStatementMap));
         console.log('Pots', pots);
 
         console.log('Start', importNodes[0].pos);
@@ -95,3 +110,15 @@ function isCustomImport(literal: string): boolean {
     }
 })();
 
+
+/*
+const pot = {
+    'rxjs': 'import {Observable} from "rxjs"',
+  '@angular/testing': 'import {BeforeEach} from "@angular/core"',
+  '@angular/core': 'import {Component} from "@angular/core"'
+}
+
+console.log(Object.keys(pot).sort().forEach(s => {
+  console.log(pot[s]);
+}));
+ */
