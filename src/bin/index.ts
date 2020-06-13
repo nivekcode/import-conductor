@@ -4,7 +4,7 @@ import * as ts from 'typescript';
 
 const userLibraryPrefixes = ['@custom'];
 
-interface Pots {
+interface ImportCategories {
     thirdPartyImportPot: string[];
     userLibraryPot: string[];
     differentUserModulePot: string[];
@@ -19,8 +19,8 @@ async function* walk(dir) {
     }
 }
 
-function splitLiteralsToPots(importLiterals: string[]): Pots {
-    const pots: Pots = {
+function categorizeImportLiterals(importLiterals: string[]): ImportCategories {
+    const pots: ImportCategories = {
         thirdPartyImportPot: [],
         userLibraryPot: [],
         differentUserModulePot: [],
@@ -58,7 +58,7 @@ function isCustomImport(literal: string): boolean {
     return isCustomImport;
 }
 
-function sortPots(pots: Pots): Pots {
+function sortPots(pots: ImportCategories): ImportCategories {
     const sortedPots: any = {};
     Object.keys(pots).forEach((potKey: string) => {
         sortedPots[potKey] = pots[potKey].sort();
@@ -67,13 +67,52 @@ function sortPots(pots: Pots): Pots {
 }
 
 
+function formatImportStatements(sortedPots: ImportCategories, importStatementMap: {}) {
+    let result = '';
+
+    function updateResult(sortedPot: string[], spaceBefore = true){
+        if(sortedPot.length > 0 && spaceBefore){
+            result += '\n';
+        }
+
+        sortedPot.forEach((thirdPartyImport: string, index: number) => {
+            if (index === sortedPots.thirdPartyImportPot.length - 1) {
+                result += `${importStatementMap[thirdPartyImport]}`;
+                return;
+            }
+            result += `${importStatementMap[thirdPartyImport]}\n`
+        });
+    }
+
+    updateResult(sortedPots.thirdPartyImportPot, false);
+    updateResult(sortedPots.userLibraryPot);
+    updateResult(sortedPots.differentUserModulePot);
+    updateResult(sortedPots.sameModulePot);
+
+    return result;
+}
+
+function collectImportStatement(importSegments) {
+    return importSegments.reduce(
+        (acc: string, segment: ts.Node) => {
+            if (acc === '') {
+                return segment.getText();
+            }
+            if (segment.getText() === ';') {
+                return `${acc}${segment.getText()}`;
+            }
+            return `${acc} ${segment.getText()}`;
+        }, '');
+}
+
+function containsImportStatements(importStatementMap: {}) {
+    return Object.keys(importStatementMap).length !== 0;
+}
+
 (async () => {
     for await (const p of walk(resolve(__dirname, '../../test'))) {
-
-        console.log('P', p);
-
-        const content = await promises.readFile(p);
-        const rootNode = ts.createSourceFile(p, content.toString(), ts.ScriptTarget.Latest, true);
+        const fileContent = await promises.readFile(p);
+        const rootNode = ts.createSourceFile(p, fileContent.toString(), ts.ScriptTarget.Latest, true);
 
         const importNodes: ts.Node[] = [];
         const importStatementMap = {};
@@ -81,82 +120,30 @@ function sortPots(pots: Pots): Pots {
         const traverse = (node: ts.Node) => {
             if (ts.isImportDeclaration(node)) {
                 const importSegments = node.getChildren();
-
-                const importStatement = importSegments.reduce(
-                    (acc: string, segment: ts.Node) => {
-                        if (acc === '') {
-                            return segment.getText();
-                        }
-                        if (segment.getText() === ';') {
-                            return `${acc}${segment.getText()}`;
-                        }
-                        return `${acc} ${segment.getText()}`;
-                    }, '');
-
+                const completeImportStatement = collectImportStatement(importSegments);
                 const importLiteral = importSegments.find(
                     segment => segment.kind === ts.SyntaxKind.StringLiteral
                 )?.getText();
-                importStatementMap[importLiteral] = importStatement;
+                importStatementMap[importLiteral] = completeImportStatement;
                 importNodes.push(node);
             }
         }
         rootNode.forEachChild(traverse);
 
-        if (Object.keys(importStatementMap).length !== 0) {
-
-            const pots = splitLiteralsToPots(Object.keys(importStatementMap));
+        if (containsImportStatements(importStatementMap)) {
+            const pots = categorizeImportLiterals(Object.keys(importStatementMap));
             const sortedPots = sortPots(pots)
 
-            let result = '';
-            sortedPots.thirdPartyImportPot.forEach((thirdPartyImport: string, index: number) => {
-                if(index === sortedPots.thirdPartyImportPot.length - 1){
-                    result += `${importStatementMap[thirdPartyImport]}`;
-                    return;
-                }
-                result += `${importStatementMap[thirdPartyImport]}\n`
-            });
-
-            if(sortedPots.userLibraryPot.length > 0){
-                result += '\n\n';
-            }
-            sortedPots.userLibraryPot.forEach((thirdPartyImport: string, index: number) => {
-                if(index === sortedPots.userLibraryPot.length - 1){
-                    result += `${importStatementMap[thirdPartyImport]}`;
-                    return;
-                }
-                result += `${importStatementMap[thirdPartyImport]}\n`
-            });
-            if(sortedPots.differentUserModulePot.length > 0){
-                result += '\n\n';
-            }
-            sortedPots.differentUserModulePot.forEach((thirdPartyImport: string, index) => {
-                if(index === sortedPots.differentUserModulePot.length - 1){
-                    result += `${importStatementMap[thirdPartyImport]}`;
-                    return;
-                }
-                result += `${importStatementMap[thirdPartyImport]}\n`
-            });
-            if(sortedPots.sameModulePot.length > 0){
-                result += '\n\n';
-            }
-            sortedPots.sameModulePot.forEach((thirdPartyImport: string, index) => {
-                if(index === sortedPots.sameModulePot.length - 1){
-                    result += `${importStatementMap[thirdPartyImport]}`;
-                    return;
-                }
-                result += `${importStatementMap[thirdPartyImport]}\n`
-            });
+            let result = formatImportStatements(sortedPots, importStatementMap);
 
             const updatedContent =
-                content.slice(0, importNodes[0].pos) +
+                fileContent.slice(0, importNodes[0].pos) +
                 result +
-                content.slice(importNodes[importNodes.length - 1].end);
+                fileContent.slice(importNodes[importNodes.length - 1].end);
 
-            console.log('Filename', p);
-            console.log('update needed', updatedContent !== content.toString());
-
-            if(updatedContent !== content.toString()){
-                await promises.writeFile(p, updatedContent);
+            if(updatedContent !== fileContent.toString()){
+                // await promises.writeFile(p, updatedContent);
+                console.log('New content', updatedContent);
             }
             console.log('Done');
         }
