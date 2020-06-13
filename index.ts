@@ -1,8 +1,22 @@
+#!/usr/bin/env node
 import { resolve, join } from "path";
 import { promises } from "fs";
 import * as ts from "typescript";
+import commander from "commander";
 
-const userLibraryPrefixes = ["@custom"];
+import * as packageJSON from "./package.json";
+
+const collect = (value, previous) => previous.concat([value]);
+commander
+  .version(packageJSON.version)
+  .option("-s --source <string>", "path to the source files", "./src/*")
+  .option(
+    "-p --userLibPrefixes <value>",
+    "the prefix of custom user libraries",
+    collect,
+    []
+  )
+  .parse(process.argv);
 
 interface ImportCategories {
   thirdPartyImportPot: Map<string, string>;
@@ -76,7 +90,7 @@ function sortImportCategories(
 
 function isCustomImport(literal: string): boolean {
   let isCustomImport = false;
-  for (const userLibraryPrefix of userLibraryPrefixes) {
+  for (const userLibraryPrefix of commander.userLibPrefixes) {
     if (literal.startsWith(`'${userLibraryPrefix}`)) {
       isCustomImport = true;
       break;
@@ -146,7 +160,7 @@ function getImportInformation(rootNode: ts.Node): ImportInformation {
 }
 
 (async () => {
-  for await (const p of walk(resolve(__dirname, "../../test"))) {
+  for await (const p of walk(resolve(__dirname, commander.source))) {
     const fileContent = await promises.readFile(p);
     const rootNode = ts.createSourceFile(
       p,
@@ -171,10 +185,8 @@ function getImportInformation(rootNode: ts.Node): ImportInformation {
         fileContent.slice(importInformation.endPosition);
 
       if (updatedContent !== fileContent.toString()) {
-        // await promises.writeFile(p, updatedContent);
-        console.log("New content", updatedContent);
+        await promises.writeFile(p, updatedContent);
       }
-      console.log("Done");
     }
   }
 })();
