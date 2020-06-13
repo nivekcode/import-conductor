@@ -5,13 +5,13 @@ import * as ts from 'typescript';
 const userLibraryPrefixes = ['@custom'];
 
 interface ImportCategories {
-    thirdPartyImportPot: string[];
-    userLibraryPot: string[];
-    differentUserModulePot: string[];
-    sameModulePot: string[];
+    thirdPartyImportPot: Map<string, string>;
+    userLibraryPot: Map<string, string>;
+    differentUserModulePot: Map<string, string>;
+    sameModulePot: Map<string, string>;
 }
 
-async function* walk(dir) {
+async function* walk(dir: string): any {
     for await (const d of await promises.opendir(dir)) {
         const entry = join(dir, d.name);
         if (d.isDirectory()) yield* await walk(entry);
@@ -19,32 +19,37 @@ async function* walk(dir) {
     }
 }
 
-function categorizeImportLiterals(importLiterals: string[]): ImportCategories {
+function categorizeImportLiterals(importLiterals: Map<string, string>): ImportCategories {
     const pots: ImportCategories = {
-        thirdPartyImportPot: [],
-        userLibraryPot: [],
-        differentUserModulePot: [],
-        sameModulePot: []
+        thirdPartyImportPot: new Map<string, string>(),
+        userLibraryPot: new Map<string, string>(),
+        differentUserModulePot: new Map<string, string>(),
+        sameModulePot: new Map<string, string>()
     }
 
-    importLiterals.forEach((literal: string) => {
-        if (literal.startsWith(`'./`)) {
-            pots.sameModulePot.push(literal);
+    importLiterals.forEach((fullImportStatement: string, importLiteral: string) => {
+        if (importLiteral.startsWith(`'./`)) {
+            pots.sameModulePot.set(importLiteral, fullImportStatement);
             return;
         }
 
-        if (literal.startsWith(`'..`)) {
-            pots.differentUserModulePot.push(literal);
+        if (importLiteral.startsWith(`'..`)) {
+            pots.differentUserModulePot.set(importLiteral, fullImportStatement);
             return;
         }
 
-        if (isCustomImport(literal)) {
-            pots.userLibraryPot.push(literal);
+        if (isCustomImport(importLiteral)) {
+            pots.userLibraryPot.set(importLiteral, fullImportStatement);
             return;
         }
-        pots.thirdPartyImportPot.push(literal);
+        pots.thirdPartyImportPot.set(importLiteral, fullImportStatement);
     });
-    return pots;
+    return {
+        thirdPartyImportPot: new Map([...pots.thirdPartyImportPot].sort()),
+        userLibraryPot: new Map([...pots.userLibraryPot].sort()),
+        differentUserModulePot: new Map([...pots.differentUserModulePot].sort()),
+        sameModulePot: new Map([...pots.sameModulePot].sort()),
+    };
 }
 
 function isCustomImport(literal: string): boolean {
@@ -58,41 +63,25 @@ function isCustomImport(literal: string): boolean {
     return isCustomImport;
 }
 
-function sortPots(pots: ImportCategories): ImportCategories {
-    const sortedPots: any = {};
-    Object.keys(pots).forEach((potKey: string) => {
-        sortedPots[potKey] = pots[potKey].sort();
-    })
-    return sortedPots;
-}
-
-
-function formatImportStatements(sortedPots: ImportCategories, importStatementMap: {}) {
+function formatImportStatements(sortedPots: ImportCategories) {
     let result = '';
 
-    function updateResult(sortedPot: string[], spaceBefore = true){
-        if(sortedPot.length > 0 && spaceBefore){
-            result += '\n';
+    function updateResult(sortedPot: Map<string, string>, spaceBefore = true) {
+        if (sortedPot.size > 0 && spaceBefore) {
+            result += '\n\n';
         }
-
-        sortedPot.forEach((thirdPartyImport: string, index: number) => {
-            if (index === sortedPots.thirdPartyImportPot.length - 1) {
-                result += `${importStatementMap[thirdPartyImport]}`;
-                return;
-            }
-            result += `${importStatementMap[thirdPartyImport]}\n`
-        });
+        [...sortedPot.values()].forEach((fullImportLiteral: string, index: number) =>
+            result += index === sortedPot.size - 1 ? `${fullImportLiteral}`: `${fullImportLiteral}\n`);
     }
 
     updateResult(sortedPots.thirdPartyImportPot, false);
     updateResult(sortedPots.userLibraryPot);
     updateResult(sortedPots.differentUserModulePot);
     updateResult(sortedPots.sameModulePot);
-
     return result;
 }
 
-function collectImportStatement(importSegments) {
+function collectImportStatement(importSegments: any) {
     return importSegments.reduce(
         (acc: string, segment: ts.Node) => {
             if (acc === '') {
@@ -105,17 +94,13 @@ function collectImportStatement(importSegments) {
         }, '');
 }
 
-function containsImportStatements(importStatementMap: {}) {
-    return Object.keys(importStatementMap).length !== 0;
-}
-
 (async () => {
     for await (const p of walk(resolve(__dirname, '../../test'))) {
         const fileContent = await promises.readFile(p);
         const rootNode = ts.createSourceFile(p, fileContent.toString(), ts.ScriptTarget.Latest, true);
 
         const importNodes: ts.Node[] = [];
-        const importStatementMap = {};
+        const importStatementMap = new Map<string, string>();
 
         const traverse = (node: ts.Node) => {
             if (ts.isImportDeclaration(node)) {
@@ -124,41 +109,27 @@ function containsImportStatements(importStatementMap: {}) {
                 const importLiteral = importSegments.find(
                     segment => segment.kind === ts.SyntaxKind.StringLiteral
                 )?.getText();
-                importStatementMap[importLiteral] = completeImportStatement;
+                if (importLiteral) {
+                    importStatementMap.set(importLiteral, completeImportStatement);
+                }
                 importNodes.push(node);
             }
         }
         rootNode.forEachChild(traverse);
 
-        if (containsImportStatements(importStatementMap)) {
-            const pots = categorizeImportLiterals(Object.keys(importStatementMap));
-            const sortedPots = sortPots(pots)
-
-            let result = formatImportStatements(sortedPots, importStatementMap);
+        if (importStatementMap.size > 0) {
+            const categorizedImports = categorizeImportLiterals(importStatementMap);
+            let result = formatImportStatements(categorizedImports);
 
             const updatedContent =
                 fileContent.slice(0, importNodes[0].pos) +
                 result +
                 fileContent.slice(importNodes[importNodes.length - 1].end);
 
-            if(updatedContent !== fileContent.toString()){
+            if (updatedContent !== fileContent.toString()) {
                 // await promises.writeFile(p, updatedContent);
-                console.log('New content', updatedContent);
             }
             console.log('Done');
         }
     }
 })();
-
-
-/*
-const pot = {
-    'rxjs': 'import {Observable} from "rxjs"',
-  '@angular/testing': 'import {BeforeEach} from "@angular/core"',
-  '@angular/core': 'import {Component} from "@angular/core"'
-}
-
-console.log(Object.keys(pot).sort().forEach(s => {
-  console.log(pot[s]);
-}));
- */
