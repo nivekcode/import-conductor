@@ -160,36 +160,34 @@ function getImportInformation(rootNode: ts.Node): ImportInformation {
 }
 
 (async () => {
-  for await (const p of walk(resolve(__dirname, commander.source))) {
-    if (!p.endsWith(".ts")) {
-      return;
-    }
-
-    const fileContent = await promises.readFile(p);
-    const rootNode = ts.createSourceFile(
-      p,
-      fileContent.toString(),
-      ts.ScriptTarget.Latest,
-      true
-    );
-    const importInformation = getImportInformation(rootNode);
-
-    if (importInformation.importStatementMap.size > 0) {
-      const categorizedImports = categorizeImportLiterals(
-        importInformation.importStatementMap
+  for await (const p of walk(resolve(commander.source))) {
+    if (p.endsWith(".ts")) {
+      const fileContent = await promises.readFile(p);
+      const rootNode = ts.createSourceFile(
+        p,
+        fileContent.toString(),
+        ts.ScriptTarget.Latest,
+        true
       );
-      const sortedAndCategorizedImports = sortImportCategories(
-        categorizedImports
-      );
-      let result = formatImportStatements(sortedAndCategorizedImports);
+      const importInformation = getImportInformation(rootNode);
 
-      const updatedContent =
-        fileContent.slice(0, importInformation.startPosition) +
-        result +
-        fileContent.slice(importInformation.endPosition);
+      if (importInformation.importStatementMap.size > 0) {
+        const categorizedImports = categorizeImportLiterals(
+          importInformation.importStatementMap
+        );
+        const sortedAndCategorizedImports = sortImportCategories(
+          categorizedImports
+        );
+        let result = formatImportStatements(sortedAndCategorizedImports);
 
-      if (updatedContent !== fileContent.toString()) {
-        await promises.writeFile(p, updatedContent);
+        const updatedContent =
+          fileContent.slice(0, importInformation.startPosition) +
+          result +
+          fileContent.slice(importInformation.endPosition);
+
+        if (updatedContent !== fileContent.toString()) {
+          await promises.writeFile(p, updatedContent);
+        }
       }
     }
   }

@@ -1,1 +1,3 @@
-export const bar = 'bar';
+import { quux } from "./quux/quux";
+
+export const bar = "bar";
