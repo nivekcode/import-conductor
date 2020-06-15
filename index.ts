@@ -128,11 +128,14 @@ function formatImportStatements(importCategories: ImportCategories) {
   );
   updateResult(
     importCategories.differentUserModulePot,
-    importCategories.userLibraryPot.size > 0
+    importCategories.thirdPartyImportPot.size > 0 ||
+      importCategories.userLibraryPot.size > 0
   );
   updateResult(
     importCategories.sameModulePot,
-    importCategories.differentUserModulePot.size > 0
+    importCategories.thirdPartyImportPot.size > 0 ||
+      importCategories.userLibraryPot.size > 0 ||
+      importCategories.differentUserModulePot.size > 0
   );
   return result;
 }
