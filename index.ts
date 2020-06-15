@@ -161,6 +161,10 @@ function getImportInformation(rootNode: ts.Node): ImportInformation {
 
 (async () => {
   for await (const p of walk(resolve(__dirname, commander.source))) {
+    if (!p.endsWith(".ts")) {
+      return;
+    }
+
     const fileContent = await promises.readFile(p);
     const rootNode = ts.createSourceFile(
       p,
