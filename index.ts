@@ -45,7 +45,7 @@ async function* walk(dir: string): any {
 function categorizeImportLiterals(
   importLiterals: Map<string, string>
 ): ImportCategories {
-  const pots: ImportCategories = {
+  const importCategories: ImportCategories = {
     thirdPartyImportPot: new Map<string, string>(),
     userLibraryPot: new Map<string, string>(),
     differentUserModulePot: new Map<string, string>(),
@@ -54,23 +54,29 @@ function categorizeImportLiterals(
   importLiterals.forEach(
     (fullImportStatement: string, importLiteral: string) => {
       if (importLiteral.startsWith(`'./`)) {
-        pots.sameModulePot.set(importLiteral, fullImportStatement);
+        importCategories.sameModulePot.set(importLiteral, fullImportStatement);
         return;
       }
 
       if (importLiteral.startsWith(`'..`)) {
-        pots.differentUserModulePot.set(importLiteral, fullImportStatement);
+        importCategories.differentUserModulePot.set(
+          importLiteral,
+          fullImportStatement
+        );
         return;
       }
 
       if (isCustomImport(importLiteral)) {
-        pots.userLibraryPot.set(importLiteral, fullImportStatement);
+        importCategories.userLibraryPot.set(importLiteral, fullImportStatement);
         return;
       }
-      pots.thirdPartyImportPot.set(importLiteral, fullImportStatement);
+      importCategories.thirdPartyImportPot.set(
+        importLiteral,
+        fullImportStatement
+      );
     }
   );
-  return pots;
+  return importCategories;
 }
 
 function sortImportCategories(
@@ -99,7 +105,7 @@ function isCustomImport(literal: string): boolean {
   return isCustomImport;
 }
 
-function formatImportStatements(sortedPots: ImportCategories) {
+function formatImportStatements(importCategories: ImportCategories) {
   let result = "";
 
   function updateResult(sortedPot: Map<string, string>, spaceBefore = true) {
@@ -115,10 +121,19 @@ function formatImportStatements(sortedPots: ImportCategories) {
     );
   }
 
-  updateResult(sortedPots.thirdPartyImportPot, false);
-  updateResult(sortedPots.userLibraryPot);
-  updateResult(sortedPots.differentUserModulePot);
-  updateResult(sortedPots.sameModulePot);
+  updateResult(importCategories.thirdPartyImportPot, false);
+  updateResult(
+    importCategories.userLibraryPot,
+    importCategories.thirdPartyImportPot.size > 0
+  );
+  updateResult(
+    importCategories.differentUserModulePot,
+    importCategories.userLibraryPot.size > 0
+  );
+  updateResult(
+    importCategories.sameModulePot,
+    importCategories.differentUserModulePot.size > 0
+  );
   return result;
 }
 
