@@ -1,11 +1,12 @@
 #!/usr/bin/env node
-import { resolve, join } from "path";
-import { promisify } from "util";
-import * as fs from "fs";
+import chalk from "chalk";
 import commander from "commander";
+import * as fs from "fs";
+import * as gitChangedFiles from "git-changed-files";
+import { resolve, join } from "path";
 import ts from "typescript";
+import { promisify } from "util";
 
-const gitChangedFiles = require("git-changed-files");
 import simpleGit, { SimpleGit } from "simple-git";
 
 import * as packageJSON from "./package.json";
@@ -219,10 +220,14 @@ async function optimizeImports(filePath: string) {
 
       if (updatedContent !== fileContent.toString()) {
         await writeFile(filePath, updatedContent);
+        chalk.blue(`import-ant: ${filePath} (imports reordered)`);
 
         if (commander.staged && !commander.disableAutoAdd) {
           await git.add(filePath);
+          chalk.cyan(`import-ant: ${filePath} (added to git)`);
         }
+      } else {
+        chalk.gray(`import-ant: ${filePath} (no change needed)`);
       }
     }
   }
