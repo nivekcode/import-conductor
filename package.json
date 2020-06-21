@@ -7,8 +7,7 @@
     "build": "tsc",
     "prebuild": "npm run copy:readme",
     "copy:readme": "copyfiles ./README.md ./dist",
-    "format:check": "prettier --list-different 'src/**/*.ts'",
-    "format:write": "prettier --write 'src/**/*.ts'",
+    "format:write": "prettier --write 'index.ts'",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node ./index.ts -s './test' -p '@custom'",
     "start:staged": "ts-node ./index.ts --staged true"
