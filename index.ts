@@ -4,10 +4,13 @@ import { promisify } from "util";
 import * as fs from "fs";
 import commander from "commander";
 import ts from "typescript";
+
 const gitChangedFiles = require("git-changed-files");
+import simpleGit, { SimpleGit } from "simple-git";
 
 import * as packageJSON from "./package.json";
 
+const git: SimpleGit = simpleGit();
 const readFile = promisify(fs.readFile);
 const opendir = promisify(fs.opendir);
 const writeFile = promisify(fs.writeFile);
@@ -23,6 +26,11 @@ commander
     []
   )
   .option("--staged", "run against staged files", false)
+  .option(
+    "--disableAutoAdd",
+    "disable automatically adding the commited files when the staged option is used",
+    false
+  )
   .parse(process.argv);
 
 interface ImportCategories {
@@ -186,7 +194,6 @@ function getImportInformation(rootNode: ts.Node): ImportInformation {
 
 async function optimizeImports(filePath: string) {
   if (filePath.endsWith(".ts")) {
-    console.log(`import-ant: ${filePath}`);
     const fileContent = await readFile(filePath);
     const rootNode = ts.createSourceFile(
       filePath,
@@ -212,6 +219,10 @@ async function optimizeImports(filePath: string) {
 
       if (updatedContent !== fileContent.toString()) {
         await writeFile(filePath, updatedContent);
+
+        if (commander.staged && !commander.disableAutoAdd) {
+          await git.add(filePath);
+        }
       }
     }
   }
