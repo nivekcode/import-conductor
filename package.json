@@ -8,7 +8,8 @@
     "format:check": "prettier --list-different 'src/**/*.ts'",
     "format:write": "prettier --write 'src/**/*.ts'",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node ./index.ts -s './test' -p '@custom'"
+    "start": "ts-node ./index.ts -s './test' -p '@custom'",
+    "start:staged": "ts-node ./index.ts --staged true"
   },
   "husky": {
     "hooks": {
@@ -43,6 +44,8 @@
     "typescript": "^3.9.5"
   },
   "dependencies": {
-    "commander": "^5.1.0"
+    "changed-git-files": "0.0.1",
+    "commander": "^5.1.0",
+    "git-changed-files": "^1.0.0"
   }
 }

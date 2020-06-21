@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 import { resolve, join } from "path";
 import { promises } from "fs";
-import * as ts from "typescript";
 import commander from "commander";
+import ts from "typescript";
+const gitChangedFiles = require("git-changed-files");
 
 import * as packageJSON from "./package.json";
 
@@ -16,6 +17,7 @@ commander
     collect,
     []
   )
+  .option("--staged", "run against staged files", false)
   .parse(process.argv);
 
 interface ImportCategories {
@@ -177,36 +179,49 @@ function getImportInformation(rootNode: ts.Node): ImportInformation {
   };
 }
 
-(async () => {
-  for await (const p of walk(resolve(commander.source))) {
-    if (p.endsWith(".ts")) {
-      const fileContent = await promises.readFile(p);
-      const rootNode = ts.createSourceFile(
-        p,
-        fileContent.toString(),
-        ts.ScriptTarget.Latest,
-        true
+async function optimizeImports(filePath: string) {
+  if (filePath.endsWith(".ts")) {
+    console.log(`import-ant: ${filePath}`);
+    const fileContent = await promises.readFile(filePath);
+    const rootNode = ts.createSourceFile(
+      filePath,
+      fileContent.toString(),
+      ts.ScriptTarget.Latest,
+      true
+    );
+    const importInformation = getImportInformation(rootNode);
+
+    if (importInformation.importStatementMap.size > 0) {
+      const categorizedImports = categorizeImportLiterals(
+        importInformation.importStatementMap
       );
-      const importInformation = getImportInformation(rootNode);
+      const sortedAndCategorizedImports = sortImportCategories(
+        categorizedImports
+      );
+      let result = formatImportStatements(sortedAndCategorizedImports);
 
-      if (importInformation.importStatementMap.size > 0) {
-        const categorizedImports = categorizeImportLiterals(
-          importInformation.importStatementMap
-        );
-        const sortedAndCategorizedImports = sortImportCategories(
-          categorizedImports
-        );
-        let result = formatImportStatements(sortedAndCategorizedImports);
+      const updatedContent =
+        fileContent.slice(0, importInformation.startPosition) +
+        result +
+        fileContent.slice(importInformation.endPosition);
 
-        const updatedContent =
-          fileContent.slice(0, importInformation.startPosition) +
-          result +
-          fileContent.slice(importInformation.endPosition);
-
-        if (updatedContent !== fileContent.toString()) {
-          await promises.writeFile(p, updatedContent);
-        }
+      if (updatedContent !== fileContent.toString()) {
+        await promises.writeFile(filePath, updatedContent);
       }
+    }
+  }
+}
+
+(async () => {
+  if (commander.staged) {
+    let uncommittedFiles = (await gitChangedFiles({ showCommitted: false }))
+      .unCommittedFiles;
+    for await (const p of uncommittedFiles) {
+      await optimizeImports(p);
+    }
+  } else {
+    for await (const p of walk(resolve(commander.source))) {
+      await optimizeImports(p);
     }
   }
 })();
