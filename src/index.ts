@@ -9,7 +9,7 @@ import { promisify } from 'util';
 
 import simpleGit, { SimpleGit } from 'simple-git';
 
-import * as packageJSON from './package.json';
+import * as packageJSON from '../package.json';
 
 const git: SimpleGit = simpleGit();
 const readFile = promisify(fs.readFile);
