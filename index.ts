@@ -1,11 +1,16 @@
 #!/usr/bin/env node
 import { resolve, join } from "path";
-import { promises } from "fs";
+import { promisify } from "util";
+import * as fs from "fs";
 import commander from "commander";
 import ts from "typescript";
 const gitChangedFiles = require("git-changed-files");
 
 import * as packageJSON from "./package.json";
+
+const readFile = promisify(fs.readFile);
+const opendir = promisify(fs.opendir);
+const writeFile = promisify(fs.writeFile);
 
 const collect = (value, previous) => previous.concat([value]);
 commander
@@ -34,7 +39,7 @@ interface ImportInformation {
 }
 
 async function* walk(dir: string): any {
-  for await (const d of await promises.opendir(dir)) {
+  for await (const d of await opendir(dir)) {
     const entry = join(dir, d.name);
     if (d.isDirectory()) {
       yield* await walk(entry);
@@ -182,7 +187,7 @@ function getImportInformation(rootNode: ts.Node): ImportInformation {
 async function optimizeImports(filePath: string) {
   if (filePath.endsWith(".ts")) {
     console.log(`import-ant: ${filePath}`);
-    const fileContent = await promises.readFile(filePath);
+    const fileContent = await readFile(filePath);
     const rootNode = ts.createSourceFile(
       filePath,
       fileContent.toString(),
@@ -206,7 +211,7 @@ async function optimizeImports(filePath: string) {
         fileContent.slice(importInformation.endPosition);
 
       if (updatedContent !== fileContent.toString()) {
-        await promises.writeFile(filePath, updatedContent);
+        await writeFile(filePath, updatedContent);
       }
     }
   }
