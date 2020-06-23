@@ -11,7 +11,8 @@
     "format:write": "prettier --write 'index.ts'",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node ./index.ts -s './test' -p '@custom'",
-    "start:staged": "ts-node ./index.ts --staged true"
+    "start:staged": "ts-node ./index.ts --staged true",
+    "release": "semantic-release"
   },
   "husky": {
     "hooks": {
@@ -53,7 +54,7 @@
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
     "replace-json-property": "^1.4.3",
-    "semantic-release": "^17.1.0",
+    "semantic-release": "^15.9.0",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.5"
   }
