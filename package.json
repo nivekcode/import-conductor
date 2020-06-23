@@ -53,7 +53,6 @@
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
     "replace-json-property": "^1.4.3",
-    "semantic-release": "^17.0.8",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.5"
   }
