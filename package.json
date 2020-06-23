@@ -44,15 +44,16 @@
     "simple-git": "^2.9.0"
   },
   "devDependencies": {
-    "@semantic-release/changelog": "^3.0.1",
-    "@semantic-release/exec": "^3.3.2",
-    "@semantic-release/git": "^7.0.6",
+    "@semantic-release/changelog": "^3.0.6",
+    "@semantic-release/exec": "^3.3.8",
+    "@semantic-release/git": "^7.0.18",
     "@types/node": "^14.0.12",
     "copyfiles": "^2.3.0",
     "husky": "^4.2.5",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
     "replace-json-property": "^1.4.3",
+    "semantic-release": "^17.1.0",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.5"
   }
