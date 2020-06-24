@@ -175,14 +175,14 @@ async function optimizeImports(filePath: string) {
 
       if (updatedContent !== fileContent.toString()) {
         await writeFile(filePath, updatedContent);
-        chalk.blue(`import-ant: ${filePath} (imports reordered)`);
+        chalk.blue(`import-conductor: ${filePath} (imports reordered)`);
 
         if (commander.staged && !commander.disableAutoAdd) {
           await git.add(filePath);
-          chalk.cyan(`import-ant: ${filePath} (added to git)`);
+          chalk.cyan(`import-conductor: ${filePath} (added to git)`);
         }
       } else {
-        chalk.gray(`import-ant: ${filePath} (no change needed)`);
+        chalk.gray(`import-conductor: ${filePath} (no change needed)`);
       }
     }
   }

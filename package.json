@@ -1,6 +1,6 @@
 {
-  "name": "import-ant",
-  "version": "1.0.0",
+  "name": "import-conductor",
+  "version": "0.0.0-development",
   "description": "Automatically organize your Typescript import statements",
   "main": "index.js",
   "scripts": {
@@ -20,11 +20,11 @@
     }
   },
   "bin": {
-    "import-ant": "./src/index.js"
+    "import-conductor": "./src/index.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kreuzerk/import-ant.git"
+    "url": "https://github.com/kreuzerk/import-conductor.git"
   },
   "keywords": [
     "Clean",
@@ -35,9 +35,9 @@
   "author": "Kevin Kreuzer",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kreuzerk/import-ant/issues"
+    "url": "https://github.com/kreuzerk/import-conductor/issues"
   },
-  "homepage": "https://github.com/kreuzerk/import-ant#readme",
+  "homepage": "https://github.com/kreuzerk/import-conductor#readme",
   "dependencies": {
     "changed-git-files": "0.0.1",
     "commander": "^5.1.0",
