@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/kreuzerk/import-conductor/compare/v1.0.0...v1.0.1) (2020-06-24)
+
+
+### Bug Fixes
+
+* **deps:** add TypeScript as a dependency ([5765ffe](https://github.com/kreuzerk/import-conductor/commit/5765ffec8f60cd4e0dd7343466fe631428a1d0ca))
+
 # 1.0.0 (2020-06-24)
 
 
