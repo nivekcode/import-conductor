@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/kreuzerk/import-conductor/compare/v1.1.0...v1.2.0) (2020-06-25)
+
+
+### Features
+
+* **log:** log process ([8a833d1](https://github.com/kreuzerk/import-conductor/commit/8a833d18b6cc99f55d6bf513b3a630fa06c75675))
+
 # [1.1.0](https://github.com/kreuzerk/import-conductor/compare/v1.0.1...v1.1.0) (2020-06-25)
 
 
