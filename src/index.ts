@@ -146,11 +146,13 @@ function getImportInformation(rootNode: ts.Node): ImportInformation {
       const completeImportStatement = collectImportStatement(importSegments);
       const importLiteral = importSegments.find((segment) => segment.kind === ts.SyntaxKind.StringLiteral)?.getText();
 
-      if (importStatementMap.get(importLiteral)) {
-        // TODO merge with current importStatement
+      if (!importLiteral) {
+        return;
       }
 
-      if (importLiteral) {
+      if (importStatementMap.get(importLiteral)) {
+        importStatementMap.set(importLiteral, mergeImportStatements(importStatementMap.get(importLiteral), completeImportStatement));
+      } else {
         importStatementMap.set(importLiteral, completeImportStatement);
       }
       importNodes.push(node);
@@ -162,6 +164,11 @@ function getImportInformation(rootNode: ts.Node): ImportInformation {
     startPosition: importNodes[0]?.pos,
     endPosition: importNodes[importNodes?.length - 1]?.end,
   };
+}
+
+export function mergeImportStatements(importStatementOne, importStatementTwo): string {
+  const importedValues = importStatementTwo.match('{(.*)}')[1];
+  return importStatementOne.replace('}', `,${importedValues}}`);
 }
 
 async function optimizeImports(filePath: string) {
