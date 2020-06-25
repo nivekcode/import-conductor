@@ -138,7 +138,6 @@ function collectImportStatement(importSegments: any) {
 
 function collectImportNodes(rootNode: ts.Node): ts.Node[] {
   const importNodes: ts.Node[] = [];
-
   const traverse = (node: ts.Node) => {
     if (ts.isImportDeclaration(node)) {
       importNodes.push(node);
@@ -148,29 +147,24 @@ function collectImportNodes(rootNode: ts.Node): ts.Node[] {
   return importNodes;
 }
 
-function getImportInformation(rootNode: ts.Node): ImportInformation {
-  const importNodes: ts.Node[] = [];
+function getImportInformation(importNodes: ts.Node[]): ImportInformation {
   const importStatementMap = new Map<string, string>();
 
-  const traverse = (node: ts.Node) => {
-    if (ts.isImportDeclaration(node)) {
-      const importSegments = node.getChildren();
-      const completeImportStatement = collectImportStatement(importSegments);
-      const importLiteral = importSegments.find((segment) => segment.kind === ts.SyntaxKind.StringLiteral)?.getText();
+  importNodes.forEach((node: ts.Node) => {
+    const importSegments = node.getChildren();
+    const completeImportStatement = collectImportStatement(importSegments);
+    const importLiteral = importSegments.find((segment) => segment.kind === ts.SyntaxKind.StringLiteral)?.getText();
 
-      if (!importLiteral) {
-        return;
-      }
-
-      if (importStatementMap.get(importLiteral)) {
-        importStatementMap.set(importLiteral, mergeImportStatements(importStatementMap.get(importLiteral), completeImportStatement));
-      } else {
-        importStatementMap.set(importLiteral, completeImportStatement);
-      }
-      importNodes.push(node);
+    if (!importLiteral) {
+      return;
     }
-  };
-  rootNode.forEachChild(traverse);
+
+    if (importStatementMap.get(importLiteral)) {
+      importStatementMap.set(importLiteral, mergeImportStatements(importStatementMap.get(importLiteral), completeImportStatement));
+    } else {
+      importStatementMap.set(importLiteral, completeImportStatement);
+    }
+  });
   return {
     importStatementMap,
     startPosition: importNodes[0]?.pos,
@@ -188,25 +182,29 @@ async function optimizeImports(filePath: string) {
     console.log('File', filePath);
     const fileContent = await readFile(filePath);
     const rootNode = ts.createSourceFile(filePath, fileContent.toString(), ts.ScriptTarget.Latest, true);
-    const importInformation = getImportInformation(rootNode);
     const importNodes = collectImportNodes(rootNode);
+    const importInformation = getImportInformation(importNodes);
 
     if (importInformation.importStatementMap.size > 0) {
       const categorizedImports = categorizeImportLiterals(importInformation.importStatementMap);
       const sortedAndCategorizedImports = sortImportCategories(categorizedImports);
       let result = formatImportStatements(sortedAndCategorizedImports);
 
-      let t = fileContent;
+      let contentWithoutImportStatements = fileContent;
 
-      importNodes.reverse().forEach((node: ts.Node, i) => {
-        t = Buffer.from(t.slice(0, node.pos) + '' + t.slice(node.end));
-      });
+      importNodes
+        .reverse()
+        .forEach(
+          (node: ts.Node, i) =>
+            (contentWithoutImportStatements = Buffer.from(
+              contentWithoutImportStatements.slice(0, node.pos) + '' + contentWithoutImportStatements.slice(node.end)
+            ))
+        );
 
-      const updatedContent = `${result}\n${t}`;
+      const updatedContent = `${result}${contentWithoutImportStatements}`;
 
       if (updatedContent !== fileContent.toString()) {
-        console.log(updatedContent);
-        // await writeFile(filePath, updatedContent);
+        await writeFile(filePath, updatedContent);
         console.log(chalk.blue(`import-conductor: ${filePath} (imports reordered)`));
 
         if (commander.staged && !commander.disableAutoAdd) {
