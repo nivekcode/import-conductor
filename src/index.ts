@@ -136,6 +136,18 @@ function collectImportStatement(importSegments: any) {
   }, '');
 }
 
+function collectImportNodes(rootNode: ts.Node): ts.Node[] {
+  const importNodes: ts.Node[] = [];
+
+  const traverse = (node: ts.Node) => {
+    if (ts.isImportDeclaration(node)) {
+      importNodes.push(node);
+    }
+  };
+  rootNode.forEachChild(traverse);
+  return importNodes;
+}
+
 function getImportInformation(rootNode: ts.Node): ImportInformation {
   const importNodes: ts.Node[] = [];
   const importStatementMap = new Map<string, string>();
@@ -173,20 +185,28 @@ export function mergeImportStatements(importStatementOne, importStatementTwo): s
 
 async function optimizeImports(filePath: string) {
   if (filePath.endsWith('.ts')) {
+    console.log('File', filePath);
     const fileContent = await readFile(filePath);
     const rootNode = ts.createSourceFile(filePath, fileContent.toString(), ts.ScriptTarget.Latest, true);
     const importInformation = getImportInformation(rootNode);
+    const importNodes = collectImportNodes(rootNode);
 
     if (importInformation.importStatementMap.size > 0) {
       const categorizedImports = categorizeImportLiterals(importInformation.importStatementMap);
       const sortedAndCategorizedImports = sortImportCategories(categorizedImports);
       let result = formatImportStatements(sortedAndCategorizedImports);
 
-      const updatedContent =
-        fileContent.slice(0, importInformation.startPosition) + result + fileContent.slice(importInformation.endPosition);
+      let t = fileContent;
+
+      importNodes.reverse().forEach((node: ts.Node, i) => {
+        t = Buffer.from(t.slice(0, node.pos) + '' + t.slice(node.end));
+      });
+
+      const updatedContent = `${result}\n${t}`;
 
       if (updatedContent !== fileContent.toString()) {
-        await writeFile(filePath, updatedContent);
+        console.log(updatedContent);
+        // await writeFile(filePath, updatedContent);
         console.log(chalk.blue(`import-conductor: ${filePath} (imports reordered)`));
 
         if (commander.staged && !commander.disableAutoAdd) {
