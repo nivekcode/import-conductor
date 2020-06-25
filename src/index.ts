@@ -32,12 +32,6 @@ interface ImportCategories {
   sameModulePot: Map<string, string>;
 }
 
-interface ImportInformation {
-  importStatementMap: Map<string, string>;
-  startPosition: number;
-  endPosition: number;
-}
-
 async function* walk(dir: string): any {
   for await (const d of await opendir(dir)) {
     const entry = join(dir, d.name);
@@ -147,7 +141,7 @@ function collectImportNodes(rootNode: ts.Node): ts.Node[] {
   return importNodes;
 }
 
-function getImportInformation(importNodes: ts.Node[]): ImportInformation {
+function getImportStatementMap(importNodes: ts.Node[]): Map<string, string> {
   const importStatementMap = new Map<string, string>();
 
   importNodes.forEach((node: ts.Node) => {
@@ -165,11 +159,7 @@ function getImportInformation(importNodes: ts.Node[]): ImportInformation {
       importStatementMap.set(importLiteral, completeImportStatement);
     }
   });
-  return {
-    importStatementMap,
-    startPosition: importNodes[0]?.pos,
-    endPosition: importNodes[importNodes?.length - 1]?.end,
-  };
+  return importStatementMap;
 }
 
 export function mergeImportStatements(importStatementOne, importStatementTwo): string {
@@ -182,10 +172,10 @@ async function optimizeImports(filePath: string) {
     const fileContent = await readFile(filePath);
     const rootNode = ts.createSourceFile(filePath, fileContent.toString(), ts.ScriptTarget.Latest, true);
     const importNodes = collectImportNodes(rootNode);
-    const importInformation = getImportInformation(importNodes);
+    const importStatementMap = getImportStatementMap(importNodes);
 
-    if (importInformation.importStatementMap.size > 0) {
-      const categorizedImports = categorizeImportLiterals(importInformation.importStatementMap);
+    if (importStatementMap.size > 0) {
+      const categorizedImports = categorizeImportLiterals(importStatementMap);
       const sortedAndCategorizedImports = sortImportCategories(categorizedImports);
       let result = formatImportStatements(sortedAndCategorizedImports);
 
@@ -194,7 +184,7 @@ async function optimizeImports(filePath: string) {
       importNodes
         .reverse()
         .forEach(
-          (node: ts.Node, i) =>
+          (node: ts.Node) =>
             (contentWithoutImportStatements = Buffer.from(
               contentWithoutImportStatements.slice(0, node.pos) + '' + contentWithoutImportStatements.slice(node.end)
             ))
