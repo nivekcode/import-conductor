@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/kreuzerk/import-conductor/compare/v1.2.0...v1.3.0) (2020-06-25)
+
+
+### Features
+
+* **organization:** touch imports only ([6bb5545](https://github.com/kreuzerk/import-conductor/commit/6bb5545d6c5a462bc13671b45f25a0a3575b7685))
+
 # [1.2.0](https://github.com/kreuzerk/import-conductor/compare/v1.1.0...v1.2.0) (2020-06-25)
 
 
