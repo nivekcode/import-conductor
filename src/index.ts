@@ -145,6 +145,11 @@ function getImportInformation(rootNode: ts.Node): ImportInformation {
       const importSegments = node.getChildren();
       const completeImportStatement = collectImportStatement(importSegments);
       const importLiteral = importSegments.find((segment) => segment.kind === ts.SyntaxKind.StringLiteral)?.getText();
+
+      if (importStatementMap.get(importLiteral)) {
+        // TODO merge with current importStatement
+      }
+
       if (importLiteral) {
         importStatementMap.set(importLiteral, completeImportStatement);
       }
