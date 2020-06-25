@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/kreuzerk/import-conductor/compare/v1.0.1...v1.1.0) (2020-06-25)
+
+
+### Features
+
+* **merge:** merge import statments from same lib ([ee6c247](https://github.com/kreuzerk/import-conductor/commit/ee6c247396a6928d613c6f52cd896190be0d7eb4))
+
 ## [1.0.1](https://github.com/kreuzerk/import-conductor/compare/v1.0.0...v1.0.1) (2020-06-24)
 
 
