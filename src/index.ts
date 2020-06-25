@@ -136,29 +136,35 @@ function collectImportStatement(importSegments: any) {
   }, '');
 }
 
-function getImportInformation(rootNode: ts.Node): ImportInformation {
+function collectImportNodes(rootNode: ts.Node): ts.Node[] {
   const importNodes: ts.Node[] = [];
-  const importStatementMap = new Map<string, string>();
-
   const traverse = (node: ts.Node) => {
     if (ts.isImportDeclaration(node)) {
-      const importSegments = node.getChildren();
-      const completeImportStatement = collectImportStatement(importSegments);
-      const importLiteral = importSegments.find((segment) => segment.kind === ts.SyntaxKind.StringLiteral)?.getText();
-
-      if (!importLiteral) {
-        return;
-      }
-
-      if (importStatementMap.get(importLiteral)) {
-        importStatementMap.set(importLiteral, mergeImportStatements(importStatementMap.get(importLiteral), completeImportStatement));
-      } else {
-        importStatementMap.set(importLiteral, completeImportStatement);
-      }
       importNodes.push(node);
     }
   };
   rootNode.forEachChild(traverse);
+  return importNodes;
+}
+
+function getImportInformation(importNodes: ts.Node[]): ImportInformation {
+  const importStatementMap = new Map<string, string>();
+
+  importNodes.forEach((node: ts.Node) => {
+    const importSegments = node.getChildren();
+    const completeImportStatement = collectImportStatement(importSegments);
+    const importLiteral = importSegments.find((segment) => segment.kind === ts.SyntaxKind.StringLiteral)?.getText();
+
+    if (!importLiteral) {
+      return;
+    }
+
+    if (importStatementMap.get(importLiteral)) {
+      importStatementMap.set(importLiteral, mergeImportStatements(importStatementMap.get(importLiteral), completeImportStatement));
+    } else {
+      importStatementMap.set(importLiteral, completeImportStatement);
+    }
+  });
   return {
     importStatementMap,
     startPosition: importNodes[0]?.pos,
@@ -175,15 +181,26 @@ async function optimizeImports(filePath: string) {
   if (filePath.endsWith('.ts')) {
     const fileContent = await readFile(filePath);
     const rootNode = ts.createSourceFile(filePath, fileContent.toString(), ts.ScriptTarget.Latest, true);
-    const importInformation = getImportInformation(rootNode);
+    const importNodes = collectImportNodes(rootNode);
+    const importInformation = getImportInformation(importNodes);
 
     if (importInformation.importStatementMap.size > 0) {
       const categorizedImports = categorizeImportLiterals(importInformation.importStatementMap);
       const sortedAndCategorizedImports = sortImportCategories(categorizedImports);
       let result = formatImportStatements(sortedAndCategorizedImports);
 
-      const updatedContent =
-        fileContent.slice(0, importInformation.startPosition) + result + fileContent.slice(importInformation.endPosition);
+      let contentWithoutImportStatements = fileContent;
+
+      importNodes
+        .reverse()
+        .forEach(
+          (node: ts.Node, i) =>
+            (contentWithoutImportStatements = Buffer.from(
+              contentWithoutImportStatements.slice(0, node.pos) + '' + contentWithoutImportStatements.slice(node.end)
+            ))
+        );
+
+      const updatedContent = `${result}${contentWithoutImportStatements}`;
 
       if (updatedContent !== fileContent.toString()) {
         await writeFile(filePath, updatedContent);
