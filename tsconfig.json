@@ -9,7 +9,7 @@
     "outDir": "dist",
     "resolveJsonModule": true
   },
-  "include": ["src/**/*", "index.ts"],
+  "include": ["src/**/*", "src/index.ts"],
   "exclude": ["node_modules", "**/*.spec.ts", "src/showcase"],
   "lib": ["es2015"]
 }
