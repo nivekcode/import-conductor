@@ -179,7 +179,6 @@ export function mergeImportStatements(importStatementOne, importStatementTwo): s
 
 async function optimizeImports(filePath: string) {
   if (filePath.endsWith('.ts')) {
-    console.log('File', filePath);
     const fileContent = await readFile(filePath);
     const rootNode = ts.createSourceFile(filePath, fileContent.toString(), ts.ScriptTarget.Latest, true);
     const importNodes = collectImportNodes(rootNode);
