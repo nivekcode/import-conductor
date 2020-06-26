@@ -1,3 +1,11 @@
+## [1.4.1](https://github.com/kreuzerk/import-conductor/compare/v1.4.0...v1.4.1) (2020-06-26)
+
+
+### Bug Fixes
+
+* **docs:** update README.md ([794bbd7](https://github.com/kreuzerk/import-conductor/commit/794bbd773410a520b0f8a93d8dac3a188e07011a))
+* **docs:** update README.md ([e212184](https://github.com/kreuzerk/import-conductor/commit/e2121843dd313bd052ab9198f14e502d427e8775))
+
 # [1.4.0](https://github.com/kreuzerk/import-conductor/compare/v1.3.0...v1.4.0) (2020-06-26)
 
 
