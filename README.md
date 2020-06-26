@@ -76,6 +76,8 @@ import of changed files in a pre commit hook.
 
 | Argument             | Description                                                                                                             |
 | -------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| -V --version         | Display the current version                                                                                             |
+| -h --help            | Show a help menu                                                                                                        |
 | -s --source          | regex to that matches the source files                                                                                  |
 | -p --userLibPrefixes | the prefix of custom user libraries - this prefix is used to distinguish between third party libraries and company libs |
 | --staged             | run against staged files                                                                                                |
