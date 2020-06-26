@@ -1,9 +1,21 @@
 ![Logo](https://raw.githubusercontent.com/kreuzerk/import-conductor/master/assets/logo.png)
 
-#import-conductor
-Automatically organize your import statements to keep your code clean
-and readable. Clean imports allow you to get a quick overview of the
-modules used in your code.
+# import-conductor
+
+> Automatically organize your import statements to keep your code clean
+> and readable.
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+**Table of Contents** _generated with [DocToc](https://github.com/thlorenz/doctoc)_
+
+- [import-conductor](#import-conductor)
+  - [What it does](#what-it-does)
+  - [Usage](#usage)
+  - [Arguments](#arguments)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ![Demo](https://raw.githubusercontent.com/kreuzerk/import-conductor/master/assets/demo.gif)
 
@@ -33,7 +45,7 @@ import {LoggerService} from '@myorg/logger';
 import {Observable} from 'rxjs';
 ```
 
-A cleaner version of this could look like the following:
+A cleaner version that is easy scannable would look like this:
 
 ```
 import { Component, OnInit } from '@angular/core';
@@ -51,12 +63,12 @@ Of course, it's a lot of work to order all import statements in existing code ba
 Furthermore, in bigger development teams it's hard to enforce this syntax so that every
 developer orders their imports accordingly. Especially with AutoImports in IDEs.
 
-_That's where import-conductor comes into play_.
+**That's where import-conductor comes into play**.
 Import conductor can reorder all imports in your project and you can run
 in combination with tools like for example `husky` to automatically reorder
 import of changed files in a pre commit hook.
 
-# Usage
+## Usage
 
 `import-conductor` can be run via command line or as part of your npm scripts.
 
