@@ -1,3 +1,11 @@
+## [1.4.2](https://github.com/kreuzerk/import-conductor/compare/v1.4.1...v1.4.2) (2020-06-26)
+
+
+### Bug Fixes
+
+* **gif:** revert GIF ([2d08627](https://github.com/kreuzerk/import-conductor/commit/2d0862717a4a7e3ca7b49f05624c1fe30bced1a3))
+* **gif:** update demo GIF ([8bc5532](https://github.com/kreuzerk/import-conductor/commit/8bc55325e4568f90e5b92bab07bcf0b2985e70a8))
+
 ## [1.4.1](https://github.com/kreuzerk/import-conductor/compare/v1.4.0...v1.4.1) (2020-06-26)
 
 
