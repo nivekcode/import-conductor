@@ -22,7 +22,7 @@ commander
   .option('-s --source <string>', 'path to the source files', './src/*')
   .option('-p --userLibPrefixes <value>', 'the prefix of custom user libraries', collect, [])
   .option('--staged', 'run against staged files', false)
-  .option('--disableAutoAdd', 'disable automatically adding the commited files when the staged option is used', false)
+  .option('-d --disableAutoAdd', 'disable automatically adding the commited files when the staged option is used', false)
   .parse(process.argv);
 
 interface ImportCategories {
