@@ -7,12 +7,9 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-**Table of Contents** _generated with [DocToc](https://github.com/thlorenz/doctoc)_
-
-- [import-conductor](#import-conductor)
-  - [What it does](#what-it-does)
-  - [Usage](#usage)
-  - [Arguments](#arguments)
+- [What it does](#what-it-does)
+- [Usage](#usage)
+- [Options](#options)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -71,9 +68,9 @@ import of changed files in a pre commit hook.
 
 `import-conductor` can be run via command line or as part of your npm scripts.
 
-## Arguments
+## Options
 
-| Argument             | Description                                                                                                             |
+| Option               | Description                                                                                                             |
 | -------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | -V --version         | Display the current version                                                                                             |
 | -h --help            | Show a help menu                                                                                                        |
