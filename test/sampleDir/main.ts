@@ -1,14 +1,17 @@
-import {SomeModule} from './someModule';
-import {FooModule} from '../someModule';
-import {environment} from './environments/environment';
-import {enableProdMode} from '@angular/core';
-import {enableProdMode} from '@custom/something';
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import { enableProdMode } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+
+import { enableProdMode } from '@custom/something';
+
+import { FooModule } from '../someModule';
+
+import { environment } from './environments/environment';
+import { SomeModule } from './someModule';
 
 if (environment.production) {
-    enableProdMode();
+  enableProdMode();
 }
 
 platformBrowserDynamic()
-    .bootstrapModule(SomeModule)
-    .catch(err => console.error(err));
+  .bootstrapModule(SomeModule)
+  .catch((err) => console.error(err));

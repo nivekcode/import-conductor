@@ -11,6 +11,8 @@ import simpleGit, { SimpleGit } from 'simple-git';
 
 import * as packageJSON from '../package.json';
 
+import { getFilePathsFromRegex } from './regex-helper';
+
 const git: SimpleGit = simpleGit();
 const readFile = promisify(fs.readFile);
 const opendir = promisify(fs.opendir);
@@ -19,7 +21,7 @@ const writeFile = promisify(fs.writeFile);
 const collect = (value, previous) => previous.concat([value]);
 commander
   .version(packageJSON.version)
-  .option('-s --source <string>', 'path to the source files', './src/*')
+  .option('-s --source <string>', 'path to the source files', './src/**/*.ts')
   .option('-p --userLibPrefixes <value>', 'the prefix of custom user libraries', collect, [])
   .option('--staged', 'run against staged files', false)
   .option('-d --disableAutoAdd', 'disable automatically adding the commited files when the staged option is used', false)
@@ -30,17 +32,6 @@ interface ImportCategories {
   userLibraryPot: Map<string, string>;
   differentUserModulePot: Map<string, string>;
   sameModulePot: Map<string, string>;
-}
-
-async function* walk(dir: string): any {
-  for await (const d of await opendir(dir)) {
-    const entry = join(dir, d.name);
-    if (d.isDirectory()) {
-      yield* await walk(entry);
-    } else if (d.isFile()) {
-      yield entry;
-    }
-  }
 }
 
 function categorizeImportLiterals(importLiterals: Map<string, string>): ImportCategories {
@@ -214,7 +205,8 @@ async function optimizeImports(filePath: string) {
       await optimizeImports(p);
     }
   } else {
-    for await (const p of walk(resolve(commander.source))) {
+    const files = await getFilePathsFromRegex(commander.source);
+    for await (const p of files) {
       await optimizeImports(p);
     }
   }

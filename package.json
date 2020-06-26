@@ -10,9 +10,9 @@
     "copy:readme": "copyfiles ./README.md ./dist",
     "format:write": "prettier --write 'index.ts'",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node ./src/index.ts -s './test' -p '@custom'",
+    "start": "ts-node ./src/index.ts -s './test/**/*.ts' -p '@custom'",
     "start:staged": "ts-node ./src/index.ts --staged true",
-    "start:bar": "ts-node ./src/index.ts -s test/sampleDir/bar",
+    "start:bar": "ts-node ./src/index.ts -s test/sampleDir/bar.ts",
     "release": "semantic-release"
   },
   "husky": {
@@ -43,6 +43,7 @@
     "changed-git-files": "0.0.1",
     "commander": "^5.1.0",
     "git-changed-files": "^1.0.0",
+    "glob": "^7.1.6",
     "simple-git": "^2.9.0",
     "typescript": "^3.9.5"
   },
