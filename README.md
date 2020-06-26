@@ -2,8 +2,7 @@
 
 # import-conductor
 
-> Automatically organize your import statements to keep your code clean
-> and readable.
+> Automatically organize your TypeScript imports to keep them clean and readable.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
