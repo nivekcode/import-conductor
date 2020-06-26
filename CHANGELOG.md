@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/kreuzerk/import-conductor/compare/v1.3.0...v1.4.0) (2020-06-26)
+
+
+### Features
+
+* **regex:** use regex instead of path ([607a062](https://github.com/kreuzerk/import-conductor/commit/607a06216ed9532dfefaa34177c89e8cf999a3af))
+
 # [1.3.0](https://github.com/kreuzerk/import-conductor/compare/v1.2.0...v1.3.0) (2020-06-25)
 
 
