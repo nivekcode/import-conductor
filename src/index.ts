@@ -3,7 +3,6 @@ import chalk from 'chalk';
 import commander from 'commander';
 import * as fs from 'fs';
 import * as gitChangedFiles from 'git-changed-files';
-import { resolve, join } from 'path';
 import ts from 'typescript';
 import { promisify } from 'util';
 
@@ -15,7 +14,6 @@ import { getFilePathsFromRegex } from './regex-helper';
 
 const git: SimpleGit = simpleGit();
 const readFile = promisify(fs.readFile);
-const opendir = promisify(fs.opendir);
 const writeFile = promisify(fs.writeFile);
 
 const collect = (value, previous) => previous.concat([value]);
