@@ -5,7 +5,6 @@ import * as fs from 'fs';
 import * as gitChangedFiles from 'git-changed-files';
 import ts from 'typescript';
 import { promisify } from 'util';
-
 import simpleGit, { SimpleGit } from 'simple-git';
 
 import * as packageJSON from '../package.json';
