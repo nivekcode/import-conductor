@@ -1,3 +1,10 @@
+## [1.4.3](https://github.com/kreuzerk/import-conductor/compare/v1.4.2...v1.4.3) (2020-07-05)
+
+
+### Bug Fixes
+
+* **imports:** adjust imports ([ce3607a](https://github.com/kreuzerk/import-conductor/commit/ce3607af93ddfc39a4853f75490604fc97283615))
+
 ## [1.4.2](https://github.com/kreuzerk/import-conductor/compare/v1.4.1...v1.4.2) (2020-06-26)
 
 
