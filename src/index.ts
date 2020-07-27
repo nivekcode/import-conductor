@@ -2,7 +2,7 @@
 import chalk from 'chalk';
 import commander from 'commander';
 import * as fs from 'fs';
-import * as gitChangedFiles from 'git-changed-files';
+import gitChangedFiles from 'git-changed-files';
 import ts from 'typescript';
 import { promisify } from 'util';
 import simpleGit, { SimpleGit } from 'simple-git';
