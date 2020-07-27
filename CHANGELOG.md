@@ -1,3 +1,10 @@
+## [1.4.4](https://github.com/kreuzerk/import-conductor/compare/v1.4.3...v1.4.4) (2020-07-27)
+
+
+### Bug Fixes
+
+* **imports:** fix wrong import of gitChangedFiles ([f775f69](https://github.com/kreuzerk/import-conductor/commit/f775f69720349e8c27ee04b9b9685f661f3986fb))
+
 ## [1.4.3](https://github.com/kreuzerk/import-conductor/compare/v1.4.2...v1.4.3) (2020-07-05)
 
 
