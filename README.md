@@ -74,7 +74,7 @@ imports of changed files in a pre commit hook.
 - Run in the command line:
 
 ```shell script
-
+npx import-conductor -s customer.component.ts -p @myorg
 ```
 
 - Run as a npm script:
