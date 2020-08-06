@@ -1,5 +1,5 @@
-import commander from 'commander';
+import { getConfig } from './config';
 
 export function isCustomImport(literal: string): boolean {
-  return commander.userLibPrefixes.some((prefix) => literal.startsWith(prefix));
+  return getConfig().userLibPrefixes.some((prefix) => literal.startsWith(prefix));
 }

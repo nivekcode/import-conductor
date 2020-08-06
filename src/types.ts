@@ -4,3 +4,11 @@ export interface ImportCategories {
   differentUserModulePot: Map<string, string>;
   sameModulePot: Map<string, string>;
 }
+
+export interface Config {
+  silent: boolean;
+  staged: boolean;
+  disableAutoAdd: boolean;
+  source: string;
+  userLibPrefixes: string[];
+}

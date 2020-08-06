@@ -1,6 +1,6 @@
 import ts from 'typescript';
 import chalk from 'chalk';
-import commander from 'commander';
+import { getConfig } from './config';
 import simpleGit, { SimpleGit } from 'simple-git';
 import { promisify } from 'util';
 import fs from 'fs';
@@ -15,7 +15,9 @@ const readFile = promisify(fs.readFile);
 const writeFile = promisify(fs.writeFile);
 
 export async function optimizeImports(filePath: string) {
-  if (filePath.endsWith('.ts')) {
+  let reordered = 0;
+  if (/\.tsx?$/.test(filePath)) {
+    const { silent, staged, disableAutoAdd } = getConfig();
     const fileContent = await readFile(filePath);
     const rootNode = ts.createSourceFile(filePath, fileContent.toString(), ts.ScriptTarget.Latest, true);
     const importNodes = collectImportNodes(rootNode);
@@ -38,18 +40,21 @@ export async function optimizeImports(filePath: string) {
         );
 
       const updatedContent = `${result}${contentWithoutImportStatements}`;
+      const log = (color: string, msg: string) => !silent && console.log(chalk[color](`import-conductor: ${filePath} (${msg})`));
 
       if (updatedContent !== fileContent.toString()) {
+        reordered = 1;
         await writeFile(filePath, updatedContent);
-        console.log(chalk.blue(`import-conductor: ${filePath} (imports reordered)`));
-
-        if (commander.staged && !commander.disableAutoAdd) {
+        log('green', 'imports reordered');
+        if (staged && !disableAutoAdd) {
           await git.add(filePath);
-          console.log(chalk.cyan(`import-conductor: ${filePath} (added to git)`));
+          log('cyan', 'added to git');
         }
       } else {
-        console.log(chalk.gray(`import-conductor: ${filePath} (no change needed)`));
+        log('gray', 'no change needed');
       }
     }
   }
+
+  return reordered;
 }

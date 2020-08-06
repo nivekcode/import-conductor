@@ -45,6 +45,7 @@
     "commander": "^5.1.0",
     "git-changed-files": "^1.0.0",
     "glob": "^7.1.6",
+    "ora": "^4.1.0",
     "simple-git": "^2.9.0",
     "typescript": "^3.9.5"
   },

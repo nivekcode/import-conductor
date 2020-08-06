@@ -66,24 +66,49 @@ Furthermore, in bigger development teams it's hard to enforce this syntax so tha
 developer orders their imports accordingly. Especially with AutoImports in IDEs.
 
 **That's where import-conductor comes into play**.
-Import conductor can reorder all imports in your project and you can run
-in combination with tools like for example `husky` to automatically reorder
-import of changed files in a pre commit hook.
+Import-conductor can reorder all imports in your project, and combined with tools like [`husky`](https://github.com/typicode/husky#readme) you can automatically reorder
+imports of changed files in a pre commit hook.
 
 ## Usage
 
-`import-conductor` can be run via command line or as part of your npm scripts.
+- Run in the command line:
+
+```shell script
+
+```
+
+- Run as a npm script:
+
+```json
+ "scripts": {
+    "import-conductor": "import-conductor -p @myorg"
+ },
+```
+
+- Integrate with tools like [`husky`](https://github.com/typicode/husky#readme):
+
+```json
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "eslint --fix",
+      "import-conductor --staged -p @myorg",
+      "git add"
+    ]
+  },
+```
 
 ## Options
 
-| Option               | Description                                                                                                             |
-| -------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| -V --version         | Display the current version                                                                                             |
-| -h --help            | Show a help menu                                                                                                        |
-| -s --source          | regex to that matches the source files                                                                                  |
-| -p --userLibPrefixes | the prefix of custom user libraries - this prefix is used to distinguish between third party libraries and company libs |
-| --staged             | run against staged files                                                                                                |
-| -d --disableAutoAdd  | disable automatically adding the commited files when the staged option is used                                          |
+| Option               | Description                                                                                                             | Default value   |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------- | --------------- |
+| -V --version         | Display the current version                                                                                             | `-`             |
+| -h --help            | Show a help menu                                                                                                        | `-`             |
+| -s --source          | Regex to that matches the source files                                                                                  | `./src/**/*.ts` |
+| -p --userLibPrefixes | The prefix of custom user libraries - this prefix is used to distinguish between third party libraries and company libs | `[]`            |
+| --staged             | Run against staged files                                                                                                | `false`         |
+| -d --disableAutoAdd  | Disable automatically adding the committed files when the staged option is used                                         | `false`         |
+| --silent             | Run with minimal log output                                                                                             | `false`         |
 
 ## Contributors ✨
 
