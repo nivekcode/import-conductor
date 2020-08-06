@@ -1,6 +1,6 @@
-import { mergeImportStatements } from './import.service';
+import { mergeImportStatements } from '../merge-import-statements';
 
-describe('Importsservice', () => {
+describe('mergeImportStatements', () => {
   it('should merge two imports together', () => {
     const importStatementOne = "import {quux} from './quux/quux';";
     const importStatementTwo = "import {quox} from './quux/quux';";

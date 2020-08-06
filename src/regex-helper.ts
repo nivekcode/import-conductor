@@ -1,15 +1,17 @@
-import * as util from 'util';
 import { Glob } from 'glob';
+import * as util from 'util';
 
-const getFilesFromRegex = util.promisify(Glob);
+const glob = util.promisify(Glob);
 
-export const getFilePathsFromRegex = async (regex: string): Promise<string[]> => {
-  const directoryFiles = await getFilesFromRegex(regex, {
+export async function getFilePaths(regex: string): Promise<string[]> {
+  const directoryFiles = await glob(regex, {
     nodir: true,
   });
+
   if (directoryFiles.length === 0) {
     console.log(`No matching files for regex: "${regex}"`);
     return;
   }
+
   return directoryFiles;
-};
+}

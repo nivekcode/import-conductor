@@ -9,7 +9,7 @@
     "prebuild": "npm run copy:readme",
     "copy:readme": "copyfiles ./README.md ./dist",
     "format:write": "prettier --write 'index.ts'",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "ts-node ./src/index.ts -s './test/**/*.ts' -p '@custom'",
     "start:staged": "ts-node ./src/index.ts --staged true",
     "start:bar": "ts-node ./src/index.ts -s test/sampleDir/bar.ts",
