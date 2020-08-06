@@ -1,0 +1,43 @@
+{
+  "projectName": "import-conductor",
+  "projectOwner": "kreuzerk",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "none",
+  "contributors": [
+    {
+      "login": "kreuzerk",
+      "name": "Kevin Kreuzer",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5468954?v=4",
+      "profile": "https://medium.com/@kevinkreuzer",
+      "contributions": [
+        "code",
+        "design",
+        "doc",
+        "ideas",
+        "infra",
+        "maintenance",
+        "test"
+      ]
+    },
+    {
+      "login": "shaharkazaz",
+      "name": "Shahar Kazaz",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/17194830?v=4",
+      "profile": "https://github.com/shaharkazaz",
+      "contributions": [
+        "code",
+        "doc",
+        "ideas",
+        "infra",
+        "test"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}

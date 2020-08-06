@@ -4,6 +4,7 @@
   "description": "Automatically organize your Typescript import statements",
   "main": "index.js",
   "scripts": {
+    "contributors:add": "all-contributors add",
     "build": "tsc",
     "bump-version": "rjp package.json version $VERSION",
     "prebuild": "npm run copy:readme",
@@ -53,6 +54,7 @@
     "@semantic-release/git": "^7.0.18",
     "@types/jest": "^26.0.3",
     "@types/node": "^14.0.12",
+    "all-contributors-cli": "^6.17.0",
     "copyfiles": "^2.3.0",
     "husky": "^4.2.5",
     "jest": "^26.1.0",
