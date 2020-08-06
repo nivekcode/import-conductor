@@ -23,36 +23,39 @@ export async function optimizeImports(filePath: string) {
     const importNodes = collectImportNodes(rootNode);
     const importStatementMap = getImportStatementMap(importNodes);
 
-    if (importStatementMap.size > 0) {
-      const categorizedImports = categorizeImportLiterals(importStatementMap);
-      const sortedAndCategorizedImports = sortImportCategories(categorizedImports);
-      let result = formatImportStatements(sortedAndCategorizedImports);
+    if (importStatementMap.size === 0) {
+      return;
+    }
 
-      let contentWithoutImportStatements = fileContent;
+    const categorizedImports = categorizeImportLiterals(importStatementMap);
+    const sortedAndCategorizedImports = sortImportCategories(categorizedImports);
+    let result = formatImportStatements(sortedAndCategorizedImports);
 
-      importNodes
-        .reverse()
-        .forEach(
-          (node: ts.Node) =>
-            (contentWithoutImportStatements = Buffer.from(
-              contentWithoutImportStatements.slice(0, node.pos) + '' + contentWithoutImportStatements.slice(node.end)
-            ))
-        );
+    let contentWithoutImportStatements = fileContent;
 
-      const updatedContent = `${result}${contentWithoutImportStatements}`;
-      const log = (color: string, msg: string) => !silent && console.log(chalk[color](`import-conductor: ${filePath} (${msg})`));
+    importNodes
+      .reverse()
+      .forEach(
+        (node: ts.Node) =>
+          (contentWithoutImportStatements = Buffer.from(
+            contentWithoutImportStatements.slice(0, node.pos) + '' + contentWithoutImportStatements.slice(node.end)
+          ))
+      );
 
-      if (updatedContent !== fileContent.toString()) {
-        reordered = 1;
-        await writeFile(filePath, updatedContent);
-        log('green', 'imports reordered');
-        if (staged && !disableAutoAdd) {
-          await git.add(filePath);
-          log('cyan', 'added to git');
-        }
-      } else {
-        log('gray', 'no change needed');
+    const updatedContent = `${result}${contentWithoutImportStatements}`;
+    const fileHasChanged = updatedContent !== fileContent.toString();
+    const log = (color: string, msg: string) => !silent && console.log(chalk[color](`import-conductor: ${filePath} (${msg})`));
+
+    if (fileHasChanged) {
+      reordered = 1;
+      await writeFile(filePath, updatedContent);
+      log('green', 'imports reordered');
+      if (staged && !disableAutoAdd) {
+        await git.add(filePath);
+        log('cyan', 'added to git');
       }
+    } else {
+      log('gray', 'no change needed');
     }
   }
 
