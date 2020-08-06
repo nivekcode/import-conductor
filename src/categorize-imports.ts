@@ -1,7 +1,10 @@
 import { ImportCategories } from './types';
 import { isCustomImport } from './is-custom-import';
+import { getConfig } from './config';
+import { breakdownPath } from './helper';
 
 export function categorizeImportLiterals(importLiterals: Map<string, string>): ImportCategories {
+  const { thirdPartyDependencies } = getConfig();
   const importCategories: ImportCategories = {
     thirdPartyImportPot: new Map<string, string>(),
     userLibraryPot: new Map<string, string>(),
@@ -25,7 +28,14 @@ export function categorizeImportLiterals(importLiterals: Map<string, string>): I
       return;
     }
 
-    importCategories.thirdPartyImportPot.set(importLiteral, fullImportStatement);
+    const normalized = importLiteral.replace(/['"]/g, '');
+    const isThirdParty = breakdownPath(normalized).some((subPath) => thirdPartyDependencies.has(subPath));
+
+    if (isThirdParty) {
+      importCategories.thirdPartyImportPot.set(importLiteral, fullImportStatement);
+    } else {
+      importCategories.differentUserModulePot.set(importLiteral, fullImportStatement);
+    }
   });
 
   return importCategories;

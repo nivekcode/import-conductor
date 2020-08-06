@@ -90,9 +90,9 @@ npx import-conductor -s customer.component.ts -p @myorg
 ```json
   "lint-staged": {
     "*.{ts,tsx}": [
+      "import-conductor --staged -p @myorg",
       "prettier --write",
       "eslint --fix",
-      "import-conductor --staged -p @myorg",
       "git add"
     ]
   },

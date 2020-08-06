@@ -11,4 +11,5 @@ export interface Config {
   disableAutoAdd: boolean;
   source: string;
   userLibPrefixes: string[];
+  thirdPartyDependencies: Set<string>;
 }
