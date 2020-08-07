@@ -1,7 +1,7 @@
 import { ImportCategories } from './types';
 
 export function formatImportStatements(importCategories: ImportCategories) {
-  const { differentUserModulePot, sameModulePot, thirdPartyImportPot, userLibraryPot } = importCategories;
+  const { differentModuleImports, sameModuleImports, thirdPartyImports, userLibraryImports } = importCategories;
   let result = '';
 
   function updateResult(sortedPot: Map<string, string>, spaceBefore = true) {
@@ -14,10 +14,10 @@ export function formatImportStatements(importCategories: ImportCategories) {
     );
   }
 
-  updateResult(thirdPartyImportPot, false);
-  updateResult(userLibraryPot, thirdPartyImportPot.size > 0);
-  updateResult(differentUserModulePot, thirdPartyImportPot.size > 0 || userLibraryPot.size > 0);
-  updateResult(sameModulePot, thirdPartyImportPot.size > 0 || userLibraryPot.size > 0 || differentUserModulePot.size > 0);
+  updateResult(thirdPartyImports, false);
+  updateResult(userLibraryImports, thirdPartyImports.size > 0);
+  updateResult(differentModuleImports, thirdPartyImports.size > 0 || userLibraryImports.size > 0);
+  updateResult(sameModuleImports, thirdPartyImports.size > 0 || userLibraryImports.size > 0 || differentModuleImports.size > 0);
 
   return result;
 }

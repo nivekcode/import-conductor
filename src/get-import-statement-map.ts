@@ -1,8 +1,10 @@
 import ts from 'typescript';
 import { collectImportStatement } from './collect-import-statements';
 import { mergeImportStatements } from './merge-import-statements';
+import { getConfig } from './config';
 
 export function getImportStatementMap(importNodes: ts.Node[]): Map<string, string> {
+  const { autoMerge } = getConfig();
   const importStatementMap = new Map<string, string>();
 
   importNodes.forEach((node: ts.Node) => {
@@ -15,10 +17,13 @@ export function getImportStatementMap(importNodes: ts.Node[]): Map<string, strin
     }
 
     const existingImport = importStatementMap.get(importLiteral);
-    if (existingImport) {
+    const canMerge = autoMerge && existingImport && [existingImport, completeImportStatement].every((i) => !i.includes('*'));
+
+    if (canMerge) {
       importStatementMap.set(importLiteral, mergeImportStatements(existingImport, completeImportStatement));
     } else {
-      importStatementMap.set(importLiteral, completeImportStatement);
+      const key = existingImport ? `${importLiteral}_${Math.random()}` : importLiteral;
+      importStatementMap.set(key, completeImportStatement);
     }
   });
 

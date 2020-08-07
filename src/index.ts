@@ -12,20 +12,30 @@ import ora from 'ora';
 import chalk from 'chalk';
 import { getThirdParty } from './get-third-party';
 
+const isEnabled = (bool) => bool !== 'false';
 const collect = (value, previous) => previous.concat([value]);
 commander
   .version(packageJSON.version)
-  .option('--silent', 'run with minimal log output', false)
+  .option('--silent <boolean>', 'run with minimal log output')
   .option('-s --source <string>', 'path to the source files', './src/**/*.ts')
   .option('-p --userLibPrefixes <value>', 'the prefix of custom user libraries', collect, [])
   .option('--staged', 'run against staged files', false)
-  .option('-d --disableAutoAdd', 'disable automatically adding the committed files when the staged option is used', false)
+  .option('-d --autoAdd <boolean>', 'automatically adding the committed files when the staged option is used')
+  .option('-m --autoMerge <boolean>', 'automatically merge 2 import statements from the same source')
   .parse(process.argv);
 
 (async () => {
-  const { silent, staged, source, userLibPrefixes, disableAutoAdd } = commander;
+  const { silent, staged, source, userLibPrefixes, autoAdd, autoMerge } = commander;
   const thirdPartyDependencies = getThirdParty();
-  setConfig({ silent, staged, source, userLibPrefixes, disableAutoAdd, thirdPartyDependencies });
+  setConfig({
+    silent: isEnabled(silent),
+    staged,
+    source,
+    userLibPrefixes,
+    autoAdd: isEnabled(autoAdd),
+    thirdPartyDependencies,
+    autoMerge: isEnabled(autoMerge),
+  });
   const files = staged ? (await gitChangedFiles({ showCommitted: false })).unCommittedFiles : await getFilesPaths(source);
 
   if (files.length === 0) {

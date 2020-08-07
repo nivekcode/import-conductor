@@ -106,9 +106,10 @@ npx import-conductor -s customer.component.ts -p @myorg
 | -h --help            | Show a help menu                                                                                                        | `-`             |
 | -s --source          | Regex to that matches the source files                                                                                  | `./src/**/*.ts` |
 | -p --userLibPrefixes | The prefix of custom user libraries - this prefix is used to distinguish between third party libraries and company libs | `[]`            |
+| -d --autoAdd         | Disable automatically adding the committed files when the staged option is used                                         | `true`          |
+| -m --autoMerge       | Automatically merge 2 import statements from the same source                                                            | `true`          |
 | --staged             | Run against staged files                                                                                                | `false`         |
-| -d --disableAutoAdd  | Disable automatically adding the committed files when the staged option is used                                         | `false`         |
-| --silent             | Run with minimal log output                                                                                             | `false`         |
+| --silent             | Run with minimal log output                                                                                             | `true`          |
 
 ## Contributors ✨
 

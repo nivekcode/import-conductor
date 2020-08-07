@@ -1,14 +1,15 @@
 export interface ImportCategories {
-  thirdPartyImportPot: Map<string, string>;
-  userLibraryPot: Map<string, string>;
-  differentUserModulePot: Map<string, string>;
-  sameModulePot: Map<string, string>;
+  thirdPartyImports: Map<string, string>;
+  userLibraryImports: Map<string, string>;
+  differentModuleImports: Map<string, string>;
+  sameModuleImports: Map<string, string>;
 }
 
 export interface Config {
   silent: boolean;
   staged: boolean;
-  disableAutoAdd: boolean;
+  autoAdd: boolean;
+  autoMerge: boolean;
   source: string;
   userLibPrefixes: string[];
   thirdPartyDependencies: Set<string>;

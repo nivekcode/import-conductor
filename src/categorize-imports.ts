@@ -5,26 +5,24 @@ import { breakdownPath } from './helper';
 
 export function categorizeImportLiterals(importLiterals: Map<string, string>): ImportCategories {
   const { thirdPartyDependencies } = getConfig();
-  const importCategories: ImportCategories = {
-    thirdPartyImportPot: new Map<string, string>(),
-    userLibraryPot: new Map<string, string>(),
-    differentUserModulePot: new Map<string, string>(),
-    sameModulePot: new Map<string, string>(),
-  };
+  const thirdPartyImports = new Map<string, string>();
+  const userLibraryImports = new Map<string, string>();
+  const differentModuleImports = new Map<string, string>();
+  const sameModuleImports = new Map<string, string>();
 
   importLiterals.forEach((fullImportStatement: string, importLiteral: string) => {
     if (importLiteral.startsWith(`'./`)) {
-      importCategories.sameModulePot.set(importLiteral, fullImportStatement);
+      sameModuleImports.set(importLiteral, fullImportStatement);
       return;
     }
 
     if (importLiteral.startsWith(`'..`)) {
-      importCategories.differentUserModulePot.set(importLiteral, fullImportStatement);
+      differentModuleImports.set(importLiteral, fullImportStatement);
       return;
     }
 
     if (isCustomImport(importLiteral)) {
-      importCategories.userLibraryPot.set(importLiteral, fullImportStatement);
+      userLibraryImports.set(importLiteral, fullImportStatement);
       return;
     }
 
@@ -32,11 +30,11 @@ export function categorizeImportLiterals(importLiterals: Map<string, string>): I
     const isThirdParty = breakdownPath(normalized).some((subPath) => thirdPartyDependencies.has(subPath));
 
     if (isThirdParty) {
-      importCategories.thirdPartyImportPot.set(importLiteral, fullImportStatement);
+      thirdPartyImports.set(importLiteral, fullImportStatement);
     } else {
-      importCategories.differentUserModulePot.set(importLiteral, fullImportStatement);
+      differentModuleImports.set(importLiteral, fullImportStatement);
     }
   });
 
-  return importCategories;
+  return { thirdPartyImports, differentModuleImports, sameModuleImports, userLibraryImports };
 }

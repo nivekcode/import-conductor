@@ -17,14 +17,14 @@ const writeFile = promisify(fs.writeFile);
 export async function optimizeImports(filePath: string) {
   let reordered = 0;
   if (/\.tsx?$/.test(filePath)) {
-    const { silent, staged, disableAutoAdd } = getConfig();
+    const { silent, staged, autoAdd } = getConfig();
     const fileContent = await readFile(filePath);
     const rootNode = ts.createSourceFile(filePath, fileContent.toString(), ts.ScriptTarget.Latest, true);
     const importNodes = collectImportNodes(rootNode);
     const importStatementMap = getImportStatementMap(importNodes);
 
     if (importStatementMap.size === 0) {
-      return;
+      return reordered;
     }
 
     const categorizedImports = categorizeImportLiterals(importStatementMap);
@@ -50,7 +50,7 @@ export async function optimizeImports(filePath: string) {
       reordered = 1;
       await writeFile(filePath, updatedContent);
       log('green', 'imports reordered');
-      if (staged && !disableAutoAdd) {
+      if (staged && !autoAdd) {
         await git.add(filePath);
         log('cyan', 'added to git');
       }
