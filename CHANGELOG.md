@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/kreuzerk/import-conductor/compare/v1.4.4...v1.5.0) (2020-08-07)
+
+
+### Features
+
+* **options:** trigger new release ([1f4d380](https://github.com/kreuzerk/import-conductor/commit/1f4d3800c615007e57204fc7dfade5f671f6e499))
+
 ## [1.4.4](https://github.com/kreuzerk/import-conductor/compare/v1.4.3...v1.4.4) (2020-07-27)
 
 
