@@ -36,7 +36,7 @@ Import conductor will order all imports into the following blocks:
 ```
 
 Take a look at the following source file. It's hard to distinguish
-between third party imports, company wide imports and files from same module.
+between third-party imports, company wide imports and files from same module.
 
 ```
 import { Component, OnInit } from '@angular/core';
