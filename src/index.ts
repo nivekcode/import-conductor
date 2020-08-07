@@ -43,7 +43,7 @@ commander
     return;
   }
 
-  let spinner = silent ? ora('Conducting imports').start() : null;
+  let spinner = isEnabled(silent) ? ora('Conducting imports').start() : null;
   let importsReordered = 0;
   for await (const p of files) {
     importsReordered += await optimizeImports(p);
