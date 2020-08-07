@@ -49,7 +49,7 @@ commander
     importsReordered += await optimizeImports(p);
   }
 
-  const msg = importsReordered === 0 ? 'No change needed in all the files ✨' : `${importsReordered} file imports were reordered.`;
+  const msg = importsReordered === 0 ? 'No changes needed in all the files ✨' : `${importsReordered} file imports were reordered.`;
   spinner?.succeed(`Conducting imports - done!`);
   console.log(`🏁 Summary: ${msg}\n`);
 })();
