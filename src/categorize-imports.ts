@@ -1,7 +1,7 @@
 import { ImportCategories } from './types';
 import { isCustomImport } from './is-custom-import';
 import { getConfig } from './config';
-import { breakdownPath } from './helper';
+import { breakdownPath } from './helpers';
 
 export function categorizeImportLiterals(importLiterals: Map<string, string>): ImportCategories {
   const { thirdPartyDependencies } = getConfig();
