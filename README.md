@@ -38,27 +38,27 @@ Import conductor will order all imports into the following blocks:
 Take a look at the following source file. It's hard to distinguish
 between third-party imports, company wide imports and files from same module.
 
-```
+```typescript
 import { Component, OnInit } from '@angular/core';
-import {CustomerService} from './customer.service';
-import {Customer} from './customer.model';
-import {Order} from '../order/order.model';
-import {LoggerService} from '@myorg/logger';
-import {Observable} from 'rxjs';
+import { CustomerService } from './customer.service';
+import { Customer } from './customer.model';
+import { Order } from '../order/order.model';
+import { LoggerService } from '@myorg/logger';
+import { Observable } from 'rxjs';
 ```
 
 A cleaner version that is easy scannable would look like this:
 
-```
+```typescript
 import { Component, OnInit } from '@angular/core';
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 
-import {LoggerService} from '@myorg/logger';
+import { LoggerService } from '@myorg/logger';
 
-import {Order} from '../order/order.model';
+import { Order } from '../order/order.model';
 
-import {CustomerService} from './customer.service';
-import {Customer} from './customer.model';
+import { CustomerService } from './customer.service';
+import { Customer } from './customer.model';
 ```
 
 Of course, it's a lot of work to order all import statements in existing code bases.
