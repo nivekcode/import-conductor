@@ -57,8 +57,8 @@ import { LoggerService } from '@myorg/logger';
 
 import { Order } from '../order/order.model';
 
-import { CustomerService } from './customer.service';
 import { Customer } from './customer.model';
+import { CustomerService } from './customer.service';
 ```
 
 Of course, it's a lot of work to order all import statements in existing code bases.
@@ -121,7 +121,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://medium.com/@kevinkreuzer"><img src="https://avatars0.githubusercontent.com/u/5468954?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Kevin Kreuzer</b></sub></a><br /><a href="https://github.com/kreuzerk/import-conductor/commits?author=kreuzerk" title="Code">💻</a> <a href="#design-kreuzerk" title="Design">🎨</a> <a href="https://github.com/kreuzerk/import-conductor/commits?author=kreuzerk" title="Documentation">📖</a> <a href="#ideas-kreuzerk" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-kreuzerk" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-kreuzerk" title="Maintenance">🚧</a> <a href="https://github.com/kreuzerk/import-conductor/commits?author=kreuzerk" title="Tests">⚠️</a></td>
-    <td align="center"><a href="https://github.com/shaharkazaz"><img src="https://avatars2.githubusercontent.com/u/17194830?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Shahar Kazaz</b></sub></a><br /><a href="https://github.com/kreuzerk/import-conductor/commits?author=shaharkazaz" title="Code">💻</a> <a href="https://github.com/kreuzerk/import-conductor/commits?author=shaharkazaz" title="Documentation">📖</a> <a href="#ideas-shaharkazaz" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-shaharkazaz" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/kreuzerk/import-conductor/commits?author=shaharkazaz" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/shaharkazaz"><img src="https://avatars2.githubusercontent.com/u/17194830?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Shahar Kazaz</b></sub></a><br /><a href="https://github.com/kreuzerk/import-conductor/commits?author=shaharkazaz" title="Code">💻</a> <a href="https://github.com/kreuzerk/import-conductor/commits?author=shaharkazaz" title="Documentation">📖</a> <a href="#ideas-shaharkazaz" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-shaharkazaz" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-shaharkazaz" title="Maintenance">🚧</a><a href="https://github.com/kreuzerk/import-conductor/commits?author=shaharkazaz" title="Tests">⚠️</a></td>
   </tr>
 </table>
 

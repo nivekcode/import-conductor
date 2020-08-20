@@ -11,22 +11,23 @@ export function categorizeImportLiterals(importLiterals: Map<string, string>): I
   const sameModuleImports = new Map<string, string>();
 
   importLiterals.forEach((fullImportStatement: string, importLiteral: string) => {
-    if (importLiteral.startsWith(`'./`)) {
+    const normalized = importLiteral.replace(/['"]/g, '');
+
+    if (normalized.startsWith('./')) {
       sameModuleImports.set(importLiteral, fullImportStatement);
       return;
     }
 
-    if (importLiteral.startsWith(`'..`)) {
+    if (normalized.startsWith('..')) {
       differentModuleImports.set(importLiteral, fullImportStatement);
       return;
     }
 
-    if (isCustomImport(importLiteral)) {
+    if (isCustomImport(normalized)) {
       userLibraryImports.set(importLiteral, fullImportStatement);
       return;
     }
 
-    const normalized = importLiteral.replace(/['"]/g, '');
     const isThirdParty = breakdownPath(normalized).some((subPath) => thirdPartyDependencies.has(subPath));
 
     if (isThirdParty) {
