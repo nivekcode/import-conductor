@@ -2,8 +2,7 @@ import ts from 'typescript';
 import chalk from 'chalk';
 import { getConfig } from './config';
 import simpleGit, { SimpleGit } from 'simple-git';
-import { promisify } from 'util';
-import fs from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 import { collectImportNodes } from './collect-import-nodes';
 import { getImportStatementMap } from './get-import-statement-map';
 import { categorizeImportLiterals } from './categorize-imports';
@@ -11,14 +10,12 @@ import { sortImportCategories } from './sort-import-categories';
 import { formatImportStatements } from './format-import-statements';
 
 const git: SimpleGit = simpleGit();
-const readFile = promisify(fs.readFile);
-const writeFile = promisify(fs.writeFile);
 
 export async function optimizeImports(filePath: string) {
   let reordered = 0;
   if (/\.tsx?$/.test(filePath)) {
     const { silent, staged, autoAdd } = getConfig();
-    const fileContent = await readFile(filePath);
+    const fileContent = readFileSync(filePath);
     const rootNode = ts.createSourceFile(filePath, fileContent.toString(), ts.ScriptTarget.Latest, true);
     const importNodes = collectImportNodes(rootNode);
     const importStatementMap = getImportStatementMap(importNodes);
@@ -48,7 +45,7 @@ export async function optimizeImports(filePath: string) {
 
     if (fileHasChanged) {
       reordered = 1;
-      await writeFile(filePath, updatedContent);
+      writeFileSync(filePath, updatedContent);
       log('green', 'imports reordered');
       if (staged && !autoAdd) {
         await git.add(filePath);

@@ -6,6 +6,7 @@
   "scripts": {
     "contributors:add": "all-contributors add",
     "build": "tsc",
+    "commit": "git-cz",
     "bump-version": "rjp package.json version $VERSION",
     "prebuild": "npm run copy:readme",
     "copy:readme": "copyfiles ./README.md ./dist",
@@ -18,7 +19,9 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged"
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "pretty-quick --staged",
+      "pre-push": "npm run test"
     }
   },
   "bin": {
@@ -51,6 +54,8 @@
     "typescript": "^3.9.5"
   },
   "devDependencies": {
+    "@commitlint/cli": "^9.1.2",
+    "@commitlint/config-conventional": "^9.1.2",
     "@semantic-release/changelog": "^3.0.6",
     "@semantic-release/exec": "^3.3.8",
     "@semantic-release/git": "^7.0.18",
@@ -58,6 +63,7 @@
     "@types/node": "^14.0.12",
     "all-contributors-cli": "^6.17.0",
     "copyfiles": "^2.3.0",
+    "git-cz": "^4.7.0",
     "husky": "^4.2.5",
     "jest": "^26.1.0",
     "prettier": "^2.0.5",
