@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/kreuzerk/import-conductor/compare/v1.5.0...v1.5.1) (2020-08-21)
+
+
+### Bug Fixes
+
+* 🐛 custom imports not categorised correctly ([a735201](https://github.com/kreuzerk/import-conductor/commit/a735201fd55be5d16131bd43cb54876556acd47f)), closes [#21](https://github.com/kreuzerk/import-conductor/issues/21)
+
 # [1.5.0](https://github.com/kreuzerk/import-conductor/compare/v1.4.4...v1.5.0) (2020-08-07)
 
 
