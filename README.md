@@ -32,7 +32,7 @@ Import conductor will order all imports into the following blocks:
 
 3. Block - imports from other modules or directories in your codebase
 
-4. Block - imports fro the same module
+4. Block - imports for the same module
 ```
 
 Take a look at the following source file. It's hard to distinguish
