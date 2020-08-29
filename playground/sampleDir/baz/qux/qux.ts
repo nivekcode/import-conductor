@@ -1,4 +1,4 @@
-import {enableProdMode} from '@angular/core';
+import {enableProdMode} from 'typescript';
 import {baz} from '../baz';
 
 import {foo} from '../../foo/foo';

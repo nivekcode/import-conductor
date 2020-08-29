@@ -1,5 +1,5 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { enableProdMode } from 'typescript';
+import { platformBrowserDynamic } from 'glob';
 import { enableProdMode } from '@custom/something';
 
 import { FooModule } from '../someModule';
