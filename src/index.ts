@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // import-conductor-skip
 import './pollyfils';
 import commandLineArgs from 'command-line-args';

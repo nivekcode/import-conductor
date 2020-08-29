@@ -15,17 +15,22 @@ describe('optimizeImports', () => {
     userLibPrefixes: ['@myorg'],
     autoAdd: false,
     autoMerge: true,
+    thirdPartyDependencies: new Set<string>(['@angular/core', 'rxjs']),
   };
 
   const readmeExample = `import fs from 'fs';
 import { CustomerService } from './customer.service';
 import { Customer } from './customer.model';
 import { Order } from '../order/order.model';
+import { Component, OnInit } from '@angular/core';
 import { LoggerService } from '@myorg/logger';
+import { Observable } from 'rxjs';
 import { spawn } from 'child_process';`;
 
-  const expectedResult = `import { spawn } from 'child_process';
+  const expectedResult = `import { Component, OnInit } from '@angular/core';
+import { spawn } from 'child_process';
 import fs from 'fs';
+import { Observable } from 'rxjs';
 
 import { LoggerService } from '@myorg/logger';
 
