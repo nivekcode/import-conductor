@@ -1,16 +1,19 @@
-import { optimizeImports } from '../optimize-imports';
-import * as config from '../config';
+import { actions, optimizeImports } from '@ic/conductor/optimize-imports';
+import * as config from '@ic/config';
 import fs from 'fs';
+import { Config } from '@ic/types';
 
 jest.mock('fs');
 
 describe('optimizeImports', () => {
-  const basicConfig = {
-    silent: true,
+  const basicConfig: Config = {
+    ignore: [],
+    dryRun: false,
+    verbose: false,
     staged: false,
     source: 'test.ts',
     userLibPrefixes: ['@myorg'],
-    autoAdd: true,
+    autoAdd: false,
     thirdPartyDependencies: new Set<string>(['@angular/core', 'rxjs']),
     autoMerge: true,
   };
@@ -36,10 +39,17 @@ import { CustomerService } from './customer.service';`;
     spyOn(config, 'getConfig').and.returnValue(basicConfig);
   });
 
-  it.only('should work with a basic example', async () => {
-    (fs.readFileSync as any).mockReturnValue(new Buffer(readmeExample));
+  it('should work with a basic example', async () => {
+    (fs.readFileSync as any).mockReturnValue(Buffer.from(readmeExample));
     const file = 'test.ts';
     await optimizeImports(file);
     expect(fs.writeFileSync).toHaveBeenCalledWith(file, expectedResult);
+  });
+
+  it('should skip the file when skip comment exists', async () => {
+    (fs.readFileSync as any).mockReturnValue(Buffer.from('// import-conductor-skip'));
+    const file = 'test.ts';
+    const result = await optimizeImports(file);
+    expect(result).toBe(actions.skipped);
   });
 });

@@ -6,11 +6,15 @@ export interface ImportCategories {
 }
 
 export interface Config {
-  silent: boolean;
+  verbose: boolean;
+  dryRun: boolean;
   staged: boolean;
   autoAdd: boolean;
   autoMerge: boolean;
   source: string;
+  ignore: string[];
   userLibPrefixes: string[];
-  thirdPartyDependencies: Set<string>;
+  thirdPartyDependencies?: Set<string>;
 }
+
+export type CliConfig = Omit<Config, 'autoAdd'> & { noAutoAdd: boolean };

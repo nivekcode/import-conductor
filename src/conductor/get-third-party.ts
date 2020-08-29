@@ -1,6 +1,7 @@
 import pkgUp from 'pkg-up';
+
+import { parseJsonFile } from '../helpers';
 import fs from 'fs';
-import { parseJsonFile } from './helpers';
 
 export function getThirdParty(): Set<string> {
   const packagePath = pkgUp.sync();

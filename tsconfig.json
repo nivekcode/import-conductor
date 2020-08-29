@@ -7,9 +7,10 @@
     "declaration": true,
     "sourceMap": true,
     "outDir": "dist",
-    "resolveJsonModule": true
+    "lib": ["es2017", "esnext", "es2015"],
+    "resolveJsonModule": true,
+    "types": ["node"]
   },
-  "include": ["src/**/*", "src/index.ts"],
-  "exclude": ["node_modules", "**/*.spec.ts", "src/showcase"],
-  "lib": ["es2015"]
+  "include": ["src"],
+  "exclude": ["node_modules", "**/*.spec.ts", "playground"]
 }

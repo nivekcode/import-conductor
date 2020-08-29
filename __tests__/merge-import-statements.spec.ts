@@ -1,4 +1,4 @@
-import { mergeImportStatements } from '../merge-import-statements';
+import { mergeImportStatements } from '@ic/conductor/merge-import-statements';
 
 describe('mergeImportStatements', () => {
   it('should merge two imports together', () => {

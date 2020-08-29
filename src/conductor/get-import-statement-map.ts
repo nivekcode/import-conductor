@@ -1,7 +1,9 @@
 import ts from 'typescript';
+
+import { getConfig } from '../config';
+
 import { collectImportStatement } from './collect-import-statements';
 import { mergeImportStatements } from './merge-import-statements';
-import { getConfig } from './config';
 
 export function getImportStatementMap(importNodes: ts.Node[]): Map<string, string> {
   const { autoMerge } = getConfig();

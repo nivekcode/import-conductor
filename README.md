@@ -1,7 +1,9 @@
 ![Logo](https://raw.githubusercontent.com/kreuzerk/import-conductor/master/assets/logo.png)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 # import-conductor
@@ -98,59 +100,83 @@ npx import-conductor -s customer.component.ts -p @myorg
 
 ## Options
 
-* `source` - Regex to that matches the source files: (defaults to `./src/**/*.ts`)
+- `source` - Regex to that matches the source files: (defaults to `./src/**/*.ts`)
+
 ```shell script
 import-conductor --source mySrc/**/*.ts
 import-conductor -s mySrc/**/*.ts
 import-conductor mySrc/**/*.ts
 ```
 
-* `userLibPrefixes` - The prefix of custom user libraries - the prefix used to distinguish between third party libraries and company libs: (defaults to `[]`)
+- `ignore`\* - Ignore files that match the pattern: (defaults to `[]`)
+
+```shell script
+import-conductor --ignore mySrc/**/*some.ts main.ts
+import-conductor -i mySrc/**/*some.ts main.ts
+```
+
+**\*Note**: you can also skip a file by adding the following comment at the top:
+
+```typescript
+// import-conductor-skip
+...
+```
+
+- `userLibPrefixes` - The prefix of custom user libraries - the prefix used to distinguish between third party libraries and company libs: (defaults to `[]`)
+
 ```shell script
 import-conductor --userLibPrefixes @customA @customB
 import-conductor -p @customA @customB
 ```
 
-* `staged` - Run against staged files: (defaults to `false`)
+- `staged` - Run against staged files: (defaults to `false`)
+
 ```shell script
 import-conductor --staged
 ```
 
-* `noAutoMerge` - Disable automatically merging 2 import statements from the same source: (defaults to `false`)
+- `noAutoMerge` - Disable automatically merging 2 import statements from the same source: (defaults to `false`)
+
 ```shell script
 import-conductor --noAutoMerge
 ```
 
-* `autoAdd` - Automatically adding the committed files when using the staged option: (defaults to `false`)
+- `autoAdd` - Automatically adding the committed files when using the staged option: (defaults to `false`)
+
 ```shell script
 import-conductor --autoAdd
 import-conductor -a
 ```
 
-* `dryRun` - Run without applying any changes: (defaults to `false`)
+- `dryRun` - Run without applying any changes: (defaults to `false`)
+
 ```shell script
 import-conductor --dryRun
 import-conductor -d
 ```
 
-* `verbose` - Run with detailed log output: (defaults to `false`)
+- `verbose` - Run with detailed log output: (defaults to `false`)
+
 ```shell script
 import-conductor --verbose
 import-conductor -v
 ```
 
-* `version`:
+- `version`:
+
 ```shell script
 import-conductor --version
 ```
 
-* `help`:
+- `help`:
+
 ```shell script
 import-conductor --help
 import-conductor -h
 ```
 
 ## Core Team
+
 <table>
   <tr>
     <td align="center"><a href="https://medium.com/@kevinkreuzer"><img src="https://avatars0.githubusercontent.com/u/5468954?v=4" width="100px;" alt=""/><br /><sub><b>Kevin Kreuzer</b></sub></a><br /></td>
@@ -173,6 +199,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!

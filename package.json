@@ -8,19 +8,20 @@
     "build": "tsc",
     "commit": "git-cz",
     "bump-version": "rjp package.json version $VERSION",
-    "prebuild": "npm run copy:readme",
+    "prebuild": "rimraf dist && npm run copy:readme",
     "copy:readme": "copyfiles ./README.md ./dist",
     "format:write": "prettier --write 'index.ts'",
     "test": "jest",
-    "start": "ts-node ./src/index.ts -s './test/**/*.ts' -p '@custom'",
-    "start:staged": "ts-node ./src/index.ts --staged true",
-    "start:bar": "ts-node ./src/index.ts -s test/sampleDir/bar.ts",
-    "release": "semantic-release"
+    "start": "ts-node ./src/index.ts playground/**/*.ts -v --dryRun -p '@custom' -i playground/**/*x.ts main.ts",
+    "start:staged": "ts-node ./src/index.ts --staged",
+    "start:bar": "ts-node ./src/index.ts --dryRun -s playground/sampleDir/bar.ts",
+    "release": "semantic-release",
+    "hooks:pre-commit": "node ./hooks/pre-commit.js"
   },
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "pretty-quick --staged",
+      "pre-commit": "npm run hooks:pre-commit && pretty-quick --staged",
       "pre-push": "npm run test"
     }
   },
@@ -45,6 +46,8 @@
   "homepage": "https://github.com/kreuzerk/import-conductor#readme",
   "dependencies": {
     "changed-git-files": "0.0.1",
+    "command-line-args": "^5.1.1",
+    "command-line-usage": "^6.1.0",
     "commander": "^5.1.0",
     "git-changed-files": "^1.0.0",
     "glob": "^7.1.6",
@@ -54,14 +57,15 @@
     "typescript": "^3.9.5"
   },
   "devDependencies": {
-    "@commitlint/cli": "^9.1.2",
-    "@commitlint/config-conventional": "^9.1.2",
+    "@commitlint/cli": "10.0.0",
+    "@commitlint/config-conventional": "10.0.0",
     "@semantic-release/changelog": "^3.0.6",
     "@semantic-release/exec": "^3.3.8",
     "@semantic-release/git": "^7.0.18",
     "@types/jest": "^26.0.3",
     "@types/node": "^14.0.12",
     "all-contributors-cli": "^6.17.0",
+    "chalk": "^4.1.0",
     "copyfiles": "^2.3.0",
     "git-cz": "^4.7.0",
     "husky": "^4.2.5",
@@ -69,7 +73,9 @@
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
     "replace-json-property": "^1.4.3",
+    "rimraf": "^3.0.2",
     "semantic-release": "^15.9.0",
+    "shelljs": "^0.8.4",
     "ts-jest": "^26.1.1",
     "ts-node": "^8.10.2"
   }
