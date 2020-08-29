@@ -1,6 +1,6 @@
 import { actions, optimizeImports } from '@ic/conductor/optimize-imports';
 import * as config from '@ic/config';
-import fs, { existsSync } from 'fs';
+import fs from 'fs';
 import { Config } from '@ic/types';
 
 jest.mock('fs');
