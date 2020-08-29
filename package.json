@@ -16,7 +16,8 @@
     "start:staged": "ts-node ./src/index.ts --staged",
     "start:bar": "ts-node ./src/index.ts --dryRun -s playground/sampleDir/bar.ts",
     "release": "semantic-release",
-    "hooks:pre-commit": "node ./hooks/pre-commit.js"
+    "hooks:pre-commit": "npm run conduct:staged && node ./hooks/pre-commit.js",
+    "conduct:staged": "ts-node ./src/index.ts --staged"
   },
   "husky": {
     "hooks": {

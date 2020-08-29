@@ -14,7 +14,6 @@ export interface Config {
   source: string;
   ignore: string[];
   userLibPrefixes: string[];
-  thirdPartyDependencies?: Set<string>;
 }
 
 export type CliConfig = Omit<Config, 'autoAdd'> & { noAutoAdd: boolean };

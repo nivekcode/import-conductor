@@ -1,10 +1,10 @@
-import {foo} from '../foo/foo';
-import {bar} from '../bar/bar';
+import { isVariableDeclaration } from 'typescript';
 
-import {Observable} from 'typescript';
-import {Blub} from '@custom/something';
+import { bar } from '../bar/bar';
+import { foo } from '../foo/foo';
+import { Blub } from '@custom/something';
 
 export const baz = 'baz';
 console.log('Foo', foo);
 
-console.log()
+console.log();

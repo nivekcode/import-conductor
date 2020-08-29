@@ -1,6 +1,6 @@
 import { actions, optimizeImports } from '@ic/conductor/optimize-imports';
 import * as config from '@ic/config';
-import fs from 'fs';
+import fs, { existsSync } from 'fs';
 import { Config } from '@ic/types';
 
 jest.mock('fs');
@@ -14,19 +14,18 @@ describe('optimizeImports', () => {
     source: 'test.ts',
     userLibPrefixes: ['@myorg'],
     autoAdd: false,
-    thirdPartyDependencies: new Set<string>(['@angular/core', 'rxjs']),
     autoMerge: true,
   };
 
-  const readmeExample = `import { Component, OnInit } from '@angular/core';
+  const readmeExample = `import fs from 'fs';
 import { CustomerService } from './customer.service';
 import { Customer } from './customer.model';
 import { Order } from '../order/order.model';
 import { LoggerService } from '@myorg/logger';
-import { Observable } from 'rxjs';`;
+import { spawn } from 'child_process';`;
 
-  const expectedResult = `import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+  const expectedResult = `import { spawn } from 'child_process';
+import fs from 'fs';
 
 import { LoggerService } from '@myorg/logger';
 
@@ -37,6 +36,7 @@ import { CustomerService } from './customer.service';`;
 
   beforeEach(() => {
     spyOn(config, 'getConfig').and.returnValue(basicConfig);
+    (fs.existsSync as any).mockReturnValue(true);
   });
 
   it('should work with a basic example', async () => {

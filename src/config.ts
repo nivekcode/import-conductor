@@ -1,6 +1,5 @@
 import { sync } from 'glob';
 
-import { getThirdParty } from './conductor/get-third-party';
 import { defaultConfig } from './defaultConfig';
 import { CliConfig, Config } from './types';
 
@@ -16,7 +15,6 @@ export function resolveConfig(cliConfig: Partial<CliConfig>): Config {
   const merged = {
     ...defaultConfig,
     ...normalized,
-    thirdPartyDependencies: getThirdParty(),
   };
   if (merged.ignore.length > 0) {
     merged.ignore = merged.ignore.map((pattern) => (pattern.includes('*') ? sync(pattern) : pattern)).flat();

@@ -1,6 +1,6 @@
-import {enableProdMode} from 'typescript';
-import {baz} from '../baz';
+import { isVariableDeclaration } from 'typescript';
 
-import {foo} from '../../foo/foo';
+import { foo } from '../../foo/foo';
+import { baz } from '../baz';
 
 console.log('Foo', foo);

@@ -3,6 +3,7 @@ import gitChangedFiles from 'git-changed-files';
 import ora from 'ora';
 
 import { resolveConfig, setConfig } from '../config';
+import { log } from '../helpers/log';
 import { Config } from '../types';
 
 import { getFilesPaths } from './get-files-paths';
@@ -31,6 +32,7 @@ export async function conduct(cliConfig: Partial<Config>): Promise<string[]> {
     const ignoreFile = ignore.includes(path) || ignore.some((p) => path.includes(p));
     if (ignoreFile) {
       results[actions.skipped]++;
+      log('gray', path, 'skipped (via ignore pattern)');
       continue;
     }
 
@@ -45,7 +47,7 @@ export async function conduct(cliConfig: Partial<Config>): Promise<string[]> {
     results.reordered === 0 ? '✨ No changes needed in all the files.' : `🔀 ${results.reordered} file imports were reordered.`;
   messages.push(reorderMessage);
   if (results.skipped > 0) {
-    messages.push(`🦘${results.skipped} file${results.skipped > 1 ? 's' : ''} were skipped.`);
+    messages.push(`🦘 ${results.skipped} file${results.skipped > 1 ? 's were' : ' was'} skipped.`);
   }
 
   spinner?.succeed(`Conducting imports - done!`);

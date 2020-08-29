@@ -1,13 +1,15 @@
-import ts from 'typescript';
-import chalk from 'chalk';
-import { getConfig } from '../config';
+import { readFileSync, writeFileSync, existsSync } from 'fs';
 import simpleGit, { SimpleGit } from 'simple-git';
-import { readFileSync, writeFileSync } from 'fs';
-import { collectImportNodes } from './collect-import-nodes';
-import { getImportStatementMap } from './get-import-statement-map';
+import ts from 'typescript';
+
+import { getConfig } from '../config';
+import { log } from '../helpers/log';
+
 import { categorizeImportLiterals } from './categorize-imports';
-import { sortImportCategories } from './sort-import-categories';
+import { collectImportNodes } from './collect-import-nodes';
 import { formatImportStatements } from './format-import-statements';
+import { getImportStatementMap } from './get-import-statement-map';
+import { sortImportCategories } from './sort-import-categories';
 
 const git: SimpleGit = simpleGit();
 
@@ -18,17 +20,19 @@ export const actions = {
 };
 
 export async function optimizeImports(filePath: string): Promise<string> {
-  if (!/\.tsx?$/.test(filePath)) {
+  // staged files might also include deleted files, we need to verify they exist.
+  if (!/\.tsx?$/.test(filePath) || !existsSync(filePath)) {
     return actions.none;
   }
 
-  const fileContent = readFileSync(filePath);
-  if (fileContent.includes('import-conductor-skip')) {
+  const fileContent = readFileSync(filePath).toString();
+  const { staged, autoAdd, dryRun } = getConfig();
+  if (/\/[/*]\s*import-conductor-skip/.test(fileContent)) {
+    log('gray', filePath, 'skipped (via comment)');
     return actions.skipped;
   }
 
-  const { verbose, staged, autoAdd, dryRun } = getConfig();
-  const rootNode = ts.createSourceFile(filePath, fileContent.toString(), ts.ScriptTarget.Latest, true);
+  const rootNode = ts.createSourceFile(filePath, fileContent, ts.ScriptTarget.Latest, true);
   const importNodes = collectImportNodes(rootNode);
   const importStatementMap = getImportStatementMap(importNodes);
 
@@ -40,21 +44,11 @@ export async function optimizeImports(filePath: string): Promise<string> {
   const sortedAndCategorizedImports = sortImportCategories(categorizedImports);
   let result = formatImportStatements(sortedAndCategorizedImports);
 
-  let contentWithoutImportStatements = fileContent;
-
-  importNodes
-    .reverse()
-    .forEach(
-      (node: ts.Node) =>
-        (contentWithoutImportStatements = Buffer.from(
-          contentWithoutImportStatements.slice(0, node.pos) + '' + contentWithoutImportStatements.slice(node.end)
-        ))
-    );
+  const lastImport = importNodes.pop();
+  const contentWithoutImportStatements = fileContent.slice(lastImport.end);
 
   const updatedContent = `${result}${contentWithoutImportStatements}`;
-  const fileHasChanged = updatedContent !== fileContent.toString();
-  const log = (color: string, msg: string) => verbose && console.log(chalk[color](`${filePath} - ${msg}`));
-
+  const fileHasChanged = updatedContent !== fileContent;
   if (fileHasChanged) {
     !dryRun && writeFileSync(filePath, updatedContent);
     let msg = 'imports reordered';
@@ -62,9 +56,9 @@ export async function optimizeImports(filePath: string): Promise<string> {
       await git.add(filePath);
       msg += ', added to git';
     }
-    log('green', msg);
+    log('green', filePath, msg);
   } else {
-    log('gray', 'no change needed');
+    log('gray', filePath, 'no change needed');
   }
 
   return fileHasChanged ? actions.reordered : actions.none;
