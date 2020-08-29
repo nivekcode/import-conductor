@@ -98,16 +98,65 @@ npx import-conductor -s customer.component.ts -p @myorg
 
 ## Options
 
-| Option               | Description                                                                                                             | Default value   |
-| -------------------- | ----------------------------------------------------------------------------------------------------------------------- | --------------- |
-| -V --version         | Display the current version                                                                                             | `-`             |
-| -h --help            | Show a help menu                                                                                                        | `-`             |
-| -s --source          | Regex to that matches the source files                                                                                  | `./src/**/*.ts` |
-| -p --userLibPrefixes | The prefix of custom user libraries - this prefix is used to distinguish between third party libraries and company libs | `[]`            |
-| -d --autoAdd         | Disable automatically adding the committed files when the staged option is used                                         | `true`          |
-| -m --autoMerge       | Automatically merge 2 import statements from the same source                                                            | `true`          |
-| --staged             | Run against staged files                                                                                                | `false`         |
-| --silent             | Run with minimal log output                                                                                             | `true`          |
+* `source` - Regex to that matches the source files: (defaults to `./src/**/*.ts`)
+```shell script
+import-conductor --source mySrc/**/*.ts
+import-conductor -s mySrc/**/*.ts
+import-conductor mySrc/**/*.ts
+```
+
+* `userLibPrefixes` - The prefix of custom user libraries - the prefix used to distinguish between third party libraries and company libs: (defaults to `[]`)
+```shell script
+import-conductor --userLibPrefixes @customA @customB
+import-conductor -p @customA @customB
+```
+
+* `staged` - Run against staged files: (defaults to `false`)
+```shell script
+import-conductor --staged
+```
+
+* `noAutoMerge` - Disable automatically merging 2 import statements from the same source: (defaults to `false`)
+```shell script
+import-conductor --noAutoMerge
+```
+
+* `autoAdd` - Automatically adding the committed files when using the staged option: (defaults to `false`)
+```shell script
+import-conductor --autoAdd
+import-conductor -a
+```
+
+* `dryRun` - Run without applying any changes: (defaults to `false`)
+```shell script
+import-conductor --dryRun
+import-conductor -d
+```
+
+* `verbose` - Run with detailed log output: (defaults to `false`)
+```shell script
+import-conductor --verbose
+import-conductor -v
+```
+
+* `version`:
+```shell script
+import-conductor --version
+```
+
+* `help`:
+```shell script
+import-conductor --help
+import-conductor -h
+```
+
+## Core Team
+<table>
+  <tr>
+    <td align="center"><a href="https://medium.com/@kevinkreuzer"><img src="https://avatars0.githubusercontent.com/u/5468954?v=4" width="100px;" alt=""/><br /><sub><b>Kevin Kreuzer</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/shaharkazaz"><img src="https://avatars2.githubusercontent.com/u/17194830?v=4" width="100px;" alt=""/><br /><sub><b>Shahar Kazaz</b></sub></a><br /></td>
+  </tr>
+</table>
 
 ## Contributors ✨
 
@@ -118,8 +167,6 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://medium.com/@kevinkreuzer"><img src="https://avatars0.githubusercontent.com/u/5468954?v=4" width="100px;" alt=""/><br /><sub><b>Kevin Kreuzer</b></sub></a><br /><a href="https://github.com/kreuzerk/import-conductor/commits?author=kreuzerk" title="Code">💻</a> <a href="#design-kreuzerk" title="Design">🎨</a> <a href="https://github.com/kreuzerk/import-conductor/commits?author=kreuzerk" title="Documentation">📖</a> <a href="#ideas-kreuzerk" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-kreuzerk" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-kreuzerk" title="Maintenance">🚧</a> <a href="https://github.com/kreuzerk/import-conductor/commits?author=kreuzerk" title="Tests">⚠️</a></td>
-    <td align="center"><a href="https://github.com/shaharkazaz"><img src="https://avatars2.githubusercontent.com/u/17194830?v=4" width="100px;" alt=""/><br /><sub><b>Shahar Kazaz</b></sub></a><br /><a href="https://github.com/kreuzerk/import-conductor/commits?author=shaharkazaz" title="Code">💻</a> <a href="https://github.com/kreuzerk/import-conductor/commits?author=shaharkazaz" title="Documentation">📖</a> <a href="#ideas-shaharkazaz" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-shaharkazaz" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-shaharkazaz" title="Maintenance">🚧</a> <a href="https://github.com/kreuzerk/import-conductor/commits?author=shaharkazaz" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://github.com/laurenzcodes"><img src="https://avatars1.githubusercontent.com/u/8169746?v=4" width="100px;" alt=""/><br /><sub><b>Robert Laurenz</b></sub></a><br /><a href="https://github.com/kreuzerk/import-conductor/commits?author=laurenzcodes" title="Documentation">📖</a></td>
   </tr>
 </table>
