@@ -1,10 +1,8 @@
-import { ImportCategories } from './types';
-import { isCustomImport } from './is-custom-import';
-import { getConfig } from './config';
-import { breakdownPath } from './helpers';
+import { isCustomImport } from '../helpers/is-custom-import';
+import { isThirdParty } from '../helpers/is-third-party';
+import { ImportCategories } from '../types';
 
 export function categorizeImportLiterals(importLiterals: Map<string, string>): ImportCategories {
-  const { thirdPartyDependencies } = getConfig();
   const thirdPartyImports = new Map<string, string>();
   const userLibraryImports = new Map<string, string>();
   const differentModuleImports = new Map<string, string>();
@@ -28,9 +26,7 @@ export function categorizeImportLiterals(importLiterals: Map<string, string>): I
       return;
     }
 
-    const isThirdParty = breakdownPath(normalized).some((subPath) => thirdPartyDependencies.has(subPath));
-
-    if (isThirdParty) {
+    if (isThirdParty(normalized)) {
       thirdPartyImports.set(importLiteral, fullImportStatement);
     } else {
       differentModuleImports.set(importLiteral, fullImportStatement);

@@ -1,4 +1,4 @@
-import { ImportCategories } from './types';
+import { ImportCategories } from '../types';
 
 export function sortImportCategories(importCategories: ImportCategories): ImportCategories {
   return Object.keys(importCategories).reduce((sorted, key) => {

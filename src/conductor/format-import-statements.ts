@@ -1,4 +1,4 @@
-import { ImportCategories } from './types';
+import { ImportCategories } from '../types';
 
 export function formatImportStatements(importCategories: ImportCategories) {
   const { differentModuleImports, sameModuleImports, thirdPartyImports, userLibraryImports } = importCategories;

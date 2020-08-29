@@ -1,8 +1,13 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "baseUrl": ".",
     "outDir": "./out-tsc/spec",
-    "types": ["jest", "node"]
+    "types": ["jest", "node"],
+    "paths": {
+      "@ic/*": ["src/*"]
+    }
   },
-  "include": ["lib/**/*.spec.ts", "lib/**/*.d.ts"]
+  "include": ["**/*.spec.ts"],
+  "exclude": []
 }
