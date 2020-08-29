@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/kreuzerk/import-conductor/compare/v1.5.1...v2.0.0) (2020-08-29)
+
+
+### Features
+
+* 🎸 support ignore files and dry run ([4a28554](https://github.com/kreuzerk/import-conductor/commit/4a28554c25be4105664206bec7666878d46936c1)), closes [#20](https://github.com/kreuzerk/import-conductor/issues/20)
+
+
+### BREAKING CHANGES
+
+* 🧨 config options
+
 ## [1.5.1](https://github.com/kreuzerk/import-conductor/compare/v1.5.0...v1.5.1) (2020-08-21)
 
 
