@@ -5,19 +5,12 @@ function breakdownPath(path: string): string[] {
 }
 
 export function isThirdParty(libName: string) {
+  let isCoreModule = false;
+  try {
+    isCoreModule = require.resolve(libName).indexOf('/') < 0;
+  } catch {}
+
   const { thirdPartyDependencies } = getConfig();
 
-  return breakdownPath(libName).some((subPath) => {
-    if (thirdPartyDependencies.has(subPath)) {
-      return true;
-    }
-
-    try {
-      require.resolve(subPath);
-
-      return true;
-    } catch {
-      return false;
-    }
-  });
+  return isCoreModule || breakdownPath(libName).some((subPath) => thirdPartyDependencies.has(subPath));
 }
