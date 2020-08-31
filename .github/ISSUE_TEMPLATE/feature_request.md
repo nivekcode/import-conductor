@@ -7,14 +7,15 @@ assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+**Describe the feature**
+A clear and concise description of what the problem is.
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
-
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+**Describe the use case you need it for**
+A clear and concise description of what you need this feature for.
 
 **Additional context**
 Add any other context or screenshots about the feature request here.
+
+**New contributors to our project are always welcome**
+Let us know if you want to create a pull request for this feature. In case you need help you can always reach out to us.
+[] I would like to create a PR 
