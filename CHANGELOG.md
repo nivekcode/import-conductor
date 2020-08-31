@@ -1,3 +1,11 @@
+## [2.0.1](https://github.com/kreuzerk/import-conductor/compare/v2.0.0...v2.0.1) (2020-08-31)
+
+
+### Bug Fixes
+
+* 🐛 merge statements breaks with trailing comma ([661d594](https://github.com/kreuzerk/import-conductor/commit/661d594cf2f28715b962a96160e94baf8da74387))
+* 🐛 third party wrong classification ([7e33e47](https://github.com/kreuzerk/import-conductor/commit/7e33e47ca71776181714015ef88938f8d0fc8a57))
+
 # [2.0.0](https://github.com/kreuzerk/import-conductor/compare/v1.5.1...v2.0.0) (2020-08-29)
 
 
