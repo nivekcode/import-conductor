@@ -2,6 +2,7 @@ import { actions, optimizeImports } from '@ic/conductor/optimize-imports';
 import * as config from '@ic/config';
 import fs from 'fs';
 import { Config } from '@ic/types';
+import { readmeExample, comments, testCase } from './optimize-imports-mocks';
 
 jest.mock('fs');
 
@@ -18,43 +19,37 @@ describe('optimizeImports', () => {
     thirdPartyDependencies: new Set<string>(['@angular/core', 'rxjs']),
   };
 
-  const readmeExample = `import fs from 'fs';
-import { CustomerService } from './customer.service';
-import { Customer } from './customer.model';
-import { Order } from '../order/order.model';
-import { Component, OnInit } from '@angular/core';
-import { LoggerService } from '@myorg/logger';
-import { Observable } from 'rxjs';
-import { spawn } from 'child_process';`;
-
-  const expectedResult = `import { Component, OnInit } from '@angular/core';
-import { spawn } from 'child_process';
-import fs from 'fs';
-import { Observable } from 'rxjs';
-
-import { LoggerService } from '@myorg/logger';
-
-import { Order } from '../order/order.model';
-
-import { Customer } from './customer.model';
-import { CustomerService } from './customer.service';`;
-
   beforeEach(() => {
     spyOn(config, 'getConfig').and.returnValue(basicConfig);
     (fs.existsSync as any).mockReturnValue(true);
+    (fs.writeFileSync as any).mockClear();
   });
 
-  it('should work with a basic example', async () => {
-    (fs.readFileSync as any).mockReturnValue(Buffer.from(readmeExample));
+  async function assertConductor({ expected, input }: testCase) {
+    (fs.readFileSync as any).mockReturnValue(Buffer.from(input));
     const file = 'test.ts';
-    await optimizeImports(file);
-    expect(fs.writeFileSync).toHaveBeenCalledWith(file, expectedResult);
+    const result = await optimizeImports(file);
+    expect(fs.writeFileSync).toHaveBeenCalledWith(file, expected);
+
+    return result;
+  }
+
+  it('should work with a basic example', async () => {
+    await assertConductor(readmeExample);
+  });
+
+  it('should work with comments', async () => {
+    await assertConductor(comments);
   });
 
   it('should skip the file when skip comment exists', async () => {
-    (fs.readFileSync as any).mockReturnValue(Buffer.from('// import-conductor-skip'));
-    const file = 'test.ts';
-    const result = await optimizeImports(file);
-    expect(result).toBe(actions.skipped);
+    const testCases = ['//import-conductor-skip', '// import-conductor-skip', '/* import-conductor-skip*/', '/*import-conductor-skip */'];
+    for (const testCase of testCases) {
+      (fs.readFileSync as any).mockReturnValue(Buffer.from(testCase));
+      const file = 'test.ts';
+      const result = await optimizeImports(file);
+      expect(result).toBe(actions.skipped);
+      expect(fs.writeFileSync).not.toHaveBeenCalled();
+    }
   });
 });
