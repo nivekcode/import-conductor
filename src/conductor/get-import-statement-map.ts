@@ -2,7 +2,6 @@ import ts from 'typescript';
 
 import { getConfig } from '../config';
 
-import { collectImportStatement } from './collect-import-statements';
 import { mergeImportStatements } from './merge-import-statements';
 
 export function getImportStatementMap(importNodes: ts.Node[]): Map<string, string> {
@@ -11,7 +10,10 @@ export function getImportStatementMap(importNodes: ts.Node[]): Map<string, strin
 
   importNodes.forEach((node: ts.Node) => {
     const importSegments = node.getChildren();
-    const completeImportStatement = collectImportStatement(importSegments);
+    let completeImportStatement = node.getFullText();
+    if (completeImportStatement.startsWith('\n')) {
+      completeImportStatement = completeImportStatement.replace('\n', '');
+    }
     const importLiteral = importSegments.find((segment) => segment.kind === ts.SyntaxKind.StringLiteral)?.getText();
 
     if (!importLiteral) {

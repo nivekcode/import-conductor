@@ -19,17 +19,33 @@ export const actions = {
   reordered: 'reordered',
 };
 
+function getFileComment(fileContent: string): string {
+  const fileComment = /^(?:(\/\/.*)|(\/\*[^]*?\*\/))/.exec(fileContent);
+  if (fileComment) {
+    const [singleLine, multiLine] = fileComment;
+    return singleLine || multiLine;
+  }
+
+  return '';
+}
+
 export async function optimizeImports(filePath: string): Promise<string> {
   // staged files might also include deleted files, we need to verify they exist.
   if (!/\.tsx?$/.test(filePath) || !existsSync(filePath)) {
     return actions.none;
   }
 
-  const fileContent = readFileSync(filePath).toString();
+  let fileContent = readFileSync(filePath).toString();
   const { staged, autoAdd, dryRun } = getConfig();
   if (/\/[/*]\s*import-conductor-skip/.test(fileContent)) {
     log('gray', filePath, 'skipped (via comment)');
     return actions.skipped;
+  }
+
+  let fileComment = getFileComment(fileContent);
+  if (fileComment) {
+    fileContent = fileContent.replace(fileComment, '');
+    fileComment += '\n';
   }
 
   const rootNode = ts.createSourceFile(filePath, fileContent, ts.ScriptTarget.Latest, true);
@@ -42,12 +58,12 @@ export async function optimizeImports(filePath: string): Promise<string> {
 
   const categorizedImports = categorizeImportLiterals(importStatementMap);
   const sortedAndCategorizedImports = sortImportCategories(categorizedImports);
-  let result = formatImportStatements(sortedAndCategorizedImports);
+  const result = formatImportStatements(sortedAndCategorizedImports);
 
   const lastImport = importNodes.pop();
   const contentWithoutImportStatements = fileContent.slice(lastImport.end);
 
-  const updatedContent = `${result}${contentWithoutImportStatements}`;
+  const updatedContent = `${fileComment}${result}${contentWithoutImportStatements}`;
   const fileHasChanged = updatedContent !== fileContent;
   if (fileHasChanged) {
     !dryRun && writeFileSync(filePath, updatedContent);
