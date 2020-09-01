@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/kreuzerk/import-conductor/compare/v2.0.1...v2.0.2) (2020-09-01)
+
+
+### Bug Fixes
+
+* 🐛 conductor removing comments from the imports section ([05f0215](https://github.com/kreuzerk/import-conductor/commit/05f02154a151f5c903111bd3607ca9916a056e7e)), closes [#25](https://github.com/kreuzerk/import-conductor/issues/25)
+
 ## [2.0.1](https://github.com/kreuzerk/import-conductor/compare/v2.0.0...v2.0.1) (2020-08-31)
 
 
