@@ -12,7 +12,7 @@
     "copy:readme": "copyfiles ./README.md ./dist",
     "format:write": "prettier --write 'index.ts'",
     "test": "jest",
-    "start": "ts-node ./src/index.ts -s playground/sampleDir/main.ts -p '@custom'",
+    "start": "ts-node ./src/index.ts -s playground/sampleDir/main.ts -p '@myorg'",
     "start:staged": "ts-node ./src/index.ts --staged",
     "start:bar": "ts-node ./src/index.ts --dryRun -s playground/sampleDir/bar.ts",
     "release": "semantic-release",

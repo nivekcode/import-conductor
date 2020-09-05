@@ -1,23 +1,18 @@
 import { ImportCategories } from '../types';
 
+const categoriesOrder = ['thirdPartyImports', 'userLibraryImports', 'differentModuleImports', 'sameModuleImports'];
+
 export function formatImportStatements(importCategories: ImportCategories) {
-  const { differentModuleImports, sameModuleImports, thirdPartyImports, userLibraryImports } = importCategories;
-  let result = '';
+  const [first, ...otherCategories] = Object.entries(importCategories)
+    .filter(([, imports]) => imports.size > 0)
+    .sort(([a], [b]) => categoriesOrder.indexOf(a) - categoriesOrder.indexOf(b))
+    .map(([, imports]) => imports);
 
-  function updateResult(sortedPot: Map<string, string>, spaceBefore = true) {
-    if (sortedPot.size > 0 && spaceBefore) {
-      result += '\n\n';
-    }
-    [...sortedPot.values()].forEach(
-      (fullImportLiteral: string, index: number) =>
-        (result += index === sortedPot.size - 1 ? `${fullImportLiteral}` : `${fullImportLiteral}\n`)
-    );
+  let result = first ? [...first.values()].join('\n') : '';
+
+  for (const imports of otherCategories) {
+    result += '\n\n' + [...imports.values()].join('\n');
   }
-
-  updateResult(thirdPartyImports, false);
-  updateResult(userLibraryImports, thirdPartyImports.size > 0);
-  updateResult(differentModuleImports, thirdPartyImports.size > 0 || userLibraryImports.size > 0);
-  updateResult(sameModuleImports, thirdPartyImports.size > 0 || userLibraryImports.size > 0 || differentModuleImports.size > 0);
 
   return result;
 }
