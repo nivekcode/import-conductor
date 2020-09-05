@@ -43,15 +43,14 @@ export async function optimizeImports(filePath: string): Promise<string> {
   }
 
   let fileComment = getFileComment(fileContent);
+  // Remove the comment from the file content.
   if (fileComment) {
     fileContent = fileContent.replace(fileComment, '');
-    fileComment += '\n';
   }
 
   const rootNode = ts.createSourceFile(filePath, fileContent, ts.ScriptTarget.Latest, true);
   const importNodes = collectImportNodes(rootNode);
   const importStatementMap = getImportStatementMap(importNodes);
-
   if (importStatementMap.size === 0) {
     return actions.none;
   }
@@ -63,7 +62,14 @@ export async function optimizeImports(filePath: string): Promise<string> {
   const lastImport = importNodes.pop();
   const contentWithoutImportStatements = fileContent.slice(lastImport.end);
 
-  const updatedContent = `${fileComment}${result}${contentWithoutImportStatements}`;
+  let updatedContent = `${result}${contentWithoutImportStatements}`;
+
+  if (fileComment) {
+    // Add the comment back to the file content.
+    fileContent = `${fileComment}${fileContent}`;
+    updatedContent = `${fileComment}\n` + updatedContent;
+  }
+
   const fileHasChanged = updatedContent !== fileContent;
   if (fileHasChanged) {
     !dryRun && writeFileSync(filePath, updatedContent);

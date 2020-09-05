@@ -10,9 +10,9 @@ export function getImportStatementMap(importNodes: ts.Node[]): Map<string, strin
 
   importNodes.forEach((node: ts.Node) => {
     const importSegments = node.getChildren();
-    let completeImportStatement = node.getFullText();
-    if (completeImportStatement.startsWith('\n')) {
-      completeImportStatement = completeImportStatement.replace('\n', '');
+    let importStatement = node.getFullText();
+    if (importStatement.startsWith('\n')) {
+      importStatement = importStatement.replace(/^\n*/, '');
     }
     const importLiteral = importSegments.find((segment) => segment.kind === ts.SyntaxKind.StringLiteral)?.getText();
 
@@ -21,13 +21,13 @@ export function getImportStatementMap(importNodes: ts.Node[]): Map<string, strin
     }
 
     const existingImport = importStatementMap.get(importLiteral);
-    const canMerge = autoMerge && existingImport && [existingImport, completeImportStatement].every((i) => !i.includes('*'));
+    const canMerge = autoMerge && existingImport && [existingImport, importStatement].every((i) => !i.includes('*'));
 
     if (canMerge) {
-      importStatementMap.set(importLiteral, mergeImportStatements(existingImport, completeImportStatement));
+      importStatementMap.set(importLiteral, mergeImportStatements(existingImport, importStatement));
     } else {
       const key = existingImport ? `${importLiteral}_${Math.random()}` : importLiteral;
-      importStatementMap.set(key, completeImportStatement);
+      importStatementMap.set(key, importStatement);
     }
   });
 

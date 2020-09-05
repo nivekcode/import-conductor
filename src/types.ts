@@ -1,8 +1,5 @@
 export interface ImportCategories {
-  thirdPartyImports: Map<string, string>;
-  userLibraryImports: Map<string, string>;
-  differentModuleImports: Map<string, string>;
-  sameModuleImports: Map<string, string>;
+  [key: string]: Map<string, string>;
 }
 
 export interface Config {
