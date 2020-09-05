@@ -1,3 +1,10 @@
+## [2.0.3](https://github.com/kreuzerk/import-conductor/compare/v2.0.2...v2.0.3) (2020-09-05)
+
+
+### Bug Fixes
+
+* 🐛 re-runing the conductor adds an extra new line ([ff8bc6d](https://github.com/kreuzerk/import-conductor/commit/ff8bc6d6c7eb8f558be1001b208d7d56fe18b420)), closes [#37](https://github.com/kreuzerk/import-conductor/issues/37)
+
 ## [2.0.2](https://github.com/kreuzerk/import-conductor/compare/v2.0.1...v2.0.2) (2020-09-01)
 
 
