@@ -38,6 +38,13 @@ describe('optimizeImports', () => {
     await assertConductor(readmeExample);
   });
 
+  it('should not change conducted file', async () => {
+    (fs.readFileSync as any).mockReturnValue(Buffer.from(readmeExample.expected));
+    const file = 'test.ts';
+    await optimizeImports(file);
+    expect(fs.writeFileSync).not.toHaveBeenCalled();
+  });
+
   it('should work with comments', async () => {
     await assertConductor(comments);
   });

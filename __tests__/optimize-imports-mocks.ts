@@ -22,6 +22,11 @@ import { Customer } from './customer.model';
 import { CustomerService } from './customer.service';`,
 };
 
+export const secondRun: testCase = {
+  input: readmeExample.expected,
+  expected: readmeExample.expected,
+};
+
 export const comments: testCase = {
   input: `// file level comments shouldn't move
 import fs from 'fs';
