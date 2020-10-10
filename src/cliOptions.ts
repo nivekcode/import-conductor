@@ -9,6 +9,7 @@ export const optionDefinitions = [
     name: 'source',
     alias: 's',
     type: String,
+    multiple: true,
     defaultOptions: true,
     description: 'Path to the source files',
   },
