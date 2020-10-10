@@ -4,7 +4,7 @@ import './pollyfils';
 import commandLineArgs from 'command-line-args';
 import commandLineUsage from 'command-line-usage';
 
-import * as packageJSON from '../package.json';
+import { packageVersion } from './version';
 
 import { optionDefinitions, sections } from './cliOptions';
 import { conduct } from './conductor/conduct';
@@ -17,7 +17,7 @@ const cliConfig = commandLineArgs(optionDefinitions, {
 const { help, version } = cliConfig;
 
 if (version) {
-  console.log(packageJSON.version);
+  console.log(packageVersion);
   process.exit();
 }
 
