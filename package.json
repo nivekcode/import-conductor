@@ -5,18 +5,20 @@
   "main": "index.js",
   "scripts": {
     "contributors:add": "all-contributors add",
+    "prebuild": "rimraf dist && npm run copy:readme",
     "build": "tsc",
+    "build:dev": "tsc --watch",
+    "postbuild": "node ./scripts/post-build.js",
     "commit": "git-cz",
     "bump-version": "rjp package.json version $VERSION",
-    "prebuild": "rimraf dist && npm run copy:readme",
     "copy:readme": "copyfiles ./README.md ./dist",
     "format:write": "prettier --write 'index.ts'",
     "test": "jest",
     "start": "ts-node ./src/index.ts -s playground/sampleDir/main.ts -p '@myorg'",
     "start:staged": "ts-node ./src/index.ts --staged",
     "start:bar": "ts-node ./src/index.ts --dryRun -s playground/sampleDir/bar.ts",
-    "release": "semantic-release",
-    "hooks:pre-commit": "npm run conduct:staged && node ./hooks/pre-commit.js",
+    "release": "semantic-release && node ./scripts/release.js",
+    "hooks:pre-commit": "npm run conduct:staged && node ./scripts/hooks/pre-commit.js",
     "conduct:staged": "ts-node ./src/index.ts --staged"
   },
   "husky": {
@@ -27,7 +29,7 @@
     }
   },
   "bin": {
-    "import-conductor": "./src/index.js"
+    "import-conductor": "index.js"
   },
   "repository": {
     "type": "git",
