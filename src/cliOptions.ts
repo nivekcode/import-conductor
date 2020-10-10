@@ -10,7 +10,7 @@ export const optionDefinitions = [
     alias: 's',
     type: String,
     multiple: true,
-    defaultOptions: true,
+    defaultOption: true,
     description: 'Path to the source files',
   },
   {
