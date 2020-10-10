@@ -1,18 +1,31 @@
+import { getConfig } from '../config';
 import { ImportCategories } from '../types';
 
-const categoriesOrder = ['thirdPartyImports', 'userLibraryImports', 'differentModuleImports', 'sameModuleImports'];
+type CategoryEntry = [string, Map<string, string>];
+
+const categoriesOrder = ['thirdParty', 'userLibrary', 'differentModule', 'sameModule'];
 
 export function formatImportStatements(importCategories: ImportCategories) {
-  const [first, ...otherCategories] = Object.entries(importCategories)
-    .filter(([, imports]) => imports.size > 0)
-    .sort(([a], [b]) => categoriesOrder.indexOf(a) - categoriesOrder.indexOf(b))
-    .map(([, imports]) => imports);
+  const { separator } = getConfig();
+  const [first, ...otherCategories] = Object.entries(importCategories).filter(hasImports).sort(byCategoriesOrder).map(toImportBlock);
 
-  let result = first ? [...first.values()].join('\n') : '';
+  let result = first || '';
 
   for (const imports of otherCategories) {
-    result += '\n\n' + [...imports.values()].join('\n');
+    result += `${separator}\n${imports}`;
   }
 
   return result;
+}
+
+function byCategoriesOrder([a]: CategoryEntry, [b]: CategoryEntry): number {
+  return categoriesOrder.indexOf(a) - categoriesOrder.indexOf(b);
+}
+
+function hasImports([, imports]: CategoryEntry) {
+  return imports.size > 0;
+}
+
+function toImportBlock([, imports]: CategoryEntry) {
+  return [...imports.values()].join('\n');
 }

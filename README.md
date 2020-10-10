@@ -129,6 +129,12 @@ import-conductor --userLibPrefixes @customA @customB
 import-conductor -p @customA @customB
 ```
 
+- `separator` - The string separator between the imports sections: (defaults to `\n`)
+
+```shell script
+import-conductor --separator '' ==> no separator
+```
+
 - `staged` - Run against staged files: (defaults to `false`)
 
 ```shell script

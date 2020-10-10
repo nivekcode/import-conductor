@@ -3,6 +3,7 @@ import { Config } from './types';
 export const defaultConfig: Config = {
   source: './src/**/*.ts',
   userLibPrefixes: [],
+  separator: '\n',
   autoMerge: true,
   autoAdd: false,
   verbose: false,

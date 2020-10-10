@@ -9,6 +9,7 @@ export interface Config {
   autoAdd: boolean;
   autoMerge: boolean;
   source: string;
+  separator: string;
   ignore: string[];
   userLibPrefixes: string[];
   thirdPartyDependencies?: Set<string>;
