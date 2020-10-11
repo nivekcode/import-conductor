@@ -3,19 +3,15 @@ import * as config from '@ic/config';
 import fs from 'fs';
 import { Config } from '@ic/types';
 import { readmeExample, comments, testCase } from './optimize-imports-mocks';
+import { defaultConfig } from '@ic/defaultConfig';
 
 jest.mock('fs');
 
 describe('optimizeImports', () => {
   const basicConfig: Config = {
-    ignore: [],
-    dryRun: false,
-    verbose: false,
-    staged: false,
-    source: 'test.ts',
+    ...defaultConfig,
+    source: ['test.ts'],
     userLibPrefixes: ['@myorg'],
-    autoAdd: false,
-    autoMerge: true,
     thirdPartyDependencies: new Set<string>(['@angular/core', 'rxjs']),
   };
 
