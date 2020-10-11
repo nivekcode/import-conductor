@@ -1,3 +1,15 @@
+# [2.1.0](https://github.com/kreuzerk/import-conductor/compare/v2.0.3...v2.1.0) (2020-10-11)
+
+
+### Bug Fixes
+
+* 🐛 cli default option wasn't working ([9304f31](https://github.com/kreuzerk/import-conductor/commit/9304f316f9b9d7ec38b32be1d6b239275ca8cef3))
+
+
+### Features
+
+* 🎸 support multiple sources ([5e16de2](https://github.com/kreuzerk/import-conductor/commit/5e16de21d30ef7caf5c547aa6bc936f1d8f91f3e))
+
 ## [2.0.3](https://github.com/kreuzerk/import-conductor/compare/v2.0.2...v2.0.3) (2020-09-05)
 
 
