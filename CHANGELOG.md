@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/kreuzerk/import-conductor/compare/v2.1.0...v2.2.0) (2020-10-11)
+
+
+### Features
+
+* 🎸 allow changing the sections separator ([800dbd9](https://github.com/kreuzerk/import-conductor/commit/800dbd9202d1c49bdb2660affc2746afaba884bf)), closes [#34](https://github.com/kreuzerk/import-conductor/issues/34)
+
 # [2.1.0](https://github.com/kreuzerk/import-conductor/compare/v2.0.3...v2.1.0) (2020-10-11)
 
 ### Bug Fixes
