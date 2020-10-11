@@ -8,7 +8,7 @@ export interface Config {
   staged: boolean;
   autoAdd: boolean;
   autoMerge: boolean;
-  source: string;
+  source: string[];
   separator: string;
   ignore: string[];
   userLibPrefixes: string[];

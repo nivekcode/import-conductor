@@ -100,12 +100,12 @@ npx import-conductor -s customer.component.ts -p @myorg
 
 ## Options
 
-- `source` - Regex to that matches the source files: (defaults to `./src/**/*.ts`)
+- `source` - Regex to that matches the source files: (defaults to `[./src/**/*.ts]`)
 
 ```shell script
-import-conductor --source 'mySrc/**/*.ts'
-import-conductor -s 'mySrc/**/*.ts'
-import-conductor 'mySrc/**/*.ts'
+import-conductor --source mySrc/**/*.ts anotherSrc/**/*.ts
+import-conductor -s mySrc/**/*.ts anotherSrc/**/*.ts
+import-conductor mySrc/**/*.ts anotherSrc/**/*.ts
 ```
 
 - `ignore`\* - Ignore files that match the pattern: (defaults to `[]`)

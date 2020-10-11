@@ -10,7 +10,7 @@ jest.mock('fs');
 describe('optimizeImports', () => {
   const basicConfig: Config = {
     ...defaultConfig,
-    source: 'test.ts',
+    source: ['test.ts'],
     userLibPrefixes: ['@myorg'],
     thirdPartyDependencies: new Set<string>(['@angular/core', 'rxjs']),
   };
