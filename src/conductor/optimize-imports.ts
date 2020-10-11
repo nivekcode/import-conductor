@@ -5,6 +5,7 @@ import ts from 'typescript';
 import { getConfig } from '../config';
 import { log } from '../helpers/log';
 
+import { collectNonImportNodes } from './collect-non-import-nodes';
 import { categorizeImportLiterals } from './categorize-imports';
 import { collectImportNodes } from './collect-import-nodes';
 import { formatImportStatements } from './format-import-statements';
@@ -57,12 +58,18 @@ export async function optimizeImports(filePath: string): Promise<string> {
 
   const categorizedImports = categorizeImportLiterals(importStatementMap);
   const sortedAndCategorizedImports = sortImportCategories(categorizedImports);
-  const result = formatImportStatements(sortedAndCategorizedImports);
+  let updatedContent = formatImportStatements(sortedAndCategorizedImports);
 
   const lastImport = importNodes.pop();
   const contentWithoutImportStatements = fileContent.slice(lastImport.end);
 
-  let updatedContent = `${result}${contentWithoutImportStatements}`;
+  // Add back code blocks that were between the import statements
+  const nonImportNodes = collectNonImportNodes(rootNode, lastImport);
+  if (nonImportNodes) {
+    updatedContent += nonImportNodes.map((n) => n.getFullText()).join('');
+  }
+
+  updatedContent += contentWithoutImportStatements;
 
   if (fileComment) {
     // Add the comment back to the file content.
