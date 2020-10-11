@@ -6,6 +6,11 @@ export const optionDefinitions = [
     description: 'Run with detailed log output',
   },
   {
+    name: 'separator',
+    type: String,
+    description: 'Separator between import groups',
+  },
+  {
     name: 'source',
     alias: 's',
     type: String,

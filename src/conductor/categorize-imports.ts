@@ -3,35 +3,35 @@ import { isThirdParty } from '../helpers/is-third-party';
 import { ImportCategories } from '../types';
 
 export function categorizeImportLiterals(importLiterals: Map<string, string>): ImportCategories {
-  const thirdPartyImports = new Map<string, string>();
-  const userLibraryImports = new Map<string, string>();
-  const differentModuleImports = new Map<string, string>();
-  const sameModuleImports = new Map<string, string>();
+  const thirdParty = new Map<string, string>();
+  const userLibrary = new Map<string, string>();
+  const differentModule = new Map<string, string>();
+  const sameModule = new Map<string, string>();
 
   importLiterals.forEach((fullImportStatement: string, importLiteral: string) => {
     const normalized = importLiteral.replace(/['"]/g, '');
 
     if (normalized.startsWith('./')) {
-      sameModuleImports.set(importLiteral, fullImportStatement);
+      sameModule.set(importLiteral, fullImportStatement);
       return;
     }
 
     if (normalized.startsWith('..')) {
-      differentModuleImports.set(importLiteral, fullImportStatement);
+      differentModule.set(importLiteral, fullImportStatement);
       return;
     }
 
     if (isCustomImport(normalized)) {
-      userLibraryImports.set(importLiteral, fullImportStatement);
+      userLibrary.set(importLiteral, fullImportStatement);
       return;
     }
 
     if (isThirdParty(normalized)) {
-      thirdPartyImports.set(importLiteral, fullImportStatement);
+      thirdParty.set(importLiteral, fullImportStatement);
     } else {
-      differentModuleImports.set(importLiteral, fullImportStatement);
+      differentModule.set(importLiteral, fullImportStatement);
     }
   });
 
-  return { thirdPartyImports, differentModuleImports, sameModuleImports, userLibraryImports };
+  return { thirdParty, differentModule, sameModule, userLibrary };
 }
