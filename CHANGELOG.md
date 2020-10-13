@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/kreuzerk/import-conductor/compare/v2.2.0...v2.2.1) (2020-10-13)
+
+
+### Bug Fixes
+
+* 🐛 code between import statements gets deleted ([90e3f90](https://github.com/kreuzerk/import-conductor/commit/90e3f90dba286f718037eab8b345519a04629e57)), closes [#40](https://github.com/kreuzerk/import-conductor/issues/40)
+
 # [2.2.0](https://github.com/kreuzerk/import-conductor/compare/v2.1.0...v2.2.0) (2020-10-11)
 
 
