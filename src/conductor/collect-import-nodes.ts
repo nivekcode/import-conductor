@@ -1,9 +1,9 @@
-import ts from 'typescript';
+import { Node, isImportDeclaration } from 'typescript';
 
-export function collectImportNodes(rootNode: ts.Node): ts.Node[] {
-  const importNodes: ts.Node[] = [];
-  const traverse = (node: ts.Node) => {
-    if (ts.isImportDeclaration(node)) {
+export function collectImportNodes(rootNode: Node): Node[] {
+  const importNodes: Node[] = [];
+  const traverse = (node: Node) => {
+    if (isImportDeclaration(node)) {
       importNodes.push(node);
     }
   };

@@ -2,7 +2,7 @@ import { actions, optimizeImports } from '@ic/conductor/optimize-imports';
 import * as config from '@ic/config';
 import fs from 'fs';
 import { Config } from '@ic/types';
-import { readmeExample, comments, testCase } from './optimize-imports-mocks';
+import { readmeExample, comments, TestCase, codeBetweenImports } from './optimize-imports-mocks';
 import { defaultConfig } from '@ic/defaultConfig';
 
 jest.mock('fs');
@@ -21,7 +21,7 @@ describe('optimizeImports', () => {
     (fs.writeFileSync as any).mockClear();
   });
 
-  async function assertConductor({ expected, input }: testCase) {
+  async function assertConductor({ expected, input }: TestCase) {
     (fs.readFileSync as any).mockReturnValue(Buffer.from(input));
     const file = 'test.ts';
     const result = await optimizeImports(file);
@@ -34,15 +34,19 @@ describe('optimizeImports', () => {
     await assertConductor(readmeExample);
   });
 
+  it('should work with comments', async () => {
+    await assertConductor(comments);
+  });
+
+  it('should work with non import node between the import blocks', async () => {
+    await assertConductor(codeBetweenImports);
+  });
+
   it('should not change conducted file', async () => {
     (fs.readFileSync as any).mockReturnValue(Buffer.from(readmeExample.expected));
     const file = 'test.ts';
     await optimizeImports(file);
     expect(fs.writeFileSync).not.toHaveBeenCalled();
-  });
-
-  it('should work with comments', async () => {
-    await assertConductor(comments);
   });
 
   it('should skip the file when skip comment exists', async () => {

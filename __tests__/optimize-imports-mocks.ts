@@ -1,6 +1,6 @@
-export type testCase = { input: string; expected: string };
+export type TestCase = { input: string; expected: string };
 
-export const readmeExample: testCase = {
+export const readmeExample: TestCase = {
   input: `import fs from 'fs';
 import { CustomerService } from './customer.service';
 import { Customer } from './customer.model';
@@ -22,12 +22,7 @@ import { Customer } from './customer.model';
 import { CustomerService } from './customer.service';`,
 };
 
-export const secondRun: testCase = {
-  input: readmeExample.expected,
-  expected: readmeExample.expected,
-};
-
-export const comments: testCase = {
+export const comments: TestCase = {
   input: `// file level comments shouldn't move
 import fs from 'fs';
 import { CustomerService } from './customer.service';
@@ -59,4 +54,46 @@ import { Order } from '../order/order.model';
 
 import { Customer } from './customer.model';
 import { CustomerService } from './customer.service';`,
+};
+
+export const codeBetweenImports: TestCase = {
+  input: `/* file level comments shouldn't move
+and another line */
+import fs from 'fs';
+/// <reference types='./types' />
+
+declare var global: any**
+import { CustomerService } from './customer.service';
+import { Customer } from './customer.model';
+
+import { Order } from '../order/order.model';
+
+if (environment.production) {
+  enableProdMode();
+}
+
+import { Component, OnInit } from '@angular/core';
+import { LoggerService } from '@myorg/logger';
+import { Observable } from 'rxjs';
+import { spawn } from 'child_process';`,
+  expected: `/* file level comments shouldn't move
+and another line */
+import { Component, OnInit } from '@angular/core';
+import { spawn } from 'child_process';
+import fs from 'fs';
+import { Observable } from 'rxjs';
+
+import { LoggerService } from '@myorg/logger';
+
+import { Order } from '../order/order.model';
+
+import { Customer } from './customer.model';
+import { CustomerService } from './customer.service';
+/// <reference types='./types' />
+
+declare var global: any**
+
+if (environment.production) {
+  enableProdMode();
+}`,
 };
