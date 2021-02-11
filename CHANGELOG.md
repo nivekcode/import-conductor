@@ -1,3 +1,10 @@
+## [2.2.2](https://github.com/kreuzerk/import-conductor/compare/v2.2.1...v2.2.2) (2021-02-11)
+
+
+### Bug Fixes
+
+* 🐛 Fixed case with empty separator added ([6419a16](https://github.com/kreuzerk/import-conductor/commit/6419a161dfb30ea8d1e525623577700a8b901f3d))
+
 ## [2.2.1](https://github.com/kreuzerk/import-conductor/compare/v2.2.0...v2.2.1) (2020-10-13)
 
 
