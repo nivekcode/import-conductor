@@ -27,5 +27,15 @@ function hasImports([, imports]: CategoryEntry) {
 }
 
 function toImportBlock([, imports]: CategoryEntry) {
-  return [...imports.values()].join('\n');
+  return [...imports.values()].map((l) => trim(l, ' \n')).join('\n');
+}
+
+function escapeRegex(string: string) {
+  return string.replace(/[\[\](){}?*+\^$\\.|\-]/g, '\\$&');
+}
+
+function trim(input: string, characters: string) {
+  characters = escapeRegex(characters);
+
+  return input.replace(new RegExp('^[' + characters + ']+|[' + characters + ']+$', 'g'), '');
 }

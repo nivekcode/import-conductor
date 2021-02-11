@@ -2,7 +2,7 @@ import { actions, optimizeImports } from '@ic/conductor/optimize-imports';
 import * as config from '@ic/config';
 import fs from 'fs';
 import { Config } from '@ic/types';
-import { readmeExample, comments, TestCase, codeBetweenImports } from './optimize-imports-mocks';
+import { readmeExample, comments, TestCase, codeBetweenImports, emptyNewLineSeparator } from './optimize-imports-mocks';
 import { defaultConfig } from '@ic/defaultConfig';
 
 jest.mock('fs');
@@ -15,16 +15,23 @@ describe('optimizeImports', () => {
     thirdPartyDependencies: new Set<string>(['@angular/core', 'rxjs']),
   };
 
+  let spy: jasmine.Spy;
   beforeEach(() => {
-    spyOn(config, 'getConfig').and.returnValue(basicConfig);
+    spy = spyOn(config, 'getConfig');
+    spy.and.returnValue(basicConfig);
     (fs.existsSync as any).mockReturnValue(true);
     (fs.writeFileSync as any).mockClear();
   });
 
-  async function assertConductor({ expected, input }: TestCase) {
+  async function assertConductor({ expected, input, noOfRuns }: TestCase) {
     (fs.readFileSync as any).mockReturnValue(Buffer.from(input));
+    let noOfRun = noOfRuns ?? 1;
     const file = 'test.ts';
-    const result = await optimizeImports(file);
+    let result: string;
+    do {
+      result = await optimizeImports(file);
+    } while (--noOfRun > 0);
+
     expect(fs.writeFileSync).toHaveBeenCalledWith(file, expected);
 
     return result;
@@ -40,6 +47,11 @@ describe('optimizeImports', () => {
 
   it('should work with non import node between the import blocks', async () => {
     await assertConductor(codeBetweenImports);
+  });
+
+  it('should work empty new line separator', async () => {
+    spy.and.returnValue({ ...basicConfig, separator: '' });
+    await assertConductor(emptyNewLineSeparator);
   });
 
   it('should not change conducted file', async () => {
