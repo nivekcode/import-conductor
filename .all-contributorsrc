@@ -47,6 +47,17 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "Lonli-Lokli",
+      "name": "Lonli-Lokli",
+      "avatar_url": "https://avatars.githubusercontent.com/u/767795?v=4",
+      "profile": "https://github.com/Lonli-Lokli",
+      "contributions": [
+        "code",
+        "test",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
