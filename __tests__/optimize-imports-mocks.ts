@@ -1,4 +1,4 @@
-export type TestCase = { input: string; expected: string };
+export type TestCase = { input: string; expected: string; noOfRuns?: number };
 
 export const readmeExample: TestCase = {
   input: `import fs from 'fs';
@@ -96,4 +96,18 @@ declare var global: any**
 if (environment.production) {
   enableProdMode();
 }`,
+};
+
+export const emptyNewLineSeparator: TestCase = {
+  noOfRuns: 2,
+  input: `import { Component, HostListener } from '@angular/core';
+  import { Observable } from 'rxjs';
+  import { MatDialogRef } from '@angular/material/dialog';
+
+  
+  import { AboutDialogBloc, AboutState } from './about-dialog.bloc';`,
+  expected: `import { Component, HostListener } from '@angular/core';
+import { Observable } from 'rxjs';
+import { MatDialogRef } from '@angular/material/dialog';
+import { AboutDialogBloc, AboutState } from './about-dialog.bloc';`,
 };
