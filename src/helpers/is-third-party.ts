@@ -11,8 +11,9 @@ export function isThirdParty(libName: string) {
   try {
     isThirdPartyModule = require.resolve(libName).indexOf('/') < 0;
   } catch {
-    console.warn(`You are importing ${libName} but it is not installed.`);
-    console.warn(`Trying to figure out import category based on library name: ${libName}`);
+    console.log();
+    console.warn(`⚡ You are importing ${libName} but it is not installed.`);
+    console.warn(`⚡ Trying to figure out import category based on library name: ${libName}`);
     isThirdPartyModule = !libName.startsWith('.') && !userLibPrefixes.some((prefix) => libName.startsWith(prefix));
   }
   return isThirdPartyModule || breakdownPath(libName).some((subPath) => thirdPartyDependencies.has(subPath));
