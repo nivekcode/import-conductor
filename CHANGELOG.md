@@ -1,3 +1,10 @@
+## [2.2.3](https://github.com/kreuzerk/import-conductor/compare/v2.2.2...v2.2.3) (2021-03-24)
+
+
+### Bug Fixes
+
+* 🐛 handle third party libraries that are not installed ([aab3f11](https://github.com/kreuzerk/import-conductor/commit/aab3f1104de88dbdadd8a84f2cf42f32cd8ee75a))
+
 ## [2.2.2](https://github.com/kreuzerk/import-conductor/compare/v2.2.1...v2.2.2) (2021-02-11)
 
 
