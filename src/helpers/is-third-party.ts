@@ -5,12 +5,15 @@ function breakdownPath(path: string): string[] {
 }
 
 export function isThirdParty(libName: string) {
-  let isCoreModule = false;
+  let isThirdPartyModule = false;
+  const { thirdPartyDependencies, userLibPrefixes } = getConfig();
+
   try {
-    isCoreModule = require.resolve(libName).indexOf('/') < 0;
-  } catch {}
-
-  const { thirdPartyDependencies } = getConfig();
-
-  return isCoreModule || breakdownPath(libName).some((subPath) => thirdPartyDependencies.has(subPath));
+    isThirdPartyModule = require.resolve(libName).indexOf('/') < 0;
+  } catch {
+    console.warn(`You are importing ${libName} but it is not installed.`);
+    console.warn(`Trying to figure out import category based on library name: ${libName}`);
+    isThirdPartyModule = !libName.startsWith('.') && !userLibPrefixes.some((prefix) => libName.startsWith(prefix));
+  }
+  return isThirdPartyModule || breakdownPath(libName).some((subPath) => thirdPartyDependencies.has(subPath));
 }
