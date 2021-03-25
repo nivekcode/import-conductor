@@ -10,6 +10,5 @@ export const detectLineEnding = (value: string) => {
 
   const crlf = newlines.filter((newline) => newline === '\r\n').length;
   const lf = newlines.length - crlf;
-  console.log(crlf > lf ? 'returning r and n' : 'returning r');
   return crlf > lf ? '\r\n' : '\n';
 };
