@@ -1,3 +1,10 @@
+## [2.2.4](https://github.com/kreuzerk/import-conductor/compare/v2.2.3...v2.2.4) (2021-03-25)
+
+
+### Bug Fixes
+
+* 🐛 handle multiple line endings ([6fc41ff](https://github.com/kreuzerk/import-conductor/commit/6fc41ff46224ffff33a0aa47c457667c672e5ac3))
+
 ## [2.2.3](https://github.com/kreuzerk/import-conductor/compare/v2.2.2...v2.2.3) (2021-03-24)
 
 
