@@ -1,3 +1,10 @@
+## [2.2.5](https://github.com/kreuzerk/import-conductor/compare/v2.2.4...v2.2.5) (2021-03-25)
+
+
+### Bug Fixes
+
+* 🐛 remove accidental debug console.log ([3b2a742](https://github.com/kreuzerk/import-conductor/commit/3b2a742daa641e96c7272d2c23db70e3f86857e6))
+
 ## [2.2.4](https://github.com/kreuzerk/import-conductor/compare/v2.2.3...v2.2.4) (2021-03-25)
 
 
