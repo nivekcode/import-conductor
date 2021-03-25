@@ -3,11 +3,12 @@ import simpleGit, { SimpleGit } from 'simple-git';
 import ts from 'typescript';
 
 import { getConfig } from '../config';
+import { detectLineEnding } from '../helpers/line-ending-detector';
 import { log } from '../helpers/log';
 
-import { collectNonImportNodes } from './collect-non-import-nodes';
 import { categorizeImportLiterals } from './categorize-imports';
 import { collectImportNodes } from './collect-import-nodes';
+import { collectNonImportNodes } from './collect-non-import-nodes';
 import { formatImportStatements } from './format-import-statements';
 import { getImportStatementMap } from './get-import-statement-map';
 import { sortImportCategories } from './sort-import-categories';
@@ -37,6 +38,7 @@ export async function optimizeImports(filePath: string): Promise<string> {
   }
 
   let fileContent = readFileSync(filePath).toString();
+  const lineEnding = detectLineEnding(fileContent);
   const { staged, autoAdd, dryRun } = getConfig();
   if (/\/[/*]\s*import-conductor-skip/.test(fileContent)) {
     log('gray', filePath, 'skipped (via comment)');
@@ -58,7 +60,7 @@ export async function optimizeImports(filePath: string): Promise<string> {
 
   const categorizedImports = categorizeImportLiterals(importStatementMap);
   const sortedAndCategorizedImports = sortImportCategories(categorizedImports);
-  let updatedContent = formatImportStatements(sortedAndCategorizedImports);
+  let updatedContent = formatImportStatements(sortedAndCategorizedImports, lineEnding);
 
   const lastImport = importNodes.pop();
   const contentWithoutImportStatements = fileContent.slice(lastImport.end);
