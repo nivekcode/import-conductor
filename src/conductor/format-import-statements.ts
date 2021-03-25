@@ -5,14 +5,17 @@ type CategoryEntry = [string, Map<string, string>];
 
 const categoriesOrder = ['thirdParty', 'userLibrary', 'differentModule', 'sameModule'];
 
-export function formatImportStatements(importCategories: ImportCategories) {
+export function formatImportStatements(importCategories: ImportCategories, lineEnding: string) {
   const { separator } = getConfig();
-  const [first, ...otherCategories] = Object.entries(importCategories).filter(hasImports).sort(byCategoriesOrder).map(toImportBlock);
+  const [first, ...otherCategories] = Object.entries(importCategories)
+    .filter(hasImports)
+    .sort(byCategoriesOrder)
+    .map((imports) => toImportBlock(imports, lineEnding));
 
   let result = first || '';
 
   for (const imports of otherCategories) {
-    result += `${separator}\n${imports}`;
+    result += `${separator}${lineEnding}${imports}`;
   }
 
   return result;
@@ -26,8 +29,8 @@ function hasImports([, imports]: CategoryEntry) {
   return imports.size > 0;
 }
 
-function toImportBlock([, imports]: CategoryEntry) {
-  return [...imports.values()].map((l) => trim(l, ' \n')).join('\n');
+function toImportBlock([, imports]: CategoryEntry, lineEnding: string) {
+  return [...imports.values()].map((l) => trim(l, ` ${lineEnding}`)).join(lineEnding);
 }
 
 function escapeRegex(string: string) {
