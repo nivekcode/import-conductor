@@ -1,3 +1,10 @@
+## [2.2.6](https://github.com/kreuzerk/import-conductor/compare/v2.2.5...v2.2.6) (2022-04-01)
+
+
+### Bug Fixes
+
+* 🐛 (vulnearbility) update simple git ([e91e4c1](https://github.com/kreuzerk/import-conductor/commit/e91e4c10025d3b344f18880c19e83d18a2026304))
+
 ## [2.2.5](https://github.com/kreuzerk/import-conductor/compare/v2.2.4...v2.2.5) (2021-03-25)
 
 
