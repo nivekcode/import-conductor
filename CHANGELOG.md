@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/kreuzerk/import-conductor/compare/v2.2.6...v2.3.0) (2022-04-05)
+
+
+### Features
+
+* 🎸 (conduct) allow conduct usage from code ([12d83ce](https://github.com/kreuzerk/import-conductor/commit/12d83cefc169b2e21c5747b9244d5d32c5e02bba))
+
 ## [2.2.6](https://github.com/kreuzerk/import-conductor/compare/v2.2.5...v2.2.6) (2022-04-01)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "import-conductor",
-  "version": "2.2.6",
+  "version": "2.3.0",
   "description": "Automatically organize your Typescript import statements",
   "main": "index.js",
   "scripts": {
