@@ -107,7 +107,7 @@ export const emptyNewLineSeparator: TestCase = {
   
   import { AboutDialogBloc, AboutState } from './about-dialog.bloc';`,
   expected: `import { Component, HostListener } from '@angular/core';
-import { Observable } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 import { AboutDialogBloc, AboutState } from './about-dialog.bloc';`,
 };
