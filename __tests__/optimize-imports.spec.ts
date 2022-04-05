@@ -6,6 +6,7 @@ import { readmeExample, comments, TestCase, codeBetweenImports, emptyNewLineSepa
 import { defaultConfig } from '@ic/defaultConfig';
 
 jest.mock('fs');
+jest.mock('simple-git');
 
 describe('optimizeImports', () => {
   const basicConfig: Config = {
@@ -49,7 +50,7 @@ describe('optimizeImports', () => {
     await assertConductor(codeBetweenImports);
   });
 
-  it('should work empty new line separator', async () => {
+  it('should give you an error if you import something that is not installed', async () => {
     spy.and.returnValue({ ...basicConfig, separator: '' });
     await assertConductor(emptyNewLineSeparator);
   });

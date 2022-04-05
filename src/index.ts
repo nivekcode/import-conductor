@@ -10,6 +10,8 @@ import { optionDefinitions, sections } from './cliOptions';
 import { conduct } from './conductor/conduct';
 import chalk from 'chalk';
 
+export { conduct };
+
 const cliConfig = commandLineArgs(optionDefinitions, {
   camelCase: true,
   stopAtFirstUnknown: true,

@@ -9,8 +9,8 @@ import { Config } from '../types';
 import { getFilesPaths } from './get-files-paths';
 import { actions, optimizeImports } from './optimize-imports';
 
-export async function conduct(cliConfig: Partial<Config>): Promise<string[]> {
-  const config = resolveConfig(cliConfig);
+export async function conduct(configuration: Partial<Config>): Promise<string[]> {
+  const config = resolveConfig(configuration);
   setConfig(config);
   const { staged, source, verbose, ignore, dryRun } = config;
   const filePaths = staged ? (await gitChangedFiles({ showCommitted: false })).unCommittedFiles : getFilesPaths(source);
