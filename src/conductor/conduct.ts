@@ -6,8 +6,9 @@ import { resolveConfig, setConfig } from '../config';
 import { log } from '../helpers/log';
 import { Config } from '../types';
 
+import { organizeImportsForFile } from './organize-imports';
 import { getFilesPaths } from './get-files-paths';
-import { actions, optimizeImports } from './optimize-imports';
+import { actions } from './organize-imports';
 
 export async function conduct(configuration: Partial<Config>): Promise<string[]> {
   const config = resolveConfig(configuration);
@@ -32,11 +33,11 @@ export async function conduct(configuration: Partial<Config>): Promise<string[]>
     const ignoreFile = ignore.includes(path) || ignore.some((p) => path.includes(p));
     if (ignoreFile) {
       results[actions.skipped]++;
-      log('gray', path, 'skipped (via ignore pattern)');
+      log('gray', 'skipped (via ignore pattern)', path);
       continue;
     }
 
-    const actionDone = await optimizeImports(path);
+    const actionDone = await organizeImportsForFile(path);
     if (actionDone in results) {
       results[actionDone]++;
     }

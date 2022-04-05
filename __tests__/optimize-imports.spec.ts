@@ -1,4 +1,4 @@
-import { actions, optimizeImports } from '@ic/conductor/optimize-imports';
+import { actions, organizeImports, organizeImportsForFile } from '@ic/conductor/organize-imports';
 import * as config from '@ic/config';
 import fs from 'fs';
 import { Config } from '@ic/types';
@@ -30,7 +30,7 @@ describe('optimizeImports', () => {
     const file = 'test.ts';
     let result: string;
     do {
-      result = await optimizeImports(file);
+      result = await organizeImportsForFile(file);
     } while (--noOfRun > 0);
 
     expect(fs.writeFileSync).toHaveBeenCalledWith(file, expected);
@@ -58,7 +58,7 @@ describe('optimizeImports', () => {
   it('should not change conducted file', async () => {
     (fs.readFileSync as any).mockReturnValue(Buffer.from(readmeExample.expected));
     const file = 'test.ts';
-    await optimizeImports(file);
+    await organizeImports(file);
     expect(fs.writeFileSync).not.toHaveBeenCalled();
   });
 
@@ -67,7 +67,7 @@ describe('optimizeImports', () => {
     for (const testCase of testCases) {
       (fs.readFileSync as any).mockReturnValue(Buffer.from(testCase));
       const file = 'test.ts';
-      const result = await optimizeImports(file);
+      const result = await organizeImportsForFile(file);
       expect(result).toBe(actions.skipped);
       expect(fs.writeFileSync).not.toHaveBeenCalled();
     }
