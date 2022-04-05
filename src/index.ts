@@ -5,12 +5,13 @@ import commandLineArgs from 'command-line-args';
 import commandLineUsage from 'command-line-usage';
 
 import { packageVersion } from './version';
-
-import { optionDefinitions, sections } from './cliOptions';
-import { conduct } from './conductor/conduct';
 import chalk from 'chalk';
 
-export { conduct };
+import { organizeImports } from './conductor/organize-imports';
+import { optionDefinitions, sections } from './cliOptions';
+import { conduct } from './conductor/conduct';
+
+export { conduct, organizeImports };
 
 const cliConfig = commandLineArgs(optionDefinitions, {
   camelCase: true,

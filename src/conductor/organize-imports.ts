@@ -31,27 +31,49 @@ function getFileComment(fileContent: string): string {
   return '';
 }
 
-export async function optimizeImports(filePath: string): Promise<string> {
+export async function organizeImportsForFile(filePath: string): Promise<string> {
   // staged files might also include deleted files, we need to verify they exist.
   if (!/\.tsx?$/.test(filePath) || !existsSync(filePath)) {
     return actions.none;
   }
 
   let fileContent = readFileSync(filePath).toString();
-  const lineEnding = detectLineEnding(fileContent);
-  const { staged, autoAdd, dryRun } = getConfig();
   if (/\/[/*]\s*import-conductor-skip/.test(fileContent)) {
-    log('gray', filePath, 'skipped (via comment)');
+    log('gray', 'skipped (via comment)', filePath);
+    return actions.skipped;
+  }
+  const { staged, autoAdd, dryRun } = getConfig();
+  const fileWithOrganizedImports = await organizeImports(fileContent);
+  const fileHasChanged = fileWithOrganizedImports !== fileContent;
+
+  if (fileHasChanged) {
+    !dryRun && writeFileSync(filePath, fileWithOrganizedImports);
+    let msg = 'imports reordered';
+    if (staged && autoAdd) {
+      await git.add(filePath);
+      msg += ', added to git';
+    }
+    log('green', msg, filePath);
+  } else {
+    log('gray', 'no change needed', filePath);
+  }
+
+  return fileHasChanged ? actions.reordered : actions.none;
+}
+
+export async function organizeImports(fileContent: string): Promise<string> {
+  const lineEnding = detectLineEnding(fileContent);
+  if (/\/[/*]\s*import-conductor-skip/.test(fileContent)) {
+    log('gray', 'Format skipped (via comment)');
     return actions.skipped;
   }
 
   let fileComment = getFileComment(fileContent);
-  // Remove the comment from the file content.
   if (fileComment) {
     fileContent = fileContent.replace(fileComment, '');
   }
 
-  const rootNode = ts.createSourceFile(filePath, fileContent, ts.ScriptTarget.Latest, true);
+  const rootNode = ts.createSourceFile('temp', fileContent, ts.ScriptTarget.Latest, true);
   const importNodes = collectImportNodes(rootNode);
   const importStatementMap = getImportStatementMap(importNodes);
   if (importStatementMap.size === 0) {
@@ -65,7 +87,6 @@ export async function optimizeImports(filePath: string): Promise<string> {
   const lastImport = importNodes.pop();
   const contentWithoutImportStatements = fileContent.slice(lastImport.end);
 
-  // Add back code blocks that were between the import statements
   const nonImportNodes = collectNonImportNodes(rootNode, lastImport);
   if (nonImportNodes) {
     updatedContent += nonImportNodes.map((n) => n.getFullText()).join('');
@@ -74,23 +95,7 @@ export async function optimizeImports(filePath: string): Promise<string> {
   updatedContent += contentWithoutImportStatements;
 
   if (fileComment) {
-    // Add the comment back to the file content.
-    fileContent = `${fileComment}${fileContent}`;
     updatedContent = `${fileComment}\n` + updatedContent;
   }
-
-  const fileHasChanged = updatedContent !== fileContent;
-  if (fileHasChanged) {
-    !dryRun && writeFileSync(filePath, updatedContent);
-    let msg = 'imports reordered';
-    if (staged && autoAdd) {
-      await git.add(filePath);
-      msg += ', added to git';
-    }
-    log('green', filePath, msg);
-  } else {
-    log('gray', filePath, 'no change needed');
-  }
-
-  return fileHasChanged ? actions.reordered : actions.none;
+  return updatedContent;
 }
