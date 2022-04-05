@@ -1,3 +1,10 @@
+# [2.4.0](https://github.com/kreuzerk/import-conductor/compare/v2.3.0...v2.4.0) (2022-04-05)
+
+
+### Features
+
+* 🎸 (organize) export organize imports function ([9e9bac5](https://github.com/kreuzerk/import-conductor/commit/9e9bac5f1991813e410f321f50d2b77d4a3a202a))
+
 # [2.3.0](https://github.com/kreuzerk/import-conductor/compare/v2.2.6...v2.3.0) (2022-04-05)
 
 
