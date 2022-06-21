@@ -45,8 +45,9 @@ export async function organizeImportsForFile(filePath: string): Promise<string> 
   const { staged, autoAdd, dryRun } = getConfig();
   const fileWithOrganizedImports = await organizeImports(fileContent);
   const fileHasChanged = fileWithOrganizedImports !== fileContent;
+  const isValidAction = [actions.none, actions.skipped].every(action => action !== fileWithOrganizedImports);
 
-  if (fileHasChanged) {
+  if (fileHasChanged && isValidAction) {
     !dryRun && writeFileSync(filePath, fileWithOrganizedImports);
     let msg = 'imports reordered';
     if (staged && autoAdd) {
