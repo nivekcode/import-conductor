@@ -1,12 +1,14 @@
 ![Logo](https://raw.githubusercontent.com/kreuzerk/import-conductor/master/assets/logo.png)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 # import-conductor
 
-> Automatically organize your TypeScript imports and keep them clean and readable.
+> Automatically organize your TypeScript imports to keep them clean and readable.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
