@@ -1,3 +1,11 @@
+## [2.4.1](https://github.com/kreuzerk/import-conductor/compare/v2.4.0...v2.4.1) (2022-06-25)
+
+
+### Bug Fixes
+
+* 🐛 veryify actions before updating a file ([667a80f](https://github.com/kreuzerk/import-conductor/commit/667a80f22ea084216c299b20a72a0cc99f2d6004))
+* verifyng action before update file ([0ba0c63](https://github.com/kreuzerk/import-conductor/commit/0ba0c635493ea852bb10e8bc8dba3c71c40943b3))
+
 # [2.4.0](https://github.com/kreuzerk/import-conductor/compare/v2.3.0...v2.4.0) (2022-04-05)
 
 
