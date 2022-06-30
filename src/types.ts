@@ -13,6 +13,7 @@ export interface Config {
   ignore: string[];
   userLibPrefixes: string[];
   thirdPartyDependencies?: Set<string>;
+  groupOrder: string[];
 }
 
 export type CliConfig = Omit<Config, 'autoAdd'> & { noAutoAdd: boolean };

@@ -10,4 +10,5 @@ export const defaultConfig: Config = {
   staged: false,
   dryRun: false,
   ignore: [],
+  groupOrder: ['thirdParty', 'userLibrary', 'differentModule', 'sameModule'],
 };
