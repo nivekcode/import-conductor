@@ -2,7 +2,7 @@ import { actions, organizeImports, organizeImportsForFile } from '@ic/conductor/
 import * as config from '@ic/config';
 import fs from 'fs';
 import { Config } from '@ic/types';
-import { readmeExample, comments, TestCase, codeBetweenImports, emptyNewLineSeparator } from './optimize-imports-mocks';
+import { readmeExample, comments, TestCase, codeBetweenImports, emptyNewLineSeparator, noImportStatement } from './optimize-imports-mocks';
 import { defaultConfig } from '@ic/defaultConfig';
 
 jest.mock('fs');
@@ -71,5 +71,13 @@ describe('optimizeImports', () => {
       expect(result).toBe(actions.skipped);
       expect(fs.writeFileSync).not.toHaveBeenCalled();
     }
+  });
+
+  it('should do nothing if the file has no import', async () => {
+    (fs.readFileSync as any).mockReturnValue(Buffer.from(noImportStatement.input));
+    const file = 'test.ts';
+    const result = await organizeImportsForFile(file);
+    expect(result).toBe(actions.none);
+    expect(fs.writeFileSync).not.toHaveBeenCalled();
   });
 });

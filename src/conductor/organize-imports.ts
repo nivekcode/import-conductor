@@ -45,7 +45,7 @@ export async function organizeImportsForFile(filePath: string): Promise<string> 
   const { staged, autoAdd, dryRun } = getConfig();
   const fileWithOrganizedImports = await organizeImports(fileContent);
   const fileHasChanged = fileWithOrganizedImports !== fileContent;
-  const isValidAction = [actions.none, actions.skipped].every(action => action !== fileWithOrganizedImports);
+  const isValidAction = [actions.none, actions.skipped].every((action) => action !== fileWithOrganizedImports);
 
   if (fileHasChanged && isValidAction) {
     !dryRun && writeFileSync(filePath, fileWithOrganizedImports);
@@ -55,11 +55,11 @@ export async function organizeImportsForFile(filePath: string): Promise<string> 
       msg += ', added to git';
     }
     log('green', msg, filePath);
-  } else {
-    log('gray', 'no change needed', filePath);
+    return actions.reordered;
   }
 
-  return fileHasChanged ? actions.reordered : actions.none;
+  log('gray', 'no change needed', filePath);
+  return actions.none;
 }
 
 export async function organizeImports(fileContent: string): Promise<string> {

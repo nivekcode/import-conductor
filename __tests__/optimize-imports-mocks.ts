@@ -111,3 +111,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { AboutDialogBloc, AboutState } from './about-dialog.bloc';`,
 };
+
+export const noImportStatement: TestCase = {
+  input: `const x = 2;`,
+  expected: `const x = 2;`,
+};
