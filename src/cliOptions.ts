@@ -26,6 +26,13 @@ export const optionDefinitions = [
     description: 'The prefix of custom user libraries',
   },
   {
+    name: 'groupOrder',
+    alias: 'g',
+    type: String,
+    multiple: true,
+    description: 'The group order should be organized',
+  },
+  {
     name: 'staged',
     type: Boolean,
     description: 'Run against staged files',
