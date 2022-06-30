@@ -58,6 +58,15 @@
         "test",
         "bug"
       ]
+    },
+    {
+      "login": "YuriSS",
+      "name": "Yuri Santos",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11182638?v=4",
+      "profile": "https://github.com/YuriSS",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
