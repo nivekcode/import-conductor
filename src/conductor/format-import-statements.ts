@@ -3,7 +3,7 @@ import { ImportCategories } from '../types';
 
 type CategoryEntry = [string, Map<string, string>];
 
-const categoriesOrder = ['thirdParty', 'userLibrary', 'differentModule', 'sameModule'];
+const categoriesOrder = ['thirdParty', 'userLibrary', 'differentModule', 'sameModule']; // <<<<
 
 export function formatImportStatements(importCategories: ImportCategories, lineEnding: string) {
   const { separator } = getConfig();
