@@ -1,4 +1,4 @@
-export type TestCase = { input: string; expected: string; noOfRuns?: number };
+export type TestCase = { input: string; expected: string; noOfRuns?: number; groupOrder?: string[] };
 
 export const readmeExample: TestCase = {
   input: `import fs from 'fs';
@@ -110,4 +110,44 @@ export const emptyNewLineSeparator: TestCase = {
 import { MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { AboutDialogBloc, AboutState } from './about-dialog.bloc';`,
+};
+
+export const noImportStatement: TestCase = {
+  input: `const x = 2;`,
+  expected: `const x = 2;`,
+};
+
+export const importsOnDifferentGroupOrder: TestCase = {
+  groupOrder: ['userLibrary', 'sameModule', 'differentModule', 'thirdParty'],
+  input: `import { Component } from '@angular/core';
+import fs from 'fs';
+import { LoggerService } from '@myorg/logger';
+import { Order } from '../order/order.model';
+import { CustomService } from './customer.service';`,
+  expected: `import { LoggerService } from '@myorg/logger';
+import { CustomService } from './customer.service';
+import { Order } from '../order/order.model';
+import { Component } from '@angular/core';
+import fs from 'fs';`,
+};
+
+export const importsWithGroupOrderIncorrect: TestCase = {
+  groupOrder: ['userLibrary', 'differentModule', 'thirdParty'],
+  input: `import fs from 'fs';
+import { CustomerService } from './customer.service';
+import { Order } from '../order/order.model';
+import { Component, OnInit } from '@angular/core';
+import { LoggerService } from '@myorg/logger';
+import { Observable } from 'rxjs';
+import { spawn } from 'child_process';`,
+  expected: `import { Component, OnInit } from '@angular/core';
+import { spawn } from 'child_process';
+import fs from 'fs';
+import { Observable } from 'rxjs';
+
+import { LoggerService } from '@myorg/logger';
+
+import { Order } from '../order/order.model';
+
+import { CustomerService } from './customer.service';`,
 };

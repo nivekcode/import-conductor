@@ -3,13 +3,11 @@ import { ImportCategories } from '../types';
 
 type CategoryEntry = [string, Map<string, string>];
 
-const categoriesOrder = ['thirdParty', 'userLibrary', 'differentModule', 'sameModule'];
-
 export function formatImportStatements(importCategories: ImportCategories, lineEnding: string) {
   const { separator } = getConfig();
   const [first, ...otherCategories] = Object.entries(importCategories)
     .filter(hasImports)
-    .sort(byCategoriesOrder)
+    .sort(byCategoriesOrder(getConfig().groupOrder))
     .map((imports) => toImportBlock(imports, lineEnding));
 
   let result = first || '';
@@ -21,8 +19,8 @@ export function formatImportStatements(importCategories: ImportCategories, lineE
   return result;
 }
 
-function byCategoriesOrder([a]: CategoryEntry, [b]: CategoryEntry): number {
-  return categoriesOrder.indexOf(a) - categoriesOrder.indexOf(b);
+function byCategoriesOrder(categoriesOrder: string[]) {
+  return ([a]: CategoryEntry, [b]: CategoryEntry): number => categoriesOrder.indexOf(a) - categoriesOrder.indexOf(b);
 }
 
 function hasImports([, imports]: CategoryEntry) {
