@@ -4,7 +4,7 @@ import { Config } from '../types';
 export function getGroupOrder(config: Partial<Config>) {
   const groups = new Set(config?.groupOrder || []);
   const uniqueGroups = Array.from(groups);
-  return !isValidGroupArgument(uniqueGroups) ? defaultConfig.groupOrder : uniqueGroups;
+  return isValidGroupArgument(uniqueGroups) ? uniqueGroups : defaultConfig.groupOrder;
 }
 
 function isValidGroupArgument(groups: string[]): boolean {

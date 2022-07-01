@@ -135,10 +135,11 @@ import-conductor -p @customA @customB
 import-conductor --separator '' ==> no separator
 ```
 
-- `groupOrder` - The order imports will be organized: (defaults to `[thirdParty, userLibrary, differentModule, sameModule]`)
+- `groupOrder` - The group order to follow: (defaults to `[thirdParty, userLibrary, differentModule, sameModule]`)
 
 ```shell script
 import-conductor --groupOrder 'userLibrary' 'differentModule' 'sameModule' 'thirdParty'
+import-conductor -g 'userLibrary' 'differentModule' 'sameModule' 'thirdParty'
 ```
 
 - `staged` - Run against staged files: (defaults to `false`)
