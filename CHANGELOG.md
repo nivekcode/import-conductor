@@ -1,3 +1,16 @@
+# [2.5.0](https://github.com/kreuzerk/import-conductor/compare/v2.4.1...v2.5.0) (2022-07-01)
+
+
+### Features
+
+* better command description ([6569138](https://github.com/kreuzerk/import-conductor/commit/65691388b42b50c5c11c3b6762b0719cb781099f))
+* ordering by configuration ([c39c7e8](https://github.com/kreuzerk/import-conductor/commit/c39c7e854351ec4d8ab6901cb510079d20de1f8b))
+* set default argument ([cd79f13](https://github.com/kreuzerk/import-conductor/commit/cd79f1307eb784b427c3c7076d9d021f7877dae1))
+* teste cases ([ddda79b](https://github.com/kreuzerk/import-conductor/commit/ddda79b0273fac4a6759b4ca9b5591f7fc800ed2))
+* testing no import statement ([3818e0e](https://github.com/kreuzerk/import-conductor/commit/3818e0e5054c36ef52b708b9ba07bb025d9b7260))
+* updated readme with new parameter ([e711b32](https://github.com/kreuzerk/import-conductor/commit/e711b322074b44d1bb941e9833b71e9b2ec51bfd))
+* validating cli argument ([40a918b](https://github.com/kreuzerk/import-conductor/commit/40a918b4409d476fe2c2a31a6e0092e665d9cd58))
+
 ## [2.4.1](https://github.com/kreuzerk/import-conductor/compare/v2.4.0...v2.4.1) (2022-06-25)
 
 
