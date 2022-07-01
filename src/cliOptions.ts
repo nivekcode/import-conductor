@@ -30,7 +30,7 @@ export const optionDefinitions = [
     alias: 'g',
     type: String,
     multiple: true,
-    description: 'The group order should be organized',
+    description: 'The group order it should follow',
   },
   {
     name: 'staged',
