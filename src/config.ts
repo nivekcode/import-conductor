@@ -1,4 +1,4 @@
-import { sync } from 'glob';
+import { sync } from 'fast-glob';
 
 import { getGroupOrder } from './conductor/get-group-order';
 import { getThirdParty } from './conductor/get-third-party';

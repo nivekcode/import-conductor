@@ -1,5 +1,5 @@
-import { sync } from 'glob';
+import { sync } from 'fast-glob';
 
 export function getFilesPaths(source: string[]): string[] {
-  return source.map((pattern) => sync(pattern, { nodir: true })).flat();
+  return source.map((pattern) => sync(pattern, { onlyFiles: true })).flat();
 }
