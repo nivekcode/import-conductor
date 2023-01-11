@@ -1,3 +1,10 @@
+# [2.6.0](https://github.com/kreuzerk/import-conductor/compare/v2.5.0...v2.6.0) (2023-01-11)
+
+
+### Features
+
+* switch to fast-glob for performance ([f0dc90a](https://github.com/kreuzerk/import-conductor/commit/f0dc90ad4e60405fbe5391c3c073e0fa2e55d33b))
+
 # [2.5.0](https://github.com/kreuzerk/import-conductor/compare/v2.4.1...v2.5.0) (2022-07-01)
 
 
