@@ -1,9 +1,7 @@
 ![Logo](https://raw.githubusercontent.com/kreuzerk/import-conductor/master/assets/logo.png)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
-
+[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 # import-conductor
@@ -205,13 +203,16 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 <table>
-  <tr>
-    <td align="center"><a href="https://medium.com/@kevinkreuzer"><img src="https://avatars0.githubusercontent.com/u/5468954?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Kevin Kreuzer</b></sub></a><br /><a href="https://github.com/kreuzerk/import-conductor/commits?author=kreuzerk" title="Code">💻</a> <a href="#design-kreuzerk" title="Design">🎨</a> <a href="https://github.com/kreuzerk/import-conductor/commits?author=kreuzerk" title="Documentation">📖</a> <a href="#ideas-kreuzerk" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-kreuzerk" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-kreuzerk" title="Maintenance">🚧</a> <a href="https://github.com/kreuzerk/import-conductor/commits?author=kreuzerk" title="Tests">⚠️</a></td>
-    <td align="center"><a href="https://github.com/shaharkazaz"><img src="https://avatars2.githubusercontent.com/u/17194830?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Shahar Kazaz</b></sub></a><br /><a href="https://github.com/kreuzerk/import-conductor/commits?author=shaharkazaz" title="Code">💻</a> <a href="https://github.com/kreuzerk/import-conductor/commits?author=shaharkazaz" title="Documentation">📖</a> <a href="#ideas-shaharkazaz" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-shaharkazaz" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-shaharkazaz" title="Maintenance">🚧</a> <a href="https://github.com/kreuzerk/import-conductor/commits?author=shaharkazaz" title="Tests">⚠️</a></td>
-    <td align="center"><a href="https://github.com/laurenzcodes"><img src="https://avatars1.githubusercontent.com/u/8169746?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Robert Laurenz</b></sub></a><br /><a href="https://github.com/kreuzerk/import-conductor/commits?author=laurenzcodes" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/Lonli-Lokli"><img src="https://avatars.githubusercontent.com/u/767795?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Lonli-Lokli</b></sub></a><br /><a href="https://github.com/kreuzerk/import-conductor/commits?author=Lonli-Lokli" title="Code">💻</a> <a href="https://github.com/kreuzerk/import-conductor/commits?author=Lonli-Lokli" title="Tests">⚠️</a> <a href="https://github.com/kreuzerk/import-conductor/issues?q=author%3ALonli-Lokli" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/YuriSS"><img src="https://avatars.githubusercontent.com/u/11182638?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Yuri Santos</b></sub></a><br /><a href="https://github.com/kreuzerk/import-conductor/commits?author=YuriSS" title="Code">💻</a></td>
-  </tr>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://medium.com/@kevinkreuzer"><img src="https://avatars0.githubusercontent.com/u/5468954?v=4?s=100" width="100px;" alt="Kevin Kreuzer"/><br /><sub><b>Kevin Kreuzer</b></sub></a><br /><a href="https://github.com/kreuzerk/import-conductor/commits?author=kreuzerk" title="Code">💻</a> <a href="#design-kreuzerk" title="Design">🎨</a> <a href="https://github.com/kreuzerk/import-conductor/commits?author=kreuzerk" title="Documentation">📖</a> <a href="#ideas-kreuzerk" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-kreuzerk" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-kreuzerk" title="Maintenance">🚧</a> <a href="https://github.com/kreuzerk/import-conductor/commits?author=kreuzerk" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/shaharkazaz"><img src="https://avatars2.githubusercontent.com/u/17194830?v=4?s=100" width="100px;" alt="Shahar Kazaz"/><br /><sub><b>Shahar Kazaz</b></sub></a><br /><a href="https://github.com/kreuzerk/import-conductor/commits?author=shaharkazaz" title="Code">💻</a> <a href="https://github.com/kreuzerk/import-conductor/commits?author=shaharkazaz" title="Documentation">📖</a> <a href="#ideas-shaharkazaz" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-shaharkazaz" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-shaharkazaz" title="Maintenance">🚧</a> <a href="https://github.com/kreuzerk/import-conductor/commits?author=shaharkazaz" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/laurenzcodes"><img src="https://avatars1.githubusercontent.com/u/8169746?v=4?s=100" width="100px;" alt="Robert Laurenz"/><br /><sub><b>Robert Laurenz</b></sub></a><br /><a href="https://github.com/kreuzerk/import-conductor/commits?author=laurenzcodes" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Lonli-Lokli"><img src="https://avatars.githubusercontent.com/u/767795?v=4?s=100" width="100px;" alt="Lonli-Lokli"/><br /><sub><b>Lonli-Lokli</b></sub></a><br /><a href="https://github.com/kreuzerk/import-conductor/commits?author=Lonli-Lokli" title="Code">💻</a> <a href="https://github.com/kreuzerk/import-conductor/commits?author=Lonli-Lokli" title="Tests">⚠️</a> <a href="https://github.com/kreuzerk/import-conductor/issues?q=author%3ALonli-Lokli" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/YuriSS"><img src="https://avatars.githubusercontent.com/u/11182638?v=4?s=100" width="100px;" alt="Yuri Santos"/><br /><sub><b>Yuri Santos</b></sub></a><br /><a href="https://github.com/kreuzerk/import-conductor/commits?author=YuriSS" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/markoberholzer-es"><img src="https://avatars.githubusercontent.com/u/64533830?v=4?s=100" width="100px;" alt="markoberholzer-es"/><br /><sub><b>markoberholzer-es</b></sub></a><br /><a href="https://github.com/kreuzerk/import-conductor/commits?author=markoberholzer-es" title="Code">💻</a> <a href="#ideas-markoberholzer-es" title="Ideas, Planning, & Feedback">🤔</a></td>
+    </tr>
+  </tbody>
 </table>
 
 <!-- markdownlint-restore -->
