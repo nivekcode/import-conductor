@@ -53,7 +53,7 @@
     "command-line-usage": "^6.1.0",
     "commander": "^5.1.0",
     "git-changed-files": "^1.0.0",
-    "glob": "^7.1.6",
+    "fast-glob": "^3.2.12",
     "ora": "^4.1.0",
     "pkg-up": "^3.1.0",
     "simple-git": "^3.3.0",
