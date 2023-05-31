@@ -1,6 +1,8 @@
 import fs from 'fs';
 import pkgUp from 'pkg-up';
 
+import { getPackageFileDeps } from '../helpers/get-package-file-deps';
+import { getPackageLockFileDeps } from '../helpers/get-package-lock-file-deps';
 import { parseJsonFile } from '../helpers/parse-json-file';
 
 export function getThirdParty(): Set<string> {
@@ -9,10 +11,9 @@ export function getThirdParty(): Set<string> {
   let deps: string[];
 
   if (fs.existsSync(lockPath)) {
-    deps = Object.keys(parseJsonFile(lockPath).dependencies);
+    deps = getPackageLockFileDeps(parseJsonFile(lockPath));
   } else {
-    const { dependencies, devDependencies } = parseJsonFile(packagePath);
-    deps = Object.keys(devDependencies).concat(dependencies);
+    deps = getPackageFileDeps(parseJsonFile(packagePath));
   }
 
   return new Set(deps);
