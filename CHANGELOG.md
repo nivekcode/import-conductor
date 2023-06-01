@@ -1,3 +1,10 @@
+## [2.6.1](https://github.com/kreuzerk/import-conductor/compare/v2.6.0...v2.6.1) (2023-06-01)
+
+
+### Bug Fixes
+
+* using npm 9 with lockfileVersion 3 ([eddbbbb](https://github.com/kreuzerk/import-conductor/commit/eddbbbbd04c637a639c505fb38df7a8871728a14))
+
 # [2.6.0](https://github.com/kreuzerk/import-conductor/compare/v2.5.0...v2.6.0) (2023-01-11)
 
 
