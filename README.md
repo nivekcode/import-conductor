@@ -1,7 +1,7 @@
 ![Logo](https://raw.githubusercontent.com/kreuzerk/import-conductor/master/assets/logo.png)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 # import-conductor
@@ -211,6 +211,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Lonli-Lokli"><img src="https://avatars.githubusercontent.com/u/767795?v=4?s=100" width="100px;" alt="Lonli-Lokli"/><br /><sub><b>Lonli-Lokli</b></sub></a><br /><a href="https://github.com/kreuzerk/import-conductor/commits?author=Lonli-Lokli" title="Code">💻</a> <a href="https://github.com/kreuzerk/import-conductor/commits?author=Lonli-Lokli" title="Tests">⚠️</a> <a href="https://github.com/kreuzerk/import-conductor/issues?q=author%3ALonli-Lokli" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/YuriSS"><img src="https://avatars.githubusercontent.com/u/11182638?v=4?s=100" width="100px;" alt="Yuri Santos"/><br /><sub><b>Yuri Santos</b></sub></a><br /><a href="https://github.com/kreuzerk/import-conductor/commits?author=YuriSS" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/markoberholzer-es"><img src="https://avatars.githubusercontent.com/u/64533830?v=4?s=100" width="100px;" alt="markoberholzer-es"/><br /><sub><b>markoberholzer-es</b></sub></a><br /><a href="https://github.com/kreuzerk/import-conductor/commits?author=markoberholzer-es" title="Code">💻</a> <a href="#ideas-markoberholzer-es" title="Ideas, Planning, & Feedback">🤔</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/mtrefzer"><img src="https://avatars.githubusercontent.com/u/10129409?v=4?s=100" width="100px;" alt="Michael Trefzer"/><br /><sub><b>Michael Trefzer</b></sub></a><br /><a href="https://github.com/kreuzerk/import-conductor/commits?author=mtrefzer" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
