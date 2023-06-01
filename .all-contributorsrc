@@ -77,8 +77,18 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "mtrefzer",
+      "name": "Michael Trefzer",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10129409?v=4",
+      "profile": "https://github.com/mtrefzer",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
-  "skipCi": true
+  "skipCi": true,
+  "commitType": "docs"
 }
